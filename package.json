@@ -1,13 +1,20 @@
 {
-  "name": "EMvitation",
+  "name": "em-vitation",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:release": "react-native run-android --mode release",
     "ios": "react-native run-ios",
+    "ios:release": "react-native run-ios --mode \"Release\"",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "pod:ios": "npx pod-install ios",
+    "assets": "npx react-native-asset",
+    "apple:devices": "xcrun xctrace list devices",
+    "android:apk": "cd android && .\\gradlew assembleRelease && cd ..",
+    "android:aab": "cd android && .\\gradlew bundleRelease && cd .."
   },
   "dependencies": {
     "react": "19.0.0",
