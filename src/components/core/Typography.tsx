@@ -1,4 +1,4 @@
-import { Animated, StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
+import { Animated, ColorValue, StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 import { FONT_FAMILY, TEXT_CONFIG } from '../../constants'
 import { useTheme } from './AppProvider'
 
@@ -47,7 +47,7 @@ const Typography = ({ children, category = 'p1', marginTop = 0, marginBottom = 0
   marginBottom?: number
   marginLeft?: number
   marginRight?: number
-  color?: string
+  color?: ColorValue | string
   size?: number | Animated.Value
   animated?: boolean
 }) => {

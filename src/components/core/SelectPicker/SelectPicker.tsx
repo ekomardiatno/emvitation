@@ -1,17 +1,17 @@
 import { JSX, useContext, useEffect, useRef, useState } from 'react'
 import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
-  PanResponder,
-  Animated,
-  TouchableHighlight,
-  Platform,
+    View,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    SafeAreaView,
+    PanResponder,
+    Animated,
+    TouchableHighlight,
+    Platform,
 } from 'react-native'
 import Typography from '../Typography'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from '@react-native-vector-icons/material-icons'
 import { useTheme } from '../AppProvider'
 import { useController } from 'react-hook-form'
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS, GUTTER_SPACE, TEXT_CONFIG } from '../../../constants'

@@ -3,7 +3,7 @@ import Typography from "./Typography"
 import { COLORS, GUTTER_SPACE, TEXT_CONFIG } from "../../constants"
 import { useTheme } from "./AppProvider"
 import { useContext, useMemo, useState } from "react"
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from '@react-native-vector-icons/material-icons'
 import moment from "moment"
 import { MONTH_MODE, YEAR_MODE } from "./DatePicker/constants"
 import { AppWindowDimensions } from "./ScreenSafeAreaView"

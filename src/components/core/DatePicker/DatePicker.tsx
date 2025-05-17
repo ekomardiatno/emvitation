@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, StatusBar, Platform, Dimensions } fr
 import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG, COLORS, GUTTER_SPACE } from '../../../constants'
 import { useTheme } from '../AppProvider'
 import Typography from '../Typography'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from '@react-native-vector-icons/material-icons'
 import moment from 'moment'
 import Button from '../Button'
 import { Control, FieldValues, useController } from 'react-hook-form'

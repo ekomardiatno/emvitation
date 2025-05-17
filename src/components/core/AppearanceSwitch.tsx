@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { APP_APPEARANCE_TYPE, COLORS } from '../../constants'
 import { useTheme } from './AppProvider'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon from '@react-native-vector-icons/material-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkAppearance, setLightAppearance } from '../../redux/actions/app.action'
 import { AppAppearanceType } from '../../types/app-appearance-type'

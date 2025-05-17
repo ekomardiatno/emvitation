@@ -11,13 +11,13 @@ import { useTheme } from "./AppProvider"
 import { GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import { useNavigation } from "@react-navigation/native"
-import Icon from "react-native-vector-icons/MaterialIcons"
+import Icon from "@react-native-vector-icons/material-icons"
 import { AppWindowDimensions } from "./ScreenSafeAreaView"
 
 export default function ScreenLayout({ children, headerEnabled = true, title, longerTitle, scrollEnabled = true, rightControl = null }: {
   children: JSX.Element | ((innerContainerHeight: number) => JSX.Element)
   headerEnabled?: boolean
-  title: string
+  title?: string
   longerTitle?: string
   scrollEnabled?: boolean
   rightControl?: JSX.Element | null
