@@ -1,10 +1,10 @@
 import { JSX } from "react"
-import { SafeAreaView, Text } from "react-native"
+import { Text, View } from "react-native"
 
 export default function Home(): JSX.Element {
   return (
-    <SafeAreaView>
+    <View>
       <Text>Hello world!</Text>
-    </SafeAreaView>
+    </View>
   )
 }

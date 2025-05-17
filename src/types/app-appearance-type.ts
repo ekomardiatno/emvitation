@@ -1,0 +1,1 @@
+export type AppAppearanceType = 'LIGHT' | 'DARK' | null
