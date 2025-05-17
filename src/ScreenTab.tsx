@@ -19,7 +19,7 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { buildHref } = useLinkBuilder()
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, gap: 5, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 2, borderTopColor: theme.borderBasicColor2 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, gap: 5, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2 }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
         const label =
@@ -68,12 +68,12 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, padding: 5, paddingVertical: 8, flexDirection: 'column', alignItems: 'center', borderTopWidth: 2, marginTop: -2, borderTopColor: isFocused ? theme.colorPrimaryDefault : 'transparent', borderBottomColor: 'transparent', gap: 3 }}
+            style={{ flex: 1, paddingVertical: 8, flexDirection: 'column', alignItems: 'center', borderTopWidth: 2, marginTop: -1, borderTopColor: isFocused ? theme.colorPrimaryDefault : 'transparent', borderBottomColor: 'transparent', gap: 3 }}
           >
-            <Icon name={iconName} color={isFocused ? theme.colorPrimaryDefault : theme.textBasicColor} size={17} />
+            <Icon name={iconName} color={isFocused ? theme.colorPrimaryDefault : theme.textHintColor} size={20} />
             {
               typeof label === 'string' ?
-                <Typography numberOfLines={1} size={11} style={{ color: isFocused ? theme.colorPrimaryDefault : theme.textBasicColor, textAlign: 'center' }}>
+                <Typography numberOfLines={1} size={11} style={{ color: isFocused ? theme.colorPrimaryDefault : theme.textHintColor, textAlign: 'center' }}>
                   {label}
                 </Typography>
                 : null
