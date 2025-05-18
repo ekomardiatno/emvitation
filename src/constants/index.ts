@@ -6,7 +6,7 @@ export const HIDDEN_AMOUNT_TEXT = '• • • • • • •'
 
 export const REDUX_KEY_NAME = 'EMVITE_REDUX'
 
-export const FONT_FAMILY = 'System'
+export const FONT_FAMILY = 'Sarabun'
 
 export const TEXT_CONFIG = {
   h1: {
