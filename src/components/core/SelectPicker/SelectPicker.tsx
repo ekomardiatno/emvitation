@@ -1,14 +1,14 @@
-import { JSX, useContext, useEffect, useRef, useState } from 'react'
+import { JSX, useEffect, useRef, useState } from 'react'
 import {
-    View,
-    TextInput,
-    TouchableOpacity,
-    ScrollView,
-    SafeAreaView,
-    PanResponder,
-    Animated,
-    TouchableHighlight,
-    Platform,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  PanResponder,
+  Animated,
+  TouchableHighlight,
+  Platform,
 } from 'react-native'
 import Typography from '../Typography'
 import Icon from '@react-native-vector-icons/material-icons'
@@ -18,14 +18,15 @@ import { BORDER_RADIUS, BORDER_WIDTH, COLORS, GUTTER_SPACE, TEXT_CONFIG } from '
 import capitalizeFirstText from '../../../utils/capitalizeFirstText'
 import Option from './Option'
 import { getFontFamily } from '../Typography'
-import { AppWindowDimensions } from '../ScreenSafeAreaView'
 import EModal from '../EModal'
 import ControlProps from '../ControlProps'
+import FieldLabel from '../FieldLabel'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 const SelectPicker = ({ label, placeholder, name, control, options, required, defaultValue, editable = true }: ControlProps & {
-  options: { value: string, title: string, icon: JSX.Element | ((color?: string) => JSX.Element) }[]
+  options: { value: string, title: string, icon?: JSX.Element | ((color?: string) => JSX.Element) }[]
 }): JSX.Element => {
-  const { height } = useContext(AppWindowDimensions)
+  const { height } = useSafeAreaFrame()
   const { field, formState: { errors } } = useController({
     control,
     name,
@@ -128,7 +129,7 @@ const SelectPicker = ({ label, placeholder, name, control, options, required, de
     <View style={{ marginBottom: 15 }}>
       {
         label &&
-        <Typography category='label' style={{ marginBottom: 6 }}>{label}{required && <Typography category='label' color={theme.textDangerColor}> *</Typography>}</Typography>
+        <FieldLabel label={label} required={required} />
       }
       <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor2 : theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor1 }}>
         <TextInput placeholderTextColor={theme.textHintColor} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, color: !editable ? theme.textDisabledColor : theme.textBasicColor, fontFamily: getFontFamily({}) }} placeholder={placeholder} value={field.value} />

@@ -62,8 +62,6 @@ const Typography = ({ children, category = 'p1', marginTop = 0, marginBottom = 0
     const animatedTextStyle = {
       ...textStyle,
       marginTop: marginTop || flatStyle?.marginTop || ((size && typeof size !== 'number' ? Animated.multiply(Animated.divide(Animated.multiply(size, 2.5), 20), -1) : undefined) ?? TEXT_CONFIG[category].fontSize * 2.5 / 20 * -1),
-      lineHeight: (style && flatStyle?.lineHeight) ? flatStyle?.lineHeight : (size && typeof size !== 'number' ? Animated.add(size, Animated.multiply(size, Animated.divide(6, 15))) : undefined) ?? (TEXT_CONFIG[category].fontSize + (TEXT_CONFIG[category].fontSize * 6 / 15)),
-      fontSize: (size && typeof size !== 'number' ? size : undefined) || flatStyle?.fontSize || TEXT_CONFIG[category].fontSize, color: color || flatStyle?.color || theme.textBasicColor
     }
     return (
       <Animated.Text

@@ -1,14 +1,15 @@
 import { JSX, useMemo } from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import { BORDER_RADIUS, BORDER_WIDTH, COLORS } from '../../constants'
 import { useTheme } from './AppProvider'
 import Typography, { Category } from './Typography'
+import { PlatformPressable } from '@react-navigation/elements'
 
 export type ButtonAppearance = 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'transparent'
 
 const Button = ({ children, onPress, disabled = false, appearance = 'primary', style = {}, textStyle, category = 'p1' }: {
-  children: string
-  onPress?: (event: GestureResponderEvent) => void | undefined
+  children: string | JSX.Element
+  onPress?: ((e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | GestureResponderEvent) => void)
   disabled?: boolean
   appearance?: ButtonAppearance
   style?: StyleProp<ViewStyle>
@@ -59,11 +60,19 @@ const Button = ({ children, onPress, disabled = false, appearance = 'primary', s
   }, [appearance, disabled])
 
   const textStyleProps = StyleSheet.flatten(textStyle)
+  const styleProps = StyleSheet.flatten(style)
 
   return (
-    <TouchableOpacity activeOpacity={0.75} disabled={disabled} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: disabled ? theme.colorPrimaryDisabled : btnColor.border, paddingVertical: 10, paddingHorizontal: 16 }, style]} onPress={onPress}>
-      <Typography color={textStyleProps?.color || btnColor.text} style={{ textAlign: 'center', ...textStyleProps}} category={category}>{children}</Typography>
-    </TouchableOpacity>
+    <View style={{ borderRadius: styleProps.borderRadius ?? BORDER_RADIUS, flex: styleProps.flex, flexGrow: styleProps.flexGrow, overflow: 'hidden', flexBasis: styleProps.flexBasis, width: styleProps.width }}>
+      <PlatformPressable disabled={disabled} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: disabled ? theme.colorPrimaryDisabled : btnColor.border, paddingVertical: 10, paddingHorizontal: 16 }, style]} onPress={onPress}>
+        {
+          typeof children === 'string' ?
+            <Typography color={textStyleProps?.color || btnColor.text} style={{ textAlign: 'center', ...textStyleProps }} category={category}>{children}</Typography>
+            :
+            children
+        }
+      </PlatformPressable>
+    </View>
   )
 }
 

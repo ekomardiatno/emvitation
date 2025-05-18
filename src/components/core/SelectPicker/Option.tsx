@@ -7,10 +7,10 @@ import { JSX } from 'react'
 const Option = ({ value, title, onChange, icon, selected, isLastIndex = false }: {
   value: string
   title: string
-  onChange: ((value: string) => void) | undefined
-  icon: JSX.Element
-  selected: boolean
-  isLastIndex: boolean
+  onChange?: ((value: string) => void) | undefined
+  icon?: JSX.Element
+  selected?: boolean
+  isLastIndex?: boolean
 }): JSX.Element => {
   const theme = useTheme()
   return (

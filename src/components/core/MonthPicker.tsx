@@ -2,17 +2,17 @@ import { TouchableHighlight, TouchableOpacity, View } from "react-native"
 import Typography from "./Typography"
 import { COLORS, GUTTER_SPACE, TEXT_CONFIG } from "../../constants"
 import { useTheme } from "./AppProvider"
-import { useContext, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import Icon from '@react-native-vector-icons/material-icons'
 import moment from "moment"
 import { MONTH_MODE, YEAR_MODE } from "./DatePicker/constants"
-import { AppWindowDimensions } from "./ScreenSafeAreaView"
+import { useSafeAreaFrame } from "react-native-safe-area-context"
 
 export default function MonthPicker({ value, onChange }: {
   value: Date | string;
   onChange: (date: Date) => void
 }) {
-  const { width } = useContext(AppWindowDimensions)
+  const { width } = useSafeAreaFrame()
   let now = value ? (typeof value === 'string' ? new Date(value) : value) : new Date()
   const [viewedYear, setViewedYear] = useState(now.getFullYear())
   const viewedMonth = now.getMonth()

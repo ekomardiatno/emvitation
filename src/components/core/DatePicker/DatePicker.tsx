@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback, useContext } from 'react'
+import { useMemo, useState, useEffect, useCallback } from 'react'
 import { View, TextInput, TouchableOpacity, StatusBar, Platform, Dimensions } from 'react-native'
 import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG, COLORS, GUTTER_SPACE } from '../../../constants'
 import { useTheme } from '../AppProvider'
@@ -20,7 +20,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
   required?: boolean;
   defaultValue?: Date;
 }) => {
-  const { height } = useContext(AppWindowDimensions)
+  const { height } = useSafeAreaFrame()
   defaultValue = defaultValue && moment(defaultValue).isValid() ? new Date(defaultValue) : undefined
   let now = defaultValue || new Date()
   let currentDate = new Date(now.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), 0))
@@ -184,7 +184,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
     <View style={{ marginBottom: 15 }}>
       {
         label &&
-        <Typography category='label' style={{ marginBottom: 6 }}>{label}{required && <Typography category='label' color={theme.textDangerColor}> *</Typography>}</Typography>
+        <FieldLabel label={label} required={required} />
       }
       <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor2 : theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor1 }}>
         <TextInput placeholderTextColor={theme.textHintColor} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, color: !editable ? theme.textDisabledColor : theme.textBasicColor, fontFamily: getFontFamily({}) }} placeholder={placeholder} value={field.value ? moment(field.value).format('ddd, DD MMM YY HH:mm:ss') : undefined} />
@@ -321,8 +321,9 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
 
 import TimePicker from './TimePicker'
 import { getFontFamily } from '../Typography'
-import { AppWindowDimensions } from '../ScreenSafeAreaView'
 import EModal from '../EModal'
 import ControlProps from '../ControlProps'
+import FieldLabel from '../FieldLabel'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 export default DatePicker

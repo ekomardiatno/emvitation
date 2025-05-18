@@ -12,6 +12,7 @@ import Icon from '@react-native-vector-icons/material-icons'
 import { getFontFamily } from './Typography'
 import { JSX } from 'react'
 import ControlProps from './ControlProps'
+import FieldLabel from './FieldLabel'
 
 const TextArea = ({ label, placeholder, name, control, required, defaultValue, editable = true }: ControlProps): JSX.Element => {
   const theme = useTheme()
@@ -26,7 +27,7 @@ const TextArea = ({ label, placeholder, name, control, required, defaultValue, e
     <View style={{ marginBottom: 15 }}>
       {
         label &&
-        <Typography category='label' style={{ marginBottom: 6 }}>{label}{required && <Typography category='label' color={theme.textDangerColor}> *</Typography>}</Typography>
+        <FieldLabel label={label} required={required} />
       }
       <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor2 : theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row' }}>
         <TextInput editable={editable} multiline placeholderTextColor={theme.textHintColor} style={{ height: 93, textAlignVertical: 'top', paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, fontFamily: getFontFamily({}), color: !editable ? theme.textDisabledColor : theme.textBasicColor, lineHeight: 16, flex: 1 }} placeholder={placeholder} value={field.value} onChangeText={field.onChange} />

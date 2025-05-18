@@ -3,9 +3,9 @@ import { useTheme } from "./AppProvider"
 import { BORDER_RADIUS, BORDER_WIDTH, GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import Button, { ButtonAppearance } from "./Button"
-import { JSX, useContext } from "react"
-import { AppWindowDimensions } from "./ScreenSafeAreaView"
+import { JSX } from "react"
 import EModal from "./EModal"
+import { useSafeAreaFrame } from "react-native-safe-area-context"
 
 export default function Confirmation({ onCancel, onConfirmed, confirmText, cautionText, cancelText, cautionTitle, appearance, visible }: {
   onCancel: () => void
@@ -18,7 +18,7 @@ export default function Confirmation({ onCancel, onConfirmed, confirmText, cauti
   appearance?: ButtonAppearance
 }): JSX.Element {
   const theme = useTheme()
-  const { width, height } = useContext(AppWindowDimensions)
+  const { width, height } = useSafeAreaFrame()
 
   return (
     <EModal

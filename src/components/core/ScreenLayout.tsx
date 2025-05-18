@@ -1,18 +1,12 @@
-import { JSX, useContext, useEffect, useRef, useState } from "react"
-import {
-  Animated,
-  NativeScrollEvent,
-  ScrollView,
-  StatusBar,
-  TouchableHighlight,
-  View,
-} from "react-native"
+import { JSX, useEffect, useRef, useState } from "react"
+import { Animated, Keyboard, NativeScrollEvent, ScrollView, TouchableHighlight, View } from "react-native"
 import { useTheme } from "./AppProvider"
 import { GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import { useNavigation } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
-import { AppWindowDimensions } from "./ScreenSafeAreaView"
+import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
+import StaticCircleWave from "../StaticCircleWave"
 
 export default function ScreenLayout({ children, headerEnabled = true, title, longerTitle, scrollEnabled = true, rightControl = null }: {
   children: JSX.Element | ((innerContainerHeight: number) => JSX.Element)
@@ -23,28 +17,26 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   rightControl?: JSX.Element | null
 }): JSX.Element | null {
   const navigation = useNavigation()
-  const { height, width } = useContext(AppWindowDimensions)
-
-  if(!width) return null
+  const safeArea = useSafeAreaFrame()
+  const insets = useSafeAreaInsets()
 
   const goBack = () => {
     if (navigation.canGoBack())
       navigation.goBack()
   }
-
   const theme = useTheme()
-  const headerHeight = headerEnabled ? 65 : 0
-  const innerContainerHeight = height - headerHeight
+  const headerHeight = headerEnabled ? 70 + insets.top : 0
+  const innerContainerHeight = safeArea.height - headerHeight
   const outerScrollRef = useRef<ScrollView>(null)
   const outerScrollY = useRef(new Animated.Value(0)).current
   const innerScrollRef = useRef<ScrollView>(null)
-  const bigTitleContainerHeight = (width || 0) * .89 - (StatusBar?.currentHeight || 0)
-  const innerScrollY = useRef(new Animated.Value(0)).current;
-  const [innerScrollbarHeight, setInnerScrollbarHeight] = useState(50);
+  const bigTitleContainerHeight = safeArea.width * .89
+  const innerScrollY = useRef(new Animated.Value(0)).current
+  const [innerScrollbarHeight, setInnerScrollbarHeight] = useState(50)
   const scrollBarOpacity = useRef(new Animated.Value(0)).current
   let timeoutScrollBarOpacity = useRef<any>(null).current
   let scrollableHeight = useRef(1)
-  let innerScrollbarMovableRange = useRef(innerContainerHeight - innerScrollbarHeight - 20);
+  let innerScrollbarMovableRange = useRef(innerContainerHeight - innerScrollbarHeight - 20)
   let innerStartY = useRef(0).current
   let outerStartY = useRef(bigTitleContainerHeight - headerHeight).current
   let [innerScrollEnabled, setInnerScrollEnabled] = useState(true)
@@ -61,13 +53,13 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     return () => outerScrollY.removeListener(listener)
   }, [])
 
-  const lastScrollY = useRef(0); // Stores the last scroll position
+  const lastScrollY = useRef(0) // Stores the last scroll position
   // Map scroll position to scrollbar movement
   const scrollIndicator = innerScrollY.interpolate({
     inputRange: [0, scrollableHeight.current], // Avoid negative input range
     outputRange: [0, innerScrollbarMovableRange.current], // Adjust scrollbar movement
     extrapolate: "clamp",
-  });
+  })
 
   // Gesture handler for dragging scrollbar
   // const panResponder = useRef(
@@ -86,6 +78,26 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   //     },
   //   })
   // ).current
+
+  let lastOuterScrollY = useRef(0).current
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false)
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardWillShow', () => {
+      lastOuterScrollY = (outerScrollY as any).__getValue()
+    })
+    Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardShown(true)
+    })
+    Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardShown(false)
+    })
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow')
+      Keyboard.removeAllListeners('keyboardDidHide')
+      Keyboard.removeAllListeners('keyboardWillShow')
+    }
+  }, [])
 
   useEffect(() => {
     if (headerEnabled) {
@@ -190,8 +202,10 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     >
       {
         headerEnabled && (
-          <View style={{ height: bigTitleContainerHeight }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: headerHeight - (StatusBar?.currentHeight || 0) }}>
+          <View style={{ height: bigTitleContainerHeight, borderBottomColor: theme.borderBasicColor3, borderBottomWidth: 1 }}>
+            <StaticCircleWave color={theme.colorWarningDefault} size={safeArea.width * .5} bottom={headerHeight} left={(safeArea.width * .5) / 2.1 * -1} />
+            <StaticCircleWave color={theme.colorPrimaryDefault} size={safeArea.width} top={safeArea.width / 2 * -1} right={safeArea.width / 2.1 * -1} />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: (headerHeight / 2) + insets.top }}>
               <Animated.View style={{ opacity: titleBigOpacityAnim, transform: [{ translateY: titleBigTranslateYAnim }] }}>
                 {
                   typeof longerTitle === 'object' ? longerTitle :
@@ -199,7 +213,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                 }
               </Animated.View>
             </View>
-            <View style={{ height: headerHeight, paddingTop: headerHeight - 65 }}>
+            <View style={{ height: headerHeight, paddingTop: insets.top }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, height: '100%' }}>
                 {
                   navigation.canGoBack() && (
@@ -231,8 +245,8 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
           onTouchEnd={handleInnerScrollTouchEnd}
           onContentSizeChange={(_w, h) => {
             scrollableHeight.current = Math.max(h - innerContainerHeight, 1)
-            const visibleRatio = innerContainerHeight / h;
-            setInnerScrollbarHeight(Math.max(visibleRatio * innerContainerHeight, 30)); // Ensure min size
+            const visibleRatio = innerContainerHeight / h
+            setInnerScrollbarHeight(Math.max(visibleRatio * innerContainerHeight, 30)) // Ensure min size
             innerScrollbarMovableRange.current = innerContainerHeight - Math.max(visibleRatio * innerContainerHeight, 30) - 20
           }}
           onScroll={({ nativeEvent }) => {
@@ -244,7 +258,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
           }}
           onMomentumScrollBegin={showScrollBar}
           onMomentumScrollEnd={hideScrollBar}
-          // showsVerticalScrollIndicator={false}
+        // showsVerticalScrollIndicator={false}
         >
           {
             scrollEnabled ? (

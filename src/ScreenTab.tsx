@@ -8,9 +8,9 @@ import { View } from "react-native"
 import { PlatformPressable } from "@react-navigation/elements"
 import { useLinkBuilder } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
-import Typography from "./components/core/Typography"
 import { MasterialIconsType } from "./types/material-icons"
-import { GUTTER_SPACE } from "./constants"
+import { COLORS, GUTTER_SPACE } from "./constants"
+import Bill from "./screens/Bill"
 
 const Tab = createBottomTabNavigator()
 
@@ -19,7 +19,7 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { buildHref } = useLinkBuilder()
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, gap: 5, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2 }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
         const label =
@@ -53,9 +53,12 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
         let iconName: MasterialIconsType = 'home-filled'
         switch(index) {
           case 1:
-            iconName = 'account-balance-wallet'
+            iconName = 'receipt'
             break
           case 2:
+            iconName = 'account-balance-wallet'
+            break
+          case 3:
             iconName = 'account-circle'
         }
 
@@ -66,18 +69,22 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarButtonTestID}
+            pressColor={theme.backgroundBasicColor2}
+            pressOpacity={1}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, paddingVertical: 8, flexDirection: 'column', alignItems: 'center', borderTopWidth: 2, marginTop: -1, borderTopColor: isFocused ? theme.colorPrimaryDefault : 'transparent', borderBottomColor: 'transparent', gap: 3 }}
+            style={{ flex: 1, paddingVertical: 6, flexDirection: 'column', alignItems: 'center', borderTopWidth: 2, marginTop: -1, borderTopColor: isFocused ? theme.colorPrimaryDefault : 'transparent', borderBottomColor: 'transparent', gap: 3 }}
           >
-            <Icon name={iconName} color={isFocused ? theme.colorPrimaryDefault : theme.textHintColor} size={20} />
-            {
+            <View style={{ width: 50, height: 50, borderRadius: 50, backgroundColor: isFocused ? COLORS.colorPrimary300 : theme.colorPrimaryTransparentDefault, alignItems: 'center', justifyContent: 'center' }}>
+              <Icon name={iconName} color={isFocused ? COLORS.colorPrimary500 : theme.textHintColor} size={22} />
+            </View>
+            {/* {
               typeof label === 'string' ?
                 <Typography numberOfLines={1} size={11} style={{ color: isFocused ? theme.colorPrimaryDefault : theme.textHintColor, textAlign: 'center' }}>
                   {label}
                 </Typography>
                 : null
-            }
+            } */}
           </PlatformPressable>
         )
       })}
@@ -91,6 +98,7 @@ export default function ScreenTab(): JSX.Element {
       headerShown: false,
     }}>
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Bill" component={Bill} />
       <Tab.Screen name="Wallet" component={Wallet} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
