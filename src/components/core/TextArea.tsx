@@ -2,7 +2,9 @@ import { useController } from 'react-hook-form'
 import {
   View,
   TextInput,
-  Platform
+  Platform,
+  StyleProp,
+  ViewStyle
 } from 'react-native'
 import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG } from '../../constants'
 import capitalizeFirstText from '../../utils/capitalizeFirstText'
@@ -14,7 +16,9 @@ import { JSX } from 'react'
 import ControlProps from './ControlProps'
 import FieldLabel from './FieldLabel'
 
-const TextArea = ({ label, placeholder, name, control, required, defaultValue, editable = true }: ControlProps): JSX.Element => {
+const TextArea = ({ label, placeholder, name, control, required, defaultValue, editable = true, containerStyle }: ControlProps & {
+  containerStyle?: StyleProp<ViewStyle>
+}): JSX.Element => {
   const theme = useTheme()
 
   const { field, formState: { errors } } = useController({
@@ -24,7 +28,7 @@ const TextArea = ({ label, placeholder, name, control, required, defaultValue, e
   })
 
   return (
-    <View style={{ marginBottom: 15 }}>
+    <View style={containerStyle}>
       {
         label &&
         <FieldLabel label={label} required={required} />

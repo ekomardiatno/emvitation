@@ -1,24 +1,20 @@
 import { useMemo, useState, useEffect, useCallback } from 'react'
-import { View, TextInput, TouchableOpacity, StatusBar, Platform, Dimensions } from 'react-native'
+import { View, TextInput, TouchableOpacity, StatusBar, Platform, Dimensions, StyleProp, ViewStyle } from 'react-native'
 import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG, COLORS, GUTTER_SPACE } from '../../../constants'
 import { useTheme } from '../AppProvider'
 import Typography from '../Typography'
 import Icon from '@react-native-vector-icons/material-icons'
 import moment from 'moment'
 import Button from '../Button'
-import { Control, FieldValues, useController } from 'react-hook-form'
+import { useController } from 'react-hook-form'
 import capitalizeFirstText from '../../../utils/capitalizeFirstText'
 import { YEAR_MODE, MONTH_MODE, DATE_MODE } from './constants'
 
 const { width } = Dimensions.get('window')
 
-const DatePicker = ({ label, placeholder, name, control, required, defaultValue, editable = true }: Omit<ControlProps, 'defaultValue'> & {
-  label?: string;
-  placeholder?: string;
-  name: string;
-  control?: Control<FieldValues, any, FieldValues>;
-  required?: boolean;
-  defaultValue?: Date;
+const DatePicker = ({ label, placeholder, name, control, required, defaultValue, editable = true, containerStyle }: Omit<ControlProps, 'defaultValue'> & {
+  defaultValue?: Date,
+  containerStyle?: StyleProp<ViewStyle>
 }) => {
   const { height } = useSafeAreaFrame()
   defaultValue = defaultValue && moment(defaultValue).isValid() ? new Date(defaultValue) : undefined
@@ -181,7 +177,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
   }
 
   return (
-    <View style={{ marginBottom: 15 }}>
+    <View style={containerStyle}>
       {
         label &&
         <FieldLabel label={label} required={required} />

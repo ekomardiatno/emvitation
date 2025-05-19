@@ -1,5 +1,13 @@
 import { JSX, useEffect, useRef, useState } from "react"
-import { Animated, Keyboard, NativeScrollEvent, ScrollView, TouchableHighlight, View } from "react-native"
+import {
+  Animated,
+  Dimensions,
+  Keyboard,
+  NativeScrollEvent,
+  ScrollView,
+  TouchableHighlight,
+  View,
+} from "react-native"
 import { useTheme } from "./AppProvider"
 import { GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
@@ -8,13 +16,16 @@ import Icon from "@react-native-vector-icons/material-icons"
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
 import StaticCircleWave from "../StaticCircleWave"
 
-export default function ScreenLayout({ children, headerEnabled = true, title, longerTitle, scrollEnabled = true, rightControl = null }: {
+const { height } = Dimensions.get('window')
+
+export default function ScreenLayout({ children, headerEnabled = true, title, longerTitle, scrollEnabled = true, rightControl = null, onBackPress }: {
   children: JSX.Element | ((innerContainerHeight: number) => JSX.Element)
   headerEnabled?: boolean
   title?: string
   longerTitle?: string
   scrollEnabled?: boolean
   rightControl?: JSX.Element | null
+  onBackPress?: (fnc: () => void) => void
 }): JSX.Element | null {
   const navigation = useNavigation()
   const safeArea = useSafeAreaFrame()
@@ -79,13 +90,9 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   //   })
   // ).current
 
-  let lastOuterScrollY = useRef(0).current
   const [isKeyboardShown, setIsKeyboardShown] = useState(false)
 
   useEffect(() => {
-    Keyboard.addListener('keyboardWillShow', () => {
-      lastOuterScrollY = (outerScrollY as any).__getValue()
-    })
     Keyboard.addListener('keyboardDidShow', () => {
       setIsKeyboardShown(true)
     })
@@ -94,13 +101,12 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     })
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow')
-      Keyboard.removeAllListeners('keyboardDidHide')
-      Keyboard.removeAllListeners('keyboardWillShow')
     }
   }, [])
 
   useEffect(() => {
     if (headerEnabled) {
+      console.log('trigger')
       outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
       outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
     }
@@ -197,6 +203,10 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
       onScrollBeginDrag={() => {
         if (timeoutHeaderAnimation) clearTimeout(timeoutHeaderAnimation)
       }}
+      onContentSizeChange={(w, h) => {
+        outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
+        outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
+      }}
       onScrollEndDrag={outerHandleEndDrag}
       showsVerticalScrollIndicator={false}
     >
@@ -217,7 +227,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, height: '100%' }}>
                 {
                   navigation.canGoBack() && (
-                    <TouchableHighlight underlayColor={theme.backgroundBasicColor2} onPress={goBack} style={{ borderRadius: 43 / 2, marginLeft: -1 }}>
+                    <TouchableHighlight underlayColor={theme.backgroundBasicColor2} onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: 43 / 2, marginLeft: -1 }}>
                       <View style={{ width: 43, height: 43, borderRadius: 43 / 2, alignItems: 'center', justifyContent: 'center' }}>
                         <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
                       </View>

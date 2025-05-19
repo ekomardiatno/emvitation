@@ -1,15 +1,14 @@
 import { JSX, useEffect, useRef, useState } from "react"
-import { Animated, Modal, Platform, StatusBar, TouchableOpacity, View } from "react-native"
+import { Animated, Modal, Platform, StatusBar, TouchableOpacity, useWindowDimensions, View } from "react-native"
 import { GUTTER_SPACE } from "../../constants"
 import { useTheme } from "./AppProvider"
-import { useSafeAreaFrame } from "react-native-safe-area-context"
 
 export default function EModal({ children, visible, onClose }: {
   children: JSX.Element
   onClose: () => void
   visible: boolean
 }): JSX.Element {
-	const { height } = useSafeAreaFrame()
+	const { height } = useWindowDimensions()
 	const theme = useTheme()
 	const [heightContentSize, setHeightContentSize] = useState(0)
 	const translateY = useRef(new Animated.Value(heightContentSize ? heightContentSize + (Platform?.OS === 'ios' ? GUTTER_SPACE * 3 + 100 : (StatusBar?.currentHeight || 0)) : height)).current

@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { setDarkAppearance, setLightAppearance } from './redux/actions/app.action'
 import { useDispatch } from 'react-redux'
 import CreateInvitation from './screens/CreateInvitation'
+import Template from './screens/Template'
 
 const Stack = createNativeStackNavigator()
 
@@ -18,8 +19,8 @@ const Navigation = () => {
 
   useEffect(() => {
     const autoSchemaChange = (colorSchema: ColorSchemeName) => {
-      StatusBar.setBackgroundColor('rgba(0,0,0,0)');
-      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor('rgba(0,0,0,0)')
+      StatusBar.setTranslucent(true)
       StatusBar.setBarStyle(colorSchema === 'dark' ? 'light-content' : 'dark-content')
       if (colorSchema === 'dark') {
         dispatch(setDarkAppearance())
@@ -39,8 +40,8 @@ const Navigation = () => {
         background: theme.backgroundBasicColor1,
         primary: theme.colorPrimaryDefault,
         text: theme.textBasicColor,
-        border: theme.borderBasicColor2,
-        card: theme.backgroundBasicColor3,
+        border: theme.borderBasicColor3,
+        card: theme.backgroundBasicColor0,
         notification: theme.colorInfoDefault
       },
       dark: colorSchema === 'dark',
@@ -66,6 +67,7 @@ const Navigation = () => {
       <Stack.Navigator>
         <Stack.Screen name='Main' component={ScreenTab} options={{ headerShown: false }} />
         <Stack.Screen name='Create Invitation' component={CreateInvitation} options={{ headerShown: false }} />
+        <Stack.Screen name='Template' component={Template} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form'
-import { View, TextInput, Platform, KeyboardType } from 'react-native'
+import { View, TextInput, Platform, KeyboardType, StyleProp, ViewStyle } from 'react-native'
 import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG } from '../../constants'
 import { useTheme } from './AppProvider'
 import Typography from './Typography'
@@ -11,8 +11,9 @@ import { getFontFamily } from './Typography'
 import ControlProps from './ControlProps'
 import FieldLabel from './FieldLabel'
 
-const Input = ({ label, placeholder, name, control, keyboardType, required, defaultValue = '', editable = true }: ControlProps & {
-  keyboardType?: KeyboardType
+const Input = ({ label, placeholder, name, control, keyboardType, required, defaultValue = '', editable = true, containerStyle }: ControlProps & {
+  keyboardType?: KeyboardType,
+  containerStyle?: StyleProp<ViewStyle>
 }): JSX.Element => {
   const theme = useTheme()
   const [value, setValue] = useState('')
@@ -28,7 +29,7 @@ const Input = ({ label, placeholder, name, control, keyboardType, required, defa
   }, [defaultValue])
 
   return (
-    <View style={{ marginBottom: 15 }}>
+    <View style={containerStyle}>
       {
         label &&
         <FieldLabel label={label} required={required} />

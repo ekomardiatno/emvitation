@@ -9,6 +9,8 @@ import {
   Animated,
   TouchableHighlight,
   Platform,
+  StyleProp,
+  ViewStyle,
 } from 'react-native'
 import Typography from '../Typography'
 import Icon from '@react-native-vector-icons/material-icons'
@@ -23,8 +25,9 @@ import ControlProps from '../ControlProps'
 import FieldLabel from '../FieldLabel'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
-const SelectPicker = ({ label, placeholder, name, control, options, required, defaultValue, editable = true }: ControlProps & {
+const SelectPicker = ({ label, placeholder, name, control, options, required, defaultValue, editable = true, containerStyle }: ControlProps & {
   options: { value: string, title: string, icon?: JSX.Element | ((color?: string) => JSX.Element) }[]
+  containerStyle?: StyleProp<ViewStyle>
 }): JSX.Element => {
   const { height } = useSafeAreaFrame()
   const { field, formState: { errors } } = useController({
@@ -126,7 +129,7 @@ const SelectPicker = ({ label, placeholder, name, control, options, required, de
   ).current
 
   return (
-    <View style={{ marginBottom: 15 }}>
+    <View style={containerStyle}>
       {
         label &&
         <FieldLabel label={label} required={required} />
