@@ -13,8 +13,7 @@ import { GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import { useNavigation } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
-import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
-import StaticCircleWave from "../StaticCircleWave"
+import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
 
 const { height } = Dimensions.get('window')
 
@@ -36,8 +35,8 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
       navigation.goBack()
   }
   const theme = useTheme()
-  const headerHeight = headerEnabled ? 70 + insets.top : 0
-  const innerContainerHeight = safeArea.height - headerHeight
+  const headerHeight = headerEnabled ? 70 : 0
+  const innerContainerHeight = (safeArea.height - insets.top - insets.bottom) - headerHeight
   const outerScrollRef = useRef<ScrollView>(null)
   const outerScrollY = useRef(new Animated.Value(0)).current
   const innerScrollRef = useRef<ScrollView>(null)
@@ -72,45 +71,35 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     extrapolate: "clamp",
   })
 
-  // Gesture handler for dragging scrollbar
-  // const panResponder = useRef(
-  //   PanResponder.create({
-  //     onMoveShouldSetPanResponder: () => true,
-  //     onPanResponderGrant: () => {
-  //       lastScrollY.current = innerScrollY.__getValue(); // Save current scroll position before dragging
-  //     },
-  //     onPanResponderMove: (_, gestureState) => {
-  //       let newScrollPos = lastScrollY.current + (gestureState.dy / innerScrollbarMovableRange.current) * scrollableHeight.current * SCROLL_SPEED_MULTIPLIER;
-  //       newScrollPos = Math.min(Math.max(newScrollPos, 0), scrollableHeight.current);
-
-  //       if (innerScrollRef.current) {
-  //         innerScrollRef.current.scrollTo({ y: newScrollPos, animated: false, x: 0 });
-  //       }
-  //     },
-  //   })
-  // ).current
-
-  const [isKeyboardShown, setIsKeyboardShown] = useState(false)
+  const [keyboardHeight, setKeyboardHeight] = useState<number>(0)
+  const [keepKeyboardHeight, setKeepKeyboardHeight] = useState<number>(0)
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => {
-      setIsKeyboardShown(true)
+    Keyboard.addListener('keyboardDidShow', (e) => {
+      setKeyboardHeight(e.endCoordinates.height)
+      setKeepKeyboardHeight(e.endCoordinates.height)
+      if(innerScrollRef.current) {
+        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() + e.endCoordinates.height, animated: true, x: 0 })
+      }
     })
     Keyboard.addListener('keyboardDidHide', () => {
-      setIsKeyboardShown(false)
+      setKeyboardHeight(0)
+      if(innerScrollRef.current) {
+        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() - keepKeyboardHeight, animated: true, x: 0 })
+      }
     })
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow')
+      Keyboard.removeAllListeners('keyboardDidHide')
     }
   }, [])
 
   useEffect(() => {
     if (headerEnabled) {
-      console.log('trigger')
-      outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
+      outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: true, x: 0 })
       outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
     }
-  }, [outerScrollRef.current, headerEnabled])
+  }, [headerEnabled])
 
   let timeoutHeaderAnimation = useRef<any>(null).current
 
@@ -191,105 +180,105 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   })
 
   return (
-    <ScrollView
-      overScrollMode='never'
-      bounces={false}
-      decelerationRate='fast'
-      ref={outerScrollRef}
-      onScroll={({ nativeEvent }) => {
-        const currentOffset = nativeEvent.contentOffset.y
-        outerScrollY.setValue(currentOffset)
-      }}
-      onScrollBeginDrag={() => {
-        if (timeoutHeaderAnimation) clearTimeout(timeoutHeaderAnimation)
-      }}
-      onContentSizeChange={(w, h) => {
-        outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
-        outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
-      }}
-      onScrollEndDrag={outerHandleEndDrag}
-      showsVerticalScrollIndicator={false}
-    >
-      {
-        headerEnabled && (
-          <View style={{ height: bigTitleContainerHeight, borderBottomColor: theme.borderBasicColor3, borderBottomWidth: 1 }}>
-            <StaticCircleWave color={theme.colorWarningDefault} size={safeArea.width * .5} bottom={headerHeight} left={(safeArea.width * .5) / 2.1 * -1} />
-            <StaticCircleWave color={theme.colorPrimaryDefault} size={safeArea.width} top={safeArea.width / 2 * -1} right={safeArea.width / 2.1 * -1} />
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: (headerHeight / 2) + insets.top }}>
-              <Animated.View style={{ opacity: titleBigOpacityAnim, transform: [{ translateY: titleBigTranslateYAnim }] }}>
-                {
-                  typeof longerTitle === 'object' ? longerTitle :
-                    <Typography animated size={36} style={{ fontWeight: '400', textAlign: 'center' }}>{longerTitle || title}</Typography>
-                }
-              </Animated.View>
-            </View>
-            <View style={{ height: headerHeight, paddingTop: insets.top }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, height: '100%' }}>
-                {
-                  navigation.canGoBack() && (
-                    <TouchableHighlight underlayColor={theme.backgroundBasicColor2} onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: 43 / 2, marginLeft: -1 }}>
-                      <View style={{ width: 43, height: 43, borderRadius: 43 / 2, alignItems: 'center', justifyContent: 'center' }}>
-                        <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
-                      </View>
-                    </TouchableHighlight>
-                  )
-                }
-                <View style={{ flex: 1, paddingLeft: navigation.canGoBack() ? 0 : GUTTER_SPACE }}>
-                  <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', opacity: titleSmallOpacityAnim }}>{title}</Typography>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundBasicColor1 }}>
+      <ScrollView
+        overScrollMode='never'
+        bounces={false}
+        decelerationRate='fast'
+        ref={outerScrollRef}
+        onScroll={({ nativeEvent }) => {
+          const currentOffset = nativeEvent.contentOffset.y
+          outerScrollY.setValue(currentOffset)
+        }}
+        onScrollBeginDrag={() => {
+          if (timeoutHeaderAnimation) clearTimeout(timeoutHeaderAnimation)
+        }}
+        onContentSizeChange={(w, h) => {
+          outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
+          outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
+        }}
+        onScrollEndDrag={outerHandleEndDrag}
+        showsVerticalScrollIndicator={false}
+      >
+        {
+          headerEnabled && (
+            <View style={{ height: bigTitleContainerHeight }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: (headerHeight / 2) + insets.top }}>
+                <Animated.View style={{ opacity: titleBigOpacityAnim, transform: [{ translateY: titleBigTranslateYAnim }] }}>
+                  {
+                    typeof longerTitle === 'object' ? longerTitle :
+                      <Typography animated size={36} style={{ fontWeight: '400', textAlign: 'center' }}>{longerTitle || title}</Typography>
+                  }
+                </Animated.View>
+              </View>
+              <View style={{ height: headerHeight }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, height: '100%' }}>
+                  {
+                    navigation.canGoBack() && (
+                      <TouchableHighlight underlayColor={theme.backgroundBasicColor2} onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: 43 / 2, marginLeft: -1 }}>
+                        <View style={{ width: 43, height: 43, borderRadius: 43 / 2, alignItems: 'center', justifyContent: 'center' }}>
+                          <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
+                        </View>
+                      </TouchableHighlight>
+                    )
+                  }
+                  <View style={{ flex: 1, paddingLeft: navigation.canGoBack() ? 0 : GUTTER_SPACE }}>
+                    <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', opacity: titleSmallOpacityAnim }}>{title}</Typography>
+                  </View>
+                  {rightControl}
                 </View>
-                {rightControl}
               </View>
             </View>
-          </View>
-        )
-      }
-      <View style={{ height: innerContainerHeight, borderTopRightRadius: 15, borderTopLeftRadius: 15, overflow: 'hidden' }}>
-        <ScrollView
-          ref={innerScrollRef}
-          // overScrollMode='never'
-          // bounces={false}
-          onScrollEndDrag={innerHandleScrollEndDrag}
-          nestedScrollEnabled={true}
-          scrollEnabled={scrollEnabled}
-          scrollEventThrottle={16}
-          onTouchEnd={handleInnerScrollTouchEnd}
-          onContentSizeChange={(_w, h) => {
-            scrollableHeight.current = Math.max(h - innerContainerHeight, 1)
-            const visibleRatio = innerContainerHeight / h
-            setInnerScrollbarHeight(Math.max(visibleRatio * innerContainerHeight, 30)) // Ensure min size
-            innerScrollbarMovableRange.current = innerContainerHeight - Math.max(visibleRatio * innerContainerHeight, 30) - 20
-          }}
-          onScroll={({ nativeEvent }) => {
-            innerScrollY.setValue(nativeEvent.contentOffset.y)
-          }}
-          onScrollBeginDrag={({ nativeEvent }) => {
-            if (timeoutHeaderAnimation) clearTimeout(timeoutHeaderAnimation)
-            innerStartY = nativeEvent.contentOffset.y
-          }}
-          onMomentumScrollBegin={showScrollBar}
-          onMomentumScrollEnd={hideScrollBar}
-        // showsVerticalScrollIndicator={false}
-        >
-          {
-            scrollEnabled ? (
-              <View style={{ overflow: 'hidden', height: !innerScrollEnabled ? innerContainerHeight : undefined }}>
-                {
-                  typeof children === 'function' ?
-                    children(innerContainerHeight) :
-                    children
-                }
-              </View>
-            ) :
-              (
-                <View style={{ height: innerContainerHeight }}>
-                  {typeof children === 'function' ? children(innerContainerHeight) : children}
+          )
+        }
+        <View style={{ height: innerContainerHeight, overflow: 'hidden' }}>
+          <ScrollView
+            ref={innerScrollRef}
+            // overScrollMode='never'
+            // bounces={false}
+            onScrollEndDrag={innerHandleScrollEndDrag}
+            nestedScrollEnabled={true}
+            scrollEnabled={scrollEnabled}
+            scrollEventThrottle={16}
+            onTouchEnd={handleInnerScrollTouchEnd}
+            onContentSizeChange={(_w, h) => {
+              scrollableHeight.current = Math.max(h - innerContainerHeight, 1)
+              const visibleRatio = innerContainerHeight / h
+              setInnerScrollbarHeight(Math.max(visibleRatio * innerContainerHeight, 30)) // Ensure min size
+              innerScrollbarMovableRange.current = innerContainerHeight - Math.max(visibleRatio * innerContainerHeight, 30) - 20
+            }}
+            onScroll={({ nativeEvent }) => {
+              innerScrollY.setValue(nativeEvent.contentOffset.y)
+            }}
+            onScrollBeginDrag={({ nativeEvent }) => {
+              if (timeoutHeaderAnimation) clearTimeout(timeoutHeaderAnimation)
+              innerStartY = nativeEvent.contentOffset.y
+            }}
+            onMomentumScrollBegin={showScrollBar}
+            onMomentumScrollEnd={hideScrollBar}
+          // showsVerticalScrollIndicator={false}
+          >
+            {
+              scrollEnabled ? (
+                <View style={{ overflow: 'hidden', height: !innerScrollEnabled ? innerContainerHeight : undefined }}>
+                  {
+                    typeof children === 'function' ?
+                      children(innerContainerHeight) :
+                      children
+                  }
                 </View>
-              )
-          }
-        </ScrollView>
+              ) :
+                (
+                  <View style={{ height: innerContainerHeight }}>
+                    {typeof children === 'function' ? children(innerContainerHeight) : children}
+                  </View>
+                )
+            }
+            <View style={{ height: keyboardHeight }} />
+          </ScrollView>
 
-        {/* Custom Scroll Bar */}
-        {/* {
+          {/* Custom Scroll Bar */}
+          {/* {
           ((!isFinite(innerScrollbarHeight) || !isNaN(innerScrollbarHeight)) && scrollEnabled && (
             (innerContainerHeight - innerScrollbarHeight - 20) > 0
           )) && (
@@ -317,7 +306,8 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
             </Animated.View>
           )
         } */}
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 }

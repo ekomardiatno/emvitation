@@ -24,10 +24,11 @@ export default function SelectTemplate({ control, containerStyle }: {
     name: 'invitation_template_id'
   })
   const flatContainerStyle = StyleSheet.flatten(containerStyle)
+
   return (
-    <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor1, padding: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor2, ...flatContainerStyle }}>
+    <View style={{ padding: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor2, ...flatContainerStyle }}>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <View style={{ borderRadius: BORDER_RADIUS, overflow: 'hidden' }}>
+        <View style={{ borderRadius: BORDER_RADIUS, overflow: 'hidden', borderWidth: 1, borderColor: errors['invitation_template_id'] ? theme.borderDangerColor1 : theme.borderBasicColor1 }}>
           <PlatformPressable onPress={() => {
             navigation.navigate('Template', {
               action: 'select',
@@ -36,8 +37,16 @@ export default function SelectTemplate({ control, containerStyle }: {
               }
             })
           }} style={{ height: height / 3, width: (height / 3) / 4 * 3, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name='add-circle' color={theme.textHintColor} size={30} />
-            <Typography color={theme.textHintColor} style={{ marginTop: 5 }}>Select Template</Typography>
+            {
+              field.value
+                ? (
+                  <Icon name='hide-image' color={theme.backgroundBasicColor3} size={(height / 3) / 4} />
+                )
+                : <>
+                  <Icon name='add-circle' color={theme.textHintColor} size={30} />
+                  <Typography color={theme.textHintColor} style={{ marginTop: 5 }}>Pilih Template</Typography>
+                </>
+            }
           </PlatformPressable>
         </View>
       </View>

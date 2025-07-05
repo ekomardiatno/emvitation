@@ -64,7 +64,7 @@ const Button = ({ children, onPress, disabled = false, appearance = 'primary', s
 
   return (
     <View style={{ borderRadius: styleProps.borderRadius ?? BORDER_RADIUS, flex: styleProps.flex, flexGrow: styleProps.flexGrow, overflow: 'hidden', flexBasis: styleProps.flexBasis, width: styleProps.width }}>
-      <PlatformPressable disabled={disabled} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: disabled ? theme.colorPrimaryDisabled : btnColor.border, paddingVertical: 10, paddingHorizontal: 16 }, style]} onPress={onPress}>
+      <PlatformPressable disabled={disabled} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: disabled ? theme.colorPrimaryDisabled : btnColor.border, paddingVertical: 12, paddingHorizontal: 15 }, style]} onPress={onPress}>
         {
           typeof children === 'string' ?
             <Typography color={textStyleProps?.color || btnColor.text} style={{ textAlign: 'center', ...textStyleProps }} category={category}>{children}</Typography>

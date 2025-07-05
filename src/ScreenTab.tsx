@@ -11,6 +11,7 @@ import Icon from "@react-native-vector-icons/material-icons"
 import { MasterialIconsType } from "./types/material-icons"
 import { COLORS, GUTTER_SPACE } from "./constants"
 import Bill from "./screens/Bill"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const Tab = createBottomTabNavigator()
 
@@ -94,13 +95,15 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
 export default function ScreenTab(): JSX.Element {
   return (
-    <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />} screenOptions={{
-      headerShown: false,
-    }}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Bill" component={Bill} />
-      <Tab.Screen name="Wallet" component={Wallet} />
-      <Tab.Screen name="Profile" component={Profile} />
-    </Tab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
+      <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />} screenOptions={{
+        headerShown: false,
+      }}>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Bill" component={Bill} />
+        <Tab.Screen name="Wallet" component={Wallet} />
+        <Tab.Screen name="Profile" component={Profile} />
+      </Tab.Navigator>
+    </SafeAreaView>
   )
 }

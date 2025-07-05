@@ -5,7 +5,6 @@ import { BackHandler, View } from "react-native"
 import * as yup from 'yup'
 import { Control, useForm } from "react-hook-form"
 import Input from "../../components/core/Input"
-import TextArea from "../../components/core/TextArea"
 import Typography from "../../components/core/Typography"
 import { useTheme } from "../../components/core/AppProvider"
 import Confirmation from "../../components/core/Confirmation"
@@ -13,22 +12,22 @@ import SelectTemplate from "./SelectTemplate"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useNavigation } from "@react-navigation/native"
 import { NavigationProp } from "../../types/navigation-props"
+import Icon from "@react-native-vector-icons/material-icons"
 
 export const createInvitationSchema = yup.object({
-  invitation_template_id: yup.number().optional(),
-  groom_name: yup.string().required(),
-  groom_birth_order: yup.number().required(),
-  groom_father_name: yup.string().required(),
-  groom_mother_name: yup.string().required(),
-  groom_ig: yup.string().optional(),
-  groom_hometown: yup.string().optional(),
-  bride_name: yup.string().required(),
-  bride_birth_order: yup.number().required(),
-  bride_father_name: yup.string().required(),
-  bride_mother_name: yup.string().required(),
-  bride_ig: yup.string().optional(),
-  bride_hometown: yup.string().optional(),
-  quote: yup.string().optional()
+  invitation_template_id: yup.number().required('Template undangan harus dipilih'),
+  female_name: yup.string().required('Nama wanita harus diisi'),
+  female_birth_order: yup.number().required('Anak ke- wanita harus diisi'),
+  female_father_name: yup.string().required('Nama ayah wanita harus diisi'),
+  female_mother_name: yup.string().required('Nama ibu wanita harus diisi'),
+  female_ig: yup.string().optional(),
+  female_hometown: yup.string().optional(),
+  male_name: yup.string().required('Nama pria harus diisi'),
+  male_birth_order: yup.number().required('Anak ke- pria harus diisi'),
+  male_father_name: yup.string().required('Nama ayah pria harus diisi'),
+  male_mother_name: yup.string().required('Nama ibu pria harus diisi'),
+  male_ig: yup.string().optional(),
+  male_hometown: yup.string().optional(),
 })
 
 export default function CreateInvitation(): JSX.Element {
@@ -40,8 +39,8 @@ export default function CreateInvitation(): JSX.Element {
   const [isAlertOpened, setIsAlertOpened] = useState<boolean>(false)
 
   useEffect(() => {
-    setValue('groom_birth_order', 1)
-    setValue('bride_birth_order', 1)
+    setValue('female_birth_order', 1)
+    setValue('male_birth_order', 1)
   }, [])
 
   const onBackPress = (fnc?: () => void) => {
@@ -49,7 +48,7 @@ export default function CreateInvitation(): JSX.Element {
     let hasDifferent = false
     const empty: any[] = [undefined, null, ""]
     for (let key of Object.keys(currentValues) as (keyof yup.InferType<typeof createInvitationSchema>)[]) {
-      if (key === 'bride_birth_order' || key === 'groom_birth_order') {
+      if (key === 'male_birth_order' || key === 'female_birth_order') {
         empty.push(1)
       }
       if (!empty.includes(currentValues[key])) {
@@ -81,29 +80,34 @@ export default function CreateInvitation(): JSX.Element {
   }
 
   return (
-    <ScreenLayout title="Create Invitation" onBackPress={onBackPress}>
+    <ScreenLayout title="Buat Undangan" onBackPress={onBackPress}>
       <>
         <SelectTemplate control={control as Control<yup.InferType<typeof createInvitationSchema>>} />
         <View style={{ padding: GUTTER_SPACE }}>
-          <View style={{ borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, paddingBottom: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
-            <Typography style={{ marginBottom: 10, fontWeight: '700' }}>Groom Information</Typography>
-            <Input control={control} required={true} name="groom_name" label="Name" placeholder="Name" />
-            <Input control={control} required={true} keyboardType='numeric' name="groom_birth_order" label={`Birth Order`} placeholder="Birth Order" defaultValue="1" />
-            <Input control={control} required={true} name="groom_father_name" label={`Father Name`} placeholder="Father Name" />
-            <Input control={control} required={true} name="groom_mother_name" label={`Mother Name`} placeholder="Mother Name" />
-            <Input control={control} required={false} name="groom_ig" label="Instagram Account" placeholder="@username" />
-            <Input control={control} required={false} name="groom_hometown" label="Hometown" placeholder="Hometown" />
+          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor2, borderWidth: 1 }}>
+              <Typography style={{ fontWeight: '700' }}>Detail Wanita</Typography>
+              <Icon name='female' size={20} color={theme.textBasicColor} />
+            </View>
+            <Input control={control} required={true} name="female_name" label="Nama" placeholder="Nama" />
+            <Input control={control} keyboardType='numeric' name="female_birth_order" label={`Anak ke-`} placeholder="Anak ke-" />
+            <Input control={control} required={true} name="female_father_name" label={`Nama Ayah`} placeholder="Nama Ayah" />
+            <Input control={control} required={true} name="female_mother_name" label={`Nama Ibu`} placeholder="Nama Ibu" />
+            <Input control={control} required={false} name="female_ig" label="Akun Instagram" placeholder="@username" />
+            <Input control={control} required={false} name="female_hometown" label="Kota Asal" placeholder="Kota Asal" />
           </View>
-          <View style={{ borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, paddingBottom: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
-            <Typography style={{ marginBottom: 10, fontWeight: '700' }}>Bride Information</Typography>
-            <Input control={control} required={true} name="bride_name" label="Name" placeholder="Name" />
-            <Input control={control} required={true} keyboardType='numeric' name="bride_birth_order" label={`Birth Order`} placeholder="Birth Order" defaultValue="1" />
-            <Input control={control} required={true} name="bride_father_name" label={`Father Name`} placeholder="Father Name" />
-            <Input control={control} required={true} name="bride_mother_name" label={`Mother Name`} placeholder="Mother Name" />
-            <Input control={control} required={false} name="bride_ig" label="Instagram Account" placeholder="@username" />
-            <Input control={control} required={false} name="bride_hometown" label="Hometown" placeholder="Hometown" />
+          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor2, borderWidth: 1 }}>
+              <Typography style={{ fontWeight: '700' }}>Detail Pria</Typography>
+              <Icon name='male' size={20} color={theme.textBasicColor} />
+            </View>
+            <Input control={control} required={true} name="male_name" label="Nama" placeholder="Nama" />
+            <Input control={control} keyboardType='numeric' name="male_birth_order" label={`Anak ke-`} placeholder="Anak ke-" />
+            <Input control={control} required={true} name="male_father_name" label={`Nama Ayah`} placeholder="Nama Ayah" />
+            <Input control={control} required={true} name="male_mother_name" label={`Nama Ibu`} placeholder="Nama Ibu" />
+            <Input control={control} required={false} name="male_ig" label="Akun Instagram" placeholder="@username" />
+            <Input control={control} required={false} name="male_hometown" label="Kota Asal" placeholder="Kota Asal" />
           </View>
-          <TextArea control={control} name="quote" label="Quote" placeholder="Quote" containerStyle={{ marginBottom: GUTTER_SPACE }} />
           <Confirmation
             mode='button'
             onConfirmed={() => {
@@ -113,7 +117,7 @@ export default function CreateInvitation(): JSX.Element {
             onCancel={() => {
 
             }}
-          >Create</Confirmation>
+          >Buat Undangan</Confirmation>
         </View>
         <Confirmation
           visible={isAlertOpened}
@@ -124,8 +128,8 @@ export default function CreateInvitation(): JSX.Element {
           onCancel={() => {
             setIsAlertOpened(false)
           }}
-          cautionTitle="Do you want to proceed?"
-          cautionText="Unsaved changes will be lost."
+          cautionTitle="Anda yakin?"
+          cautionText="Jika anda keluar, semua data yang telah diisi akan hilang."
           appearance="warning"
         />
       </>
