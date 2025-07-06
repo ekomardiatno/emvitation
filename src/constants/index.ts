@@ -601,19 +601,19 @@ export const THEME = {
   colorControlTransparentActiveBorder: COLORS.colorBasic100,
   colorControlTransparentDisabledBorder: COLORS.colorBasicTransparent300,
 
-  backgroundBasicColor0: COLORS.colorBasic000,
-  backgroundBasicColor1: COLORS.colorBasic100,
-  backgroundBasicColor2: COLORS.colorBasic200,
-  backgroundBasicColor3: COLORS.colorBasic300,
-  backgroundBasicColor4: COLORS.colorBasic400,
+  backgroundBasicColor0: COLORS.colorBasic100,
+  backgroundBasicColor1: COLORS.colorBasic000,
+  backgroundBasicColor2: COLORS.colorBasic100,
+  backgroundBasicColor3: COLORS.colorBasic200,
+  backgroundBasicColor4: COLORS.colorBasic300,
 
   backgroundAlternativeColor1: COLORS.colorBasic1000,
   backgroundAlternativeColor2: COLORS.colorBasic900,
   backgroundAlternativeColor3: COLORS.colorBasic800,
   backgroundAlternativeColor4: COLORS.colorBasic700,
 
-  borderBasicColor0: COLORS.colorBasic000,
-  borderBasicColor1: COLORS.colorBasic100,
+  borderBasicColor0: COLORS.colorBasic100,
+  borderBasicColor1: COLORS.colorBasic000,
   borderBasicColor2: COLORS.colorBasic200,
   borderBasicColor3: COLORS.colorBasic300,
   borderBasicColor4: COLORS.colorBasic400,
@@ -696,8 +696,8 @@ export const THEME = {
 }
 
 export const DARK_THEME = {
-  backgroundBasicColor0: COLORS.colorBasic900,
-  backgroundBasicColor1: COLORS.colorBasic1000,
+  backgroundBasicColor0: COLORS.colorBasic1000,
+  backgroundBasicColor1: COLORS.colorBasic900,
   backgroundBasicColor2: COLORS.colorBasic800,
   backgroundBasicColor3: COLORS.colorBasic700,
   backgroundBasicColor4: COLORS.colorBasic600,
@@ -706,9 +706,10 @@ export const DARK_THEME = {
   backgroundAlternativeColor2: COLORS.colorBasic200,
   backgroundAlternativeColor3: COLORS.colorBasic300,
   backgroundAlternativeColor4: COLORS.colorBasic400,
+  backgroundAlternativeColor5: COLORS.colorBasic500,
 
-  borderBasicColor0: COLORS.colorBasic900,
-  borderBasicColor1: COLORS.colorBasic1000,
+  borderBasicColor0: COLORS.colorBasic1000,
+  borderBasicColor1: COLORS.colorBasic900,
   borderBasicColor2: COLORS.colorBasic800,
   borderBasicColor3: COLORS.colorBasic700,
   borderBasicColor4: COLORS.colorBasic600,

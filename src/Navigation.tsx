@@ -22,7 +22,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const autoSchemaChange = (colorSchema: ColorSchemeName) => {
-      StatusBar.setBackgroundColor('rgba(0,0,0,0)')
+      StatusBar.setBackgroundColor(theme.backgroundBasicColor0)
       StatusBar.setTranslucent(true)
       StatusBar.setBarStyle(colorSchema === 'dark' ? 'light-content' : 'dark-content')
       if (colorSchema === 'dark') {
@@ -40,11 +40,11 @@ const Navigation = () => {
   return (
     <NavigationContainer theme={{
       colors: {
-        background: theme.backgroundBasicColor1,
+        background: theme.backgroundBasicColor0,
         primary: theme.colorPrimaryDefault,
         text: theme.textBasicColor,
         border: theme.borderBasicColor3,
-        card: theme.backgroundBasicColor0,
+        card: theme.backgroundBasicColor1,
         notification: theme.colorInfoDefault
       },
       dark: colorSchema === 'dark',

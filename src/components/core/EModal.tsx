@@ -103,8 +103,8 @@ export default function EModal({ children, visible, onClose }: {
 					})
 				}} style={{ width: '100%', transform: [{ translateY }] }}>
 					{children}
-					<KeyboardHeightView />
 				</Animated.View>
+				<KeyboardHeightView />
 			</View>
 		</Modal>
 	)

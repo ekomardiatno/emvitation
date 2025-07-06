@@ -33,7 +33,7 @@ export default function ManageGuest(): JSX.Element {
 
   return (
     <ScreenLayout title="Kelola Tamu" longerTitle="Kelola Tamu" rightControl={
-      <Button appearance="transparent" onPress={() => {
+      <Button style={{ paddingHorizontal: 12 }} appearance="transparent" onPress={() => {
         setIsModalVisible(true)
       }}>
         <Icon name="add" size={24} color={theme.textBasicColor} />
@@ -41,7 +41,7 @@ export default function ManageGuest(): JSX.Element {
     }>
       <>
         <View style={{ padding: GUTTER_SPACE, gap: 10 }}>
-          <View style={{ padding: GUTTER_SPACE, paddingLeft: GUTTER_SPACE * 1.75, borderRadius: 16, backgroundColor: theme.backgroundBasicColor2, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={{ padding: GUTTER_SPACE, paddingLeft: GUTTER_SPACE * 1.75, borderRadius: 16, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <View style={{ flex: 1 }}>
               <Typography category="h6">John Doe</Typography>
             </View>
@@ -49,7 +49,7 @@ export default function ManageGuest(): JSX.Element {
               <Icon name='share' size={24} color={theme.textWarningColor} />
             </Button>
           </View>
-          <View style={{ padding: GUTTER_SPACE, paddingLeft: GUTTER_SPACE * 1.75, borderRadius: 16, backgroundColor: theme.backgroundBasicColor2, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={{ padding: GUTTER_SPACE, paddingLeft: GUTTER_SPACE * 1.75, borderRadius: 16, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <View style={{ flex: 1 }}>
               <Typography category="h6">Johnathan Doe</Typography>
             </View>

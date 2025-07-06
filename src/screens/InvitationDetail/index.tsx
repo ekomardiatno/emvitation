@@ -15,12 +15,12 @@ export default function InvitationDetail(): JSX.Element {
         <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, marginBottom: GUTTER_SPACE }}>
             <Typography style={{ fontWeight: 'bold' }}>Detail Pasangan</Typography>
-            <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.backgroundBasicColor2, alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center' }}>
               <Icon name='edit' size={20} color={theme.textBasicColor} />
             </TouchableOpacity>
           </View>
           <View style={{ gap: GUTTER_SPACE }}>
-            <View style={{ padding: GUTTER_SPACE, borderRadius: 8, backgroundColor: theme.backgroundBasicColor2, flexDirection: 'row', gap: 8, alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+            <View style={{ padding: GUTTER_SPACE, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', gap: 8, alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
               <View style={{ position: 'absolute', right: GUTTER_SPACE, top: GUTTER_SPACE, opacity: 0.15 }}>
                 <Icon name='male' size={45} color={theme.textBasicColor}/>
               </View>
@@ -33,7 +33,7 @@ export default function InvitationDetail(): JSX.Element {
                 </View>
               </View>
             </View>
-            <View style={{ padding: GUTTER_SPACE, borderRadius: 8, backgroundColor: theme.backgroundBasicColor2, flexDirection: 'row', gap: 8, alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+            <View style={{ padding: GUTTER_SPACE, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', gap: 8, alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
               <View style={{ position: 'absolute', right: GUTTER_SPACE, top: GUTTER_SPACE, opacity: 0.15 }}>
                 <Icon name='female' size={45} color={theme.textBasicColor}/>
               </View>

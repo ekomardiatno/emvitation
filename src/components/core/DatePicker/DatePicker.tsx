@@ -182,7 +182,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
         label &&
         <FieldLabel label={label} required={required} />
       }
-      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor2 : theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor1 }}>
+      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor1 : theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor1 }}>
         <TextInput placeholderTextColor={theme.textHintColor} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, color: !editable ? theme.textDisabledColor : theme.textBasicColor, fontFamily: getFontFamily({}) }} placeholder={placeholder} value={field.value ? moment(field.value).format('ddd, DD MMM YY HH:mm:ss') : undefined} />
         <TouchableOpacity
           disabled={!editable}
@@ -205,7 +205,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
         visible={isCalendarPanelVisible}
         onClose={onCancel}
       >
-        <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight), borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: (width < height ? width : height) - (GUTTER_SPACE * 2), marginLeft: GUTTER_SPACE }}>
+        <View style={{ backgroundColor: theme.backgroundBasicColor0, padding: GUTTER_SPACE, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight), borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: (width < height ? width : height) - (GUTTER_SPACE * 2), marginLeft: GUTTER_SPACE }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
             <TouchableOpacity
               activeOpacity={0.65}
@@ -263,7 +263,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
                   <TouchableOpacity
                     activeOpacity={0.65}
                     key={month}
-                    style={{ width: (width - 2 - (GUTTER_SPACE * 2 * 2) - (2 * 5)) / 3, paddingVertical: 10, backgroundColor: i === viewedMonth ? COLORS.colorPrimary500 : theme.backgroundBasicColor2, borderRadius: BORDER_RADIUS }}
+                    style={{ width: (width - 2 - (GUTTER_SPACE * 2 * 2) - (2 * 5)) / 3, paddingVertical: 10, backgroundColor: i === viewedMonth ? COLORS.colorPrimary500 : theme.backgroundBasicColor0, borderRadius: BORDER_RADIUS }}
                     onPress={() => {
                       setViewedMonth(i)
                       setDisplayMode(DATE_MODE)
@@ -283,7 +283,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
                   <TouchableOpacity
                     activeOpacity={0.65}
                     key={year}
-                    style={{ width: (width - 2 - (GUTTER_SPACE * 2 * 2) - (2 * 5)) / 3, paddingVertical: 10, backgroundColor: year === viewedYear ? COLORS.colorPrimary500 : theme.backgroundBasicColor2, borderRadius: BORDER_RADIUS }}
+                    style={{ width: (width - 2 - (GUTTER_SPACE * 2 * 2) - (2 * 5)) / 3, paddingVertical: 10, backgroundColor: year === viewedYear ? COLORS.colorPrimary500 : theme.backgroundBasicColor0, borderRadius: BORDER_RADIUS }}
                     onPress={() => {
                       setViewedYear(year)
                       setDisplayMode(MONTH_MODE)

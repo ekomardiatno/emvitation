@@ -190,7 +190,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   })
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundBasicColor1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundBasicColor0 }}>
       <ScrollView
         overScrollMode='never'
         bounces={false}

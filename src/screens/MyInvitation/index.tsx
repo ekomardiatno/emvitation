@@ -19,7 +19,7 @@ export function InvitationCard(): JSX.Element {
       <TouchableHighlight underlayColor={theme.backgroundBasicColor4} onPress={() => {
         navigation.navigate('Invitation Detail', { invitationId: 1 })
       }} style={{ borderRadius: 8, overflow: 'hidden' }}>
-        <View style={{ padding: GUTTER_SPACE, borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, backgroundColor: theme.backgroundBasicColor0 }}>
+        <View style={{ padding: GUTTER_SPACE, borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ borderColor: theme.colorPrimaryDefault, borderWidth: 2, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
               <Typography color={theme.colorPrimaryDefault} category="label">Template Gratis</Typography>

@@ -134,7 +134,7 @@ const SelectPicker = ({ label, placeholder, name, control, options, required, de
         label &&
         <FieldLabel label={label} required={required} />
       }
-      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor2 : theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor1 }}>
+      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor1 : theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor1 }}>
         <TextInput placeholderTextColor={theme.textHintColor} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, color: !editable ? theme.textDisabledColor : theme.textBasicColor, fontFamily: getFontFamily({}) }} placeholder={placeholder} value={field.value} />
         <TouchableOpacity
           disabled={!editable}

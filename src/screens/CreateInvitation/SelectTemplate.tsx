@@ -26,7 +26,7 @@ export default function SelectTemplate({ control, containerStyle }: {
   const flatContainerStyle = StyleSheet.flatten(containerStyle)
 
   return (
-    <View style={{ padding: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor2, ...flatContainerStyle }}>
+    <View style={{ padding: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1, ...flatContainerStyle }}>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <View style={{ borderRadius: BORDER_RADIUS, overflow: 'hidden', borderWidth: 1, borderColor: errors['invitation_template_id'] ? theme.borderDangerColor1 : theme.borderBasicColor1 }}>
           <PlatformPressable onPress={() => {
@@ -37,11 +37,11 @@ export default function SelectTemplate({ control, containerStyle }: {
                 console.log(templateId)
               }
             })
-          }} style={{ height: height / 3, width: (height / 3) / 4 * 3, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center' }}>
+          }} style={{ height: height / 3, width: (height / 3) / 4 * 3, backgroundColor: theme.backgroundBasicColor0, alignItems: 'center', justifyContent: 'center' }}>
             {
               field.value
                 ? (
-                  <Icon name='hide-image' color={theme.backgroundBasicColor3} size={(height / 3) / 4} />
+                  <Icon name='hide-image' color={theme.backgroundBasicColor1} size={(height / 3) / 4} />
                 )
                 : <>
                   <Icon name='add-circle' color={theme.textHintColor} size={30} />
