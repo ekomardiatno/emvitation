@@ -1,6 +1,6 @@
 import { TouchableOpacity, View } from "react-native"
 import ScreenLayout from "../../components/core/ScreenLayout"
-import { GUTTER_SPACE } from "../../constants"
+import { COLORS, GUTTER_SPACE } from "../../constants"
 import { useTheme } from "../../components/core/AppProvider"
 import { JSX } from "react"
 import Typography from "../../components/core/Typography"
@@ -52,7 +52,7 @@ export default function InvitationDetail(): JSX.Element {
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, marginBottom: GUTTER_SPACE }}>
             <Typography style={{ fontWeight: 'bold' }}>Daftar Acara</Typography>
             <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.colorPrimaryDefault, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name='add' size={20} color={theme.colorBasicDefault} />
+              <Icon name='add' size={20} color={COLORS.colorSlate100} />
             </TouchableOpacity>
           </View>
           <View style={{ gap: GUTTER_SPACE }}>
