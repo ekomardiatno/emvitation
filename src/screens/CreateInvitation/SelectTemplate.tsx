@@ -34,6 +34,7 @@ export default function SelectTemplate({ control, containerStyle }: {
               action: 'select',
               onSelected: (templateId) => {
                 field.onChange(templateId)
+                console.log(templateId)
               }
             })
           }} style={{ height: height / 3, width: (height / 3) / 4 * 3, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center' }}>

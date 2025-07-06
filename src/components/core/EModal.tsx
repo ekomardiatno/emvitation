@@ -1,21 +1,61 @@
 import { JSX, useEffect, useRef, useState } from "react"
-import { Animated, Modal, Platform, StatusBar, TouchableOpacity, useWindowDimensions, View } from "react-native"
+import {
+	Animated,
+	Keyboard,
+	KeyboardEvent,
+	Modal,
+	Platform,
+	StatusBar,
+	TouchableOpacity,
+	useWindowDimensions,
+	View,
+} from "react-native"
 import { GUTTER_SPACE } from "../../constants"
 import { useTheme } from "./AppProvider"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 export default function EModal({ children, visible, onClose }: {
-  children: JSX.Element
-  onClose: () => void
-  visible: boolean
+	children: JSX.Element
+	onClose: () => void
+	visible: boolean
 }): JSX.Element {
 	const { height } = useWindowDimensions()
 	const theme = useTheme()
 	const [heightContentSize, setHeightContentSize] = useState(0)
 	const translateY = useRef(new Animated.Value(heightContentSize ? heightContentSize + (Platform?.OS === 'ios' ? GUTTER_SPACE * 3 + 100 : (StatusBar?.currentHeight || 0)) : height)).current
 	const [thisVisible, setThisVisible] = useState(false)
+	const { top, bottom } = useSafeAreaInsets()
+
+	const keyboardHeight = useRef(new Animated.Value(0)).current
 
 	useEffect(() => {
-		if(visible) {
+		if (visible) {
+			const handleKeyboardShow = (e: KeyboardEvent) => {
+				Animated.timing(keyboardHeight, {
+					toValue: e.endCoordinates.height + bottom,
+					duration: 200,
+					useNativeDriver: false
+				}).start()
+			}
+			const handleKeyboardHide = () => {
+				console.log(keyboardHeight)
+				Animated.timing(keyboardHeight, {
+					toValue: 0,
+					duration: 200,
+					useNativeDriver: false
+				}).start()
+			}
+			const showSub = Keyboard.addListener("keyboardDidShow", handleKeyboardShow)
+			const hideSub = Keyboard.addListener("keyboardDidHide", handleKeyboardHide)
+			return () => {
+				showSub.remove()
+				hideSub.remove()
+			}
+		}
+	}, [visible, bottom])
+
+	useEffect(() => {
+		if (visible) {
 			setThisVisible(true)
 			Animated.timing(translateY, {
 				toValue: 0,
@@ -36,7 +76,7 @@ export default function EModal({ children, visible, onClose }: {
 	}, [visible])
 
 	const handleCancel = () => {
-		if(typeof onClose === 'function') onClose()
+		if (typeof onClose === 'function') onClose()
 	}
 
 	return (
@@ -58,6 +98,7 @@ export default function EModal({ children, visible, onClose }: {
 					})
 				}} style={{ width: '100%', transform: [{ translateY }] }}>
 					{children}
+					<Animated.View style={{ height: keyboardHeight, overflow: 'hidden' }}></Animated.View>
 				</Animated.View>
 			</View>
 		</Modal>

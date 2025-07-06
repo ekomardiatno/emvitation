@@ -14,6 +14,7 @@ export type RouteNavigationParamList = {
   'Template'?: TemplateParamsProp
   'My Invitation': undefined
   'Invitation Detail': { invitationId: number }
+  'Manage Guest': { invitationId: number }
 }
 
 export type NavigationProp = NativeStackNavigationProp<RouteNavigationParamList>

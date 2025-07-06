@@ -17,6 +17,8 @@ import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from "react-native-
 
 const { height } = Dimensions.get('window')
 
+export const HEADER_HEIGHT = 70 // Default header height
+
 export default function ScreenLayout({ children, headerEnabled = true, title, longerTitle, scrollEnabled = true, rightControl = null, onBackPress }: {
   children: JSX.Element | ((innerContainerHeight: number) => JSX.Element)
   headerEnabled?: boolean
@@ -35,7 +37,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
       navigation.goBack()
   }
   const theme = useTheme()
-  const headerHeight = headerEnabled ? 70 : 0
+  const headerHeight = headerEnabled ? HEADER_HEIGHT : 0
   const innerContainerHeight = (safeArea.height - insets.top - insets.bottom) - headerHeight
   const outerScrollRef = useRef<ScrollView>(null)
   const outerScrollY = useRef(new Animated.Value(0)).current
@@ -211,7 +213,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
         {
           headerEnabled && (
             <View style={{ height: bigTitleContainerHeight }}>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: (headerHeight / 2) + insets.top }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: GUTTER_SPACE * 2, overflow: 'hidden', paddingTop: (headerHeight / 2) }}>
                 <Animated.View style={{ opacity: titleBigOpacityAnim, transform: [{ translateY: titleBigTranslateYAnim }] }}>
                   {
                     typeof longerTitle === 'object' ? longerTitle :
@@ -223,14 +225,19 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                   {
                     navigation.canGoBack() ? (
-                      <TouchableOpacity onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: GUTTER_SPACE / 2 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: GUTTER_SPACE / 2, overflow: 'hidden', minWidth: 50, paddingVertical: GUTTER_SPACE, paddingLeft: 5 }}>
-                          <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
-                          <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', marginLeft: titleMarginLeftAnim, opacity: titleSmallOpacityAnim, marginRight: 10 }}>{title}</Typography>
+                      <TouchableOpacity onPress={onBackPress ? () => onBackPress(goBack) : goBack}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden', minWidth: 45, paddingVertical: GUTTER_SPACE }}>
+                          <View style={{ alignItems: 'center', width: 45 }}>
+                            <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
+                          </View>
+                          <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '500', marginLeft: titleMarginLeftAnim, opacity: titleSmallOpacityAnim, marginRight: 15 }}>{title}</Typography>
                         </View>
                       </TouchableOpacity>
-                    ) :
-                      <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', opacity: titleSmallOpacityAnim }}>{title}</Typography>
+                    ) : (
+                      <View style={{ paddingLeft: GUTTER_SPACE }}>
+                        <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '500', opacity: titleSmallOpacityAnim }}>{title}</Typography>
+                      </View>
+                    )
                   }
                 </View>
                 {rightControl}

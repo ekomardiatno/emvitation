@@ -11,6 +11,7 @@ import CreateInvitation from './screens/CreateInvitation'
 import Template from './screens/Template'
 import MyInvitation from './screens/MyInvitation'
 import InvitationDetail from './screens/InvitationDetail'
+import ManageGuest from './screens/ManageGuest'
 
 const Stack = createNativeStackNavigator()
 
@@ -72,6 +73,7 @@ const Navigation = () => {
         <Stack.Screen name='Template' component={Template} options={{ headerShown: false }} />
         <Stack.Screen name='My Invitation' component={MyInvitation} options={{ headerShown: false }} />
         <Stack.Screen name='Invitation Detail' component={InvitationDetail} options={{ headerShown: false }} />
+        <Stack.Screen name='Manage Guest' component={ManageGuest} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

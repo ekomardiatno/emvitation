@@ -1,4 +1,4 @@
-import { View, StatusBar, Platform, useWindowDimensions } from "react-native"
+import { View, StatusBar, Platform, useWindowDimensions, ViewStyle, TextStyle, StyleProp } from "react-native"
 import { useTheme } from "./AppProvider"
 import { BORDER_RADIUS, BORDER_WIDTH, GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
@@ -7,10 +7,10 @@ import { JSX, useEffect, useState } from "react"
 import EModal from "./EModal"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-export default function Confirmation({ children, onCancel, onConfirmed, confirmText, cautionText, cancelText, cautionTitle, appearance, mode, visible }: {
+export default function Confirmation({ children, onCancel, onConfirmed, confirmText, cautionText, cancelText, cautionTitle, appearance, mode, visible, textStyle, buttonStyle }: {
   children?: string | JSX.Element
   onCancel?: () => void
-  onConfirmed: () => void
+  onConfirmed?: () => void
   cautionText?: string
   confirmText?: string
   cancelText?: string
@@ -18,6 +18,8 @@ export default function Confirmation({ children, onCancel, onConfirmed, confirmT
   appearance?: ButtonAppearance
   mode?: 'button' | 'alert',
   visible?: boolean
+  buttonStyle?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
 }): JSX.Element {
   const theme = useTheme()
   const { width, height } = useWindowDimensions()
@@ -47,7 +49,7 @@ export default function Confirmation({ children, onCancel, onConfirmed, confirmT
     <>
       {
         (mode === 'button') &&
-        <Button appearance={appearance} onPress={handleOpen}>{children || 'Confirm'}</Button>
+        <Button appearance={appearance} onPress={handleOpen} style={buttonStyle} textStyle={textStyle}>{children || 'Confirm'}</Button>
       }
       <EModal
         visible={isOpen}
