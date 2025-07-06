@@ -12,6 +12,8 @@ export type RouteNavigationParamList = {
   'Wallet': undefined
   'Profile': undefined
   'Template'?: TemplateParamsProp
+  'My Invitation': undefined
+  'Invitation Detail': { invitationId: number }
 }
 
 export type NavigationProp = NativeStackNavigationProp<RouteNavigationParamList>

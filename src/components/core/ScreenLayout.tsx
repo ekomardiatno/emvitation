@@ -5,7 +5,7 @@ import {
   Keyboard,
   NativeScrollEvent,
   ScrollView,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from "react-native"
 import { useTheme } from "./AppProvider"
@@ -71,28 +71,30 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     extrapolate: "clamp",
   })
 
+  const [keyboardShown, setKeyboardShown] = useState<boolean>(false)
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0)
-  const [keepKeyboardHeight, setKeepKeyboardHeight] = useState<number>(0)
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', (e) => {
-      setKeyboardHeight(e.endCoordinates.height)
-      setKeepKeyboardHeight(e.endCoordinates.height)
-      if(innerScrollRef.current) {
+      setKeyboardShown(true)
+      if (!keyboardHeight) {
+        setKeyboardHeight(e.endCoordinates.height)
+      }
+      if (innerScrollRef.current) {
         innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() + e.endCoordinates.height, animated: true, x: 0 })
       }
     })
     Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardHeight(0)
-      if(innerScrollRef.current) {
-        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() - keepKeyboardHeight, animated: true, x: 0 })
+      setKeyboardShown(false)
+      if (innerScrollRef.current) {
+        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() - keyboardHeight, animated: true, x: 0 })
       }
     })
     return () => {
       Keyboard.removeAllListeners('keyboardDidShow')
       Keyboard.removeAllListeners('keyboardDidHide')
     }
-  }, [])
+  }, [keyboardHeight])
 
   useEffect(() => {
     if (headerEnabled) {
@@ -167,6 +169,12 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     extrapolate: 'clamp'
   })
 
+  const titleMarginLeftAnim = outerScrollY.interpolate({
+    inputRange: [0, (bigTitleContainerHeight - headerHeight) * .25, (bigTitleContainerHeight - headerHeight) * .5],
+    outputRange: [safeArea.width * -1, safeArea.width * -1, 0],
+    extrapolate: 'clamp'
+  })
+
   const titleBigOpacityAnim = outerScrollY.interpolate({
     inputRange: [0, (bigTitleContainerHeight - headerHeight) * .25, (bigTitleContainerHeight - headerHeight) * .5],
     outputRange: [1, 1, 0],
@@ -211,22 +219,21 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                   }
                 </Animated.View>
               </View>
-              <View style={{ height: headerHeight }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, height: '100%' }}>
+              <View style={{ height: headerHeight, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2 }}>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                   {
-                    navigation.canGoBack() && (
-                      <TouchableHighlight underlayColor={theme.backgroundBasicColor2} onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: 43 / 2, marginLeft: -1 }}>
-                        <View style={{ width: 43, height: 43, borderRadius: 43 / 2, alignItems: 'center', justifyContent: 'center' }}>
+                    navigation.canGoBack() ? (
+                      <TouchableOpacity onPress={onBackPress ? () => onBackPress(goBack) : goBack} style={{ borderRadius: GUTTER_SPACE / 2 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', borderRadius: GUTTER_SPACE / 2, overflow: 'hidden', minWidth: 50, paddingVertical: GUTTER_SPACE, paddingLeft: 5 }}>
                           <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
+                          <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', marginLeft: titleMarginLeftAnim, opacity: titleSmallOpacityAnim, marginRight: 10 }}>{title}</Typography>
                         </View>
-                      </TouchableHighlight>
-                    )
+                      </TouchableOpacity>
+                    ) :
+                      <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', opacity: titleSmallOpacityAnim }}>{title}</Typography>
                   }
-                  <View style={{ flex: 1, paddingLeft: navigation.canGoBack() ? 0 : GUTTER_SPACE }}>
-                    <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '800', opacity: titleSmallOpacityAnim }}>{title}</Typography>
-                  </View>
-                  {rightControl}
                 </View>
+                {rightControl}
               </View>
             </View>
           )
@@ -274,7 +281,11 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                   </View>
                 )
             }
-            <View style={{ height: keyboardHeight }} />
+            {
+              keyboardShown && (
+                <View style={{ height: keyboardHeight }} />
+              )
+            }
           </ScrollView>
 
           {/* Custom Scroll Bar */}

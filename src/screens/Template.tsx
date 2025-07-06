@@ -18,7 +18,7 @@ export default function Template({ route }: {
   const navigation = useNavigation<NavigationProp>()
 
   return (
-    <ScreenLayout title={`${route?.params?.action === 'select' ? 'Select ' : ''} Template`} longerTitle={`${route?.params?.action === 'select' ? 'Select ' : ''} Template`}>
+    <ScreenLayout title={`${route?.params?.action === 'select' ? 'Pilih ' : ''} Template`} longerTitle={`${route?.params?.action === 'select' ? 'Pilih ' : ''} Template`}>
       <View style={{ padding: GUTTER_SPACE }}>
         <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
           <PlatformPressable onPress={() => {

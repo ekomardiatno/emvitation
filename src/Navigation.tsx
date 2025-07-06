@@ -9,6 +9,8 @@ import { setDarkAppearance, setLightAppearance } from './redux/actions/app.actio
 import { useDispatch } from 'react-redux'
 import CreateInvitation from './screens/CreateInvitation'
 import Template from './screens/Template'
+import MyInvitation from './screens/MyInvitation'
+import InvitationDetail from './screens/InvitationDetail'
 
 const Stack = createNativeStackNavigator()
 
@@ -68,6 +70,8 @@ const Navigation = () => {
         <Stack.Screen name='Main' component={ScreenTab} options={{ headerShown: false }} />
         <Stack.Screen name='Create Invitation' component={CreateInvitation} options={{ headerShown: false }} />
         <Stack.Screen name='Template' component={Template} options={{ headerShown: false }} />
+        <Stack.Screen name='My Invitation' component={MyInvitation} options={{ headerShown: false }} />
+        <Stack.Screen name='Invitation Detail' component={InvitationDetail} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

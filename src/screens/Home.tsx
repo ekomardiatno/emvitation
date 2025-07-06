@@ -17,8 +17,8 @@ export default function Home(): JSX.Element {
           <ScrollView>
             <View style={{ paddingHorizontal: GUTTER_SPACE }}>
               <View style={{ gap: 10 }}>
-                <PressableCard title="Buat Undangan" iconName="add" onPress={() => navigation.navigate('Buat Undangan')} />
-                <PressableCard title="Undangan Saya" iconName="description" />
+                <PressableCard title="Buat Undangan" iconName="add" onPress={() => navigation.navigate('Create Invitation')} />
+                <PressableCard title="Undangan Saya" iconName="description" onPress={() => navigation.navigate('My Invitation')} />
                 {/* <PressableCard title="Upcoming Event" iconName="event" shotDescription="May 25th - Emma & David" />
                 <PressableCard title="Recent Activity" iconName="history" shotDescription="May 21st - Purchased Guest Quota" /> */}
               </View>
