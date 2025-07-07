@@ -11,16 +11,17 @@ import Icon from "@react-native-vector-icons/material-icons"
 import { MasterialIconsType } from "./types/material-icons"
 import { COLORS, GUTTER_SPACE } from "./constants"
 import Bill from "./screens/Bill"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 const Tab = createBottomTabNavigator()
 
 function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const theme = useTheme()
   const { buildHref } = useLinkBuilder()
+  const insets = useSafeAreaInsets()
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2, paddingBottom: insets.bottom }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
         const label =
@@ -94,16 +95,19 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 }
 
 export default function ScreenTab(): JSX.Element {
+  const insets = useSafeAreaInsets()
+  const theme = useTheme()
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: theme.backgroundBasicColor0 }}>
       <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />} screenOptions={{
         headerShown: false,
+        animation: 'shift'
       }}>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Bill" component={Bill} />
         <Tab.Screen name="Wallet" component={Wallet} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
-    </SafeAreaView>
+    </View>
   )
 }

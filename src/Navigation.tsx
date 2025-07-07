@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ScreenTab from './ScreenTab'
 import { useTheme } from './components/core/AppProvider'
-import { Appearance, ColorSchemeName, StatusBar } from 'react-native'
+import { Appearance, ColorSchemeName, Platform, StatusBar } from 'react-native'
 import { FONT_FAMILY } from './constants'
 import { useEffect } from 'react'
 import { setDarkAppearance, setLightAppearance } from './redux/actions/app.action'
@@ -12,6 +12,7 @@ import Template from './screens/Template'
 import MyInvitation from './screens/MyInvitation'
 import InvitationDetail from './screens/InvitationDetail'
 import ManageGuest from './screens/ManageGuest'
+import changeNavigationBarColor from 'react-native-navigation-bar-color'
 
 const Stack = createNativeStackNavigator()
 
@@ -22,9 +23,11 @@ const Navigation = () => {
 
   useEffect(() => {
     const autoSchemaChange = (colorSchema: ColorSchemeName) => {
-      StatusBar.setBackgroundColor(theme.backgroundBasicColor0)
-      StatusBar.setTranslucent(true)
       StatusBar.setBarStyle(colorSchema === 'dark' ? 'light-content' : 'dark-content')
+      if(Platform.OS === 'android') {
+        changeNavigationBarColor('transparent', colorSchema === 'light')
+      }
+      StatusBar.setTranslucent(true)
       if (colorSchema === 'dark') {
         dispatch(setDarkAppearance())
       } else {
@@ -43,7 +46,7 @@ const Navigation = () => {
         background: theme.backgroundBasicColor0,
         primary: theme.colorPrimaryDefault,
         text: theme.textBasicColor,
-        border: theme.borderBasicColor3,
+        border: theme.borderBasicColor2,
         card: theme.backgroundBasicColor1,
         notification: theme.colorInfoDefault
       },
@@ -67,7 +70,9 @@ const Navigation = () => {
         }
       }
     }}>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        animation: 'ios_from_right'
+      }}>
         <Stack.Screen name='Main' component={ScreenTab} options={{ headerShown: false }} />
         <Stack.Screen name='Create Invitation' component={CreateInvitation} options={{ headerShown: false }} />
         <Stack.Screen name='Template' component={Template} options={{ headerShown: false }} />

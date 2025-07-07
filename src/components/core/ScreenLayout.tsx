@@ -13,7 +13,7 @@ import { GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import { useNavigation } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
-import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
+import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
 
 const { height } = Dimensions.get('window')
 
@@ -190,7 +190,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
   })
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundBasicColor0 }}>
+    <View style={{ flex: 1, backgroundColor: theme.backgroundBasicColor0, paddingTop: insets.top, paddingBottom: insets.bottom }}>
       <ScrollView
         overScrollMode='never'
         bounces={false}
@@ -221,7 +221,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                   }
                 </Animated.View>
               </View>
-              <View style={{ height: headerHeight, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2 }}>
+              <View style={{ height: headerHeight, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: GUTTER_SPACE }}>
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                   {
                     navigation.canGoBack() ? (
@@ -270,6 +270,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
             }}
             onMomentumScrollBegin={showScrollBar}
             onMomentumScrollEnd={hideScrollBar}
+            style={{ paddingHorizontal: GUTTER_SPACE, paddingBottom: GUTTER_SPACE }}
           // showsVerticalScrollIndicator={false}
           >
             {
@@ -297,35 +298,35 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
 
           {/* Custom Scroll Bar */}
           {/* {
-          ((!isFinite(innerScrollbarHeight) || !isNaN(innerScrollbarHeight)) && scrollEnabled && (
-            (innerContainerHeight - innerScrollbarHeight - 20) > 0
-          )) && (
-            <Animated.View style={{
-              position: "absolute",
-              right: 10 / 2,
-              top: 10,
-              bottom: 10,
-              width: 5,
-              borderRadius: GUTTER_SPACE / 2,
-              opacity: scrollBarOpacity
-            }}>
-              <Animated.View onTouchStart={() => {
-                if (innerScrollEnabled) showScrollBar()
-              }} onTouchEnd={() => {
-                hideScrollBar()
-              }} {...(innerScrollEnabled ? panResponder.panHandlers : {})} style={[{
+            ((!isFinite(innerScrollbarHeight) || !isNaN(innerScrollbarHeight)) && scrollEnabled && (
+              (innerContainerHeight - innerScrollbarHeight - 20) > 0
+            )) && (
+              <Animated.View style={{
+                position: "absolute",
+                right: 10 / 2,
+                top: 10,
+                bottom: 10,
                 width: 5,
-                backgroundColor: theme.backgroundAlternativeColor1,
-                opacity: 0.25,
                 borderRadius: GUTTER_SPACE / 2,
-                position: "absolute"
-              }, { height: innerScrollbarHeight, top: scrollIndicator }]}>
+                opacity: scrollBarOpacity
+              }}>
+                <Animated.View onTouchStart={() => {
+                  if (innerScrollEnabled) showScrollBar()
+                }} onTouchEnd={() => {
+                  hideScrollBar()
+                }} {...(innerScrollEnabled ? panResponder.panHandlers : {})} style={[{
+                  width: 5,
+                  backgroundColor: theme.backgroundAlternativeColor1,
+                  opacity: 0.25,
+                  borderRadius: GUTTER_SPACE / 2,
+                  position: "absolute"
+                }, { height: innerScrollbarHeight, top: scrollIndicator }]}>
+                </Animated.View>
               </Animated.View>
-            </Animated.View>
-          )
-        } */}
+            )
+          } */}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }

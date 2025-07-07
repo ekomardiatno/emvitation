@@ -18,7 +18,7 @@ export default function EventCard({
 }): JSX.Element {
   const theme = useTheme()
   return (
-    <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2 }}>
+    <View style={{ backgroundColor: theme.backgroundBasicColor2, padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2 }}>
       <Typography category="h6" style={{ fontWeight: 'bold' }}>{title}</Typography>
       <Typography category="p2" color={theme.textHintColor} style={{ marginTop: 5 }}>{date}</Typography>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 10 }}>

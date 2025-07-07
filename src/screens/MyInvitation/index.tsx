@@ -55,7 +55,7 @@ export default function MyInvitation(): JSX.Element {
   const theme = useTheme()
   return (
     <ScreenLayout title="Undangan Saya">
-      <View style={{ padding: GUTTER_SPACE, gap: GUTTER_SPACE }}>
+      <View style={{ gap: GUTTER_SPACE }}>
         <InvitationCard />
       </View>
     </ScreenLayout>

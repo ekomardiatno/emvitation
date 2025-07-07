@@ -19,20 +19,18 @@ export default function Template({ route }: {
 
   return (
     <ScreenLayout title={`${route?.params?.action === 'select' ? 'Pilih ' : ''} Template`} longerTitle={`${route?.params?.action === 'select' ? 'Pilih ' : ''} Template`}>
-      <View style={{ padding: GUTTER_SPACE }}>
-        <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
-          <PlatformPressable onPress={() => {
-            if (route?.params?.action === 'select') {
-              const id = 1
-              if (route?.params?.onSelected) {
-                route.params.onSelected(id)
-              }
-              navigation.goBack()
+      <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
+        <PlatformPressable onPress={() => {
+          if (route?.params?.action === 'select') {
+            const id = 1
+            if (route?.params?.onSelected) {
+              route.params.onSelected(id)
             }
-          }} style={{ height: ((width - GUTTER_SPACE * 2 - 10) / 2) / 3 * 4, width: (width - GUTTER_SPACE * 2 - 10) / 2, backgroundColor: theme.backgroundBasicColor2, alignItems: 'center', justifyContent: 'center', borderRadius: BORDER_RADIUS, overflow: 'hidden' }}>
-            <Icon name="hide-image" color={theme.backgroundBasicColor3} size={(width - GUTTER_SPACE * 2 - 10) / 4} />
-          </PlatformPressable>
-        </View>
+            navigation.goBack()
+          }
+        }} style={{ height: ((width - GUTTER_SPACE * 2 - 10) / 2) / 3 * 4, width: (width - GUTTER_SPACE * 2 - 10) / 2, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center', borderRadius: BORDER_RADIUS, overflow: 'hidden' }}>
+          <Icon name="hide-image" color={theme.backgroundBasicColor3} size={(width - GUTTER_SPACE * 2 - 10) / 4} />
+        </PlatformPressable>
       </View>
     </ScreenLayout>
   )

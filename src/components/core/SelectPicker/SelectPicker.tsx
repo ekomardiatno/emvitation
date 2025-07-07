@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
   PanResponder,
   Animated,
   TouchableHighlight,
@@ -164,7 +163,7 @@ const SelectPicker = ({ label, placeholder, name, control, options, required, de
               <Icon size={20} color={theme.textBasicColor} name='close' />
             </TouchableHighlight>
           </View>
-          <SafeAreaView style={{ backgroundColor: theme.backgroundBasicColor1, borderRadius: 15, overflow: 'hidden' }}>
+          <View style={{ backgroundColor: theme.backgroundBasicColor1, borderRadius: 15, overflow: 'hidden' }}>
             <View style={{ height: .5 * height }}>
               <ScrollView ref={scrollRef}
                 overScrollMode='never'
@@ -192,7 +191,7 @@ const SelectPicker = ({ label, placeholder, name, control, options, required, de
                 }
               </ScrollView>
             </View>
-          </SafeAreaView>
+          </View>
         </Animated.View>
       </EModal>
     </View>

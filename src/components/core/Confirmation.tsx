@@ -5,7 +5,6 @@ import Typography from "./Typography"
 import Button, { ButtonAppearance } from "./Button"
 import { JSX, useEffect, useState } from "react"
 import EModal from "./EModal"
-import { SafeAreaView } from "react-native-safe-area-context"
 
 export default function Confirmation({ children, onCancel, onConfirmed, confirmText, cautionText, cancelText, cautionTitle, appearance, mode, visible, textStyle, buttonStyle }: {
   children?: string | JSX.Element
@@ -55,16 +54,14 @@ export default function Confirmation({ children, onCancel, onConfirmed, confirmT
         visible={isOpen}
         onClose={handleClose}
       >
-        <SafeAreaView style={{ alignItems: 'center' }}>
-          <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE * 2, paddingBottom: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight) }}>
-            <Typography size={21} style={{ fontWeight: '700', textAlign: 'center' }} marginBottom={GUTTER_SPACE}>{cautionTitle || 'Anda yakin?'}</Typography>
-            <Typography style={{ textAlign: 'center' }}>{cautionText || 'Tindakan ini tidak dapat dibatalkan.'}</Typography>
-            <View style={{ paddingTop: GUTTER_SPACE * 2, gap: 5 }}>
-              <Button appearance={appearance} onPress={handleConfirm}>{confirmText || 'Ya, saya yakin'}</Button>
-              <Button appearance='transparent' onPress={handleClose}>{cancelText || 'Batalkan'}</Button>
-            </View>
+        <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE * 2, paddingBottom: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight) }}>
+          <Typography size={21} style={{ fontWeight: '700', textAlign: 'center' }} marginBottom={GUTTER_SPACE}>{cautionTitle || 'Anda yakin?'}</Typography>
+          <Typography style={{ textAlign: 'center' }}>{cautionText || 'Tindakan ini tidak dapat dibatalkan.'}</Typography>
+          <View style={{ paddingTop: GUTTER_SPACE * 2, gap: 5 }}>
+            <Button appearance={appearance} onPress={handleConfirm}>{confirmText || 'Ya, saya yakin'}</Button>
+            <Button appearance='transparent' onPress={handleClose}>{cancelText || 'Batalkan'}</Button>
           </View>
-        </SafeAreaView>
+        </View>
       </EModal>
     </>
   )

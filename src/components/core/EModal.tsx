@@ -58,6 +58,7 @@ export default function EModal({ children, visible, onClose }: {
 	const [heightContentSize, setHeightContentSize] = useState(0)
 	const translateY = useRef(new Animated.Value(heightContentSize ? heightContentSize + (Platform?.OS === 'ios' ? GUTTER_SPACE * 3 + 100 : (StatusBar?.currentHeight || 0)) : height)).current
 	const [thisVisible, setThisVisible] = useState(false)
+	const insets = useSafeAreaInsets()
 
 	useEffect(() => {
 		if (visible) {
@@ -92,7 +93,7 @@ export default function EModal({ children, visible, onClose }: {
 			onRequestClose={handleCancel}
 			statusBarTranslucent={true}
 		>
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', backgroundColor: theme.backgroundModalBackdropColor }}>
+			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end', backgroundColor: theme.backgroundModalBackdropColor, paddingBottom: insets.bottom, paddingTop: insets.top }}>
 				<TouchableOpacity
 					activeOpacity={1} onPress={handleCancel} style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }} />
 				<Animated.View onLayout={e => {
@@ -101,7 +102,7 @@ export default function EModal({ children, visible, onClose }: {
 							setHeightContentSize(height)
 						}
 					})
-				}} style={{ width: '100%', transform: [{ translateY }] }}>
+				}} style={{ width: '100%', transform: [{ translateY }], alignItems: 'center' }}>
 					{children}
 				</Animated.View>
 				<KeyboardHeightView />

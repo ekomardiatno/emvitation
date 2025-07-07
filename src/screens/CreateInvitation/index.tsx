@@ -83,8 +83,8 @@ export default function CreateInvitation(): JSX.Element {
     <ScreenLayout title="Buat Undangan" onBackPress={onBackPress}>
       <>
         <SelectTemplate control={control as Control<yup.InferType<typeof createInvitationSchema>>} />
-        <View style={{ padding: GUTTER_SPACE }}>
-          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
+        <View style={{ marginTop: GUTTER_SPACE }}>
+          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor2, borderBottomWidth: 1 }}>
               <Typography style={{ fontWeight: '700' }}>Detail Wanita</Typography>
               <Icon name='female' size={20} color={theme.textBasicColor} />
@@ -96,7 +96,7 @@ export default function CreateInvitation(): JSX.Element {
             <Input control={control} required={false} name="female_ig" label="Akun Instagram" placeholder="@username" />
             <Input control={control} required={false} name="female_hometown" label="Kota Asal" placeholder="Kota Asal" />
           </View>
-          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE }}>
+          <View style={{ borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, padding: GUTTER_SPACE, gap: GUTTER_SPACE, marginBottom: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor2, borderBottomWidth: 1 }}>
               <Typography style={{ fontWeight: '700' }}>Detail Pria</Typography>
               <Icon name='male' size={20} color={theme.textBasicColor} />

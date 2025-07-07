@@ -7,7 +7,7 @@ import Typography from "../../components/core/Typography"
 import Button from "../../components/core/Button"
 import Icon from "@react-native-vector-icons/material-icons"
 import EModal from "../../components/core/EModal"
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import Input from "../../components/core/Input"
 import * as yup from 'yup'
 import { useForm } from "react-hook-form"
@@ -40,7 +40,7 @@ export default function ManageGuest(): JSX.Element {
       </Button>
     }>
       <>
-        <View style={{ padding: GUTTER_SPACE, gap: 10 }}>
+        <View style={{ gap: 10 }}>
           <View style={{ padding: GUTTER_SPACE, paddingLeft: GUTTER_SPACE * 1.75, borderRadius: 16, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <View style={{ flex: 1 }}>
               <Typography category="h6">John Doe</Typography>
@@ -59,23 +59,21 @@ export default function ManageGuest(): JSX.Element {
           </View>
         </View>
         <EModal visible={isModalVisible} onClose={() => { setIsModalVisible(false) }}>
-          <SafeAreaView style={{ alignItems: 'center' }}>
-            <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : top) }}>
-              <Input control={control} name="guest_name" placeholder="Nama Tamu" label="Nama Tamu" required={true} />
-              <View style={{ marginTop: 16 }}>
-                <Confirmation
-                  mode='button'
-                  onConfirmed={() => {
-                    handleSubmit(onSubmit)()
-                  }}
-                  appearance='primary'
-                  onCancel={() => {
+          <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : top) }}>
+            <Input control={control} name="guest_name" placeholder="Nama Tamu" label="Nama Tamu" required={true} />
+            <View style={{ marginTop: 16 }}>
+              <Confirmation
+                mode='button'
+                onConfirmed={() => {
+                  handleSubmit(onSubmit)()
+                }}
+                appearance='primary'
+                onCancel={() => {
 
-                  }}
-                >Tambah Tamu</Confirmation>
-              </View>
+                }}
+              >Tambah Tamu</Confirmation>
             </View>
-          </SafeAreaView>
+          </View>
         </EModal>
       </>
     </ScreenLayout>
