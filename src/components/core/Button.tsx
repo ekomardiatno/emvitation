@@ -5,7 +5,7 @@ import { useTheme } from './AppProvider'
 import Typography, { Category } from './Typography'
 import { PlatformPressable } from '@react-navigation/elements'
 
-export type ButtonAppearance = 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'transparent'
+export type ButtonAppearance = 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'transparent' | 'secondary' | 'basic'
 
 const Button = ({ children, onPress, disabled = false, appearance = 'primary', style = {}, textStyle, category = 'p1' }: {
   children: string | JSX.Element
@@ -22,34 +22,47 @@ const Button = ({ children, onPress, disabled = false, appearance = 'primary', s
     switch (appearance) {
       case 'primary':
         return {
-          background: disabled ? theme.colorPrimaryDisabled : theme.colorPrimaryDefault,
-          border: disabled ? theme.colorPrimaryDisabledBorder : theme.colorPrimaryDefaultBorder,
-          text: disabled ? COLORS.colorBasic600 : COLORS.colorBasic100
+          background: disabled ? COLORS.colorGray300 : COLORS.colorRose500,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorRose500,
+          text: COLORS.colorGray50
         }
       case 'info':
         return {
-          background: disabled ? theme.colorInfoDisabled : theme.colorInfoDefault,
-          border: disabled ? theme.colorInfoDisabledBorder : theme.colorInfoDefaultBorder,
-          text: disabled ? COLORS.colorBasic600 : COLORS.colorBasic100
+          background: disabled ? COLORS.colorGray300 : COLORS.colorTeal600,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorTeal600,
+          text: COLORS.colorGray50
         }
       case 'warning':
         return {
-          background: disabled ? theme.colorWarningDisabled : theme.colorWarningDefault,
-          border: disabled ? theme.colorWarningDisabledBorder : theme.colorWarningDefaultBorder,
-          text: disabled ? COLORS.colorBasic600 : COLORS.colorBasic100
+          background: disabled ? COLORS.colorGray300 : COLORS.colorAmber600,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorAmber600,
+          text: COLORS.colorGray50
         }
       case 'danger':
         return {
-          background: disabled ? theme.colorDangerDisabled : theme.colorDangerDefault,
-          border: disabled ? theme.colorDangerDisabledBorder : theme.colorDangerDefaultBorder,
-          text: disabled ? COLORS.colorBasic600 : COLORS.colorBasic100
+          background: disabled ? COLORS.colorGray300 : COLORS.colorRed700,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorRed700,
+          text: COLORS.colorGray50
         }
       case 'success':
         return {
-          background: disabled ? theme.colorSuccessDisabled : theme.colorSuccessDefault,
-          border: disabled ? theme.colorSuccessDisabledBorder : theme.colorSuccessDefaultBorder,
-          text: disabled ? COLORS.colorBasic600 : COLORS.colorBasic100
+          background: disabled ? COLORS.colorGray300 : COLORS.colorGreen600,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorGreen600,
+          text: COLORS.colorGray50
         }
+      case 'secondary':
+        return {
+          background: disabled ? COLORS.colorGray300 : COLORS.colorSky600,
+          border: disabled ? COLORS.colorGray300 : COLORS.colorSky600,
+          text: COLORS.colorGray50
+        }
+      case 'basic': {
+        return {
+          background: disabled ? theme.backgroundBasicColor1 : theme.backgroundBasicColor2,
+          border: disabled ? theme.backgroundBasicColor2 : theme.backgroundBasicColor3,
+          text: disabled ? theme.textDisabledColor : theme.textBasicColor
+        }
+      }
       default:
         return {
           background: 'transparent',
@@ -57,14 +70,14 @@ const Button = ({ children, onPress, disabled = false, appearance = 'primary', s
           text: disabled ? theme.textDisabledColor : theme.textBasicColor
         }
     }
-  }, [appearance, disabled])
+  }, [appearance, disabled, theme])
 
   const textStyleProps = StyleSheet.flatten(textStyle)
   const styleProps = StyleSheet.flatten(style)
 
   return (
     <View style={{ borderRadius: styleProps.borderRadius ?? BORDER_RADIUS, flex: styleProps.flex, flexGrow: styleProps.flexGrow, overflow: 'hidden', flexBasis: styleProps.flexBasis, width: styleProps.width }}>
-      <PlatformPressable disabled={disabled} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: disabled ? theme.colorPrimaryDisabled : btnColor.border, paddingVertical: 12, paddingHorizontal: 15 }, style]} onPress={onPress}>
+      <PlatformPressable disabled={disabled} pressColor={disabled ? 'transparent' : 'rgba(0,0,0,.25)'} style={[{ borderRadius: BORDER_RADIUS, borderWidth: BORDER_WIDTH, backgroundColor: btnColor.background, borderColor: btnColor.border, paddingVertical: 12, paddingHorizontal: 15 }, style]} onPress={onPress}>
         {
           typeof children === 'string' ?
             <Typography color={textStyleProps?.color || btnColor.text} style={{ textAlign: 'center', ...textStyleProps }} category={category}>{children}</Typography>

@@ -1,6 +1,6 @@
 import { View, StatusBar, Platform, useWindowDimensions, ViewStyle, TextStyle, StyleProp } from "react-native"
 import { useTheme } from "./AppProvider"
-import { BORDER_RADIUS, BORDER_WIDTH, GUTTER_SPACE } from "../../constants"
+import { BORDER_RADIUS, GUTTER_SPACE } from "../../constants"
 import Typography from "./Typography"
 import Button, { ButtonAppearance } from "./Button"
 import { JSX, useEffect, useState } from "react"
@@ -54,7 +54,7 @@ export default function Confirmation({ children, onCancel, onConfirmed, confirmT
         visible={isOpen}
         onClose={handleClose}
       >
-        <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE * 2, paddingBottom: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight) }}>
+        <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE * 2, paddingBottom: GUTTER_SPACE, borderRadius: BORDER_RADIUS, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight) }}>
           <Typography size={21} style={{ fontWeight: '700', textAlign: 'center' }} marginBottom={GUTTER_SPACE}>{cautionTitle || 'Anda yakin?'}</Typography>
           <Typography style={{ textAlign: 'center' }}>{cautionText || 'Tindakan ini tidak dapat dibatalkan.'}</Typography>
           <View style={{ paddingTop: GUTTER_SPACE * 2, gap: 5 }}>

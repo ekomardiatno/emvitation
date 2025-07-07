@@ -182,31 +182,109 @@ export type ThemeType = {
   borderAlternativeColor3: string
   borderAlternativeColor4: string
   borderAlternativeColor5: string
+
+  backgroundPrimaryColor1: string
+  backgroundPrimaryColor2: string
+  backgroundPrimaryColor3: string
+  backgroundPrimaryColor4: string
+  backgroundPrimaryColor5: string
+  backgroundPrimaryColor6: string
+  backgroundPrimaryColor7: string
+  
+  backgroundSecondaryColor1: string
+  backgroundSecondaryColor2: string
+  backgroundSecondaryColor3: string
+  backgroundSecondaryColor4: string
+  backgroundSecondaryColor5: string
+  backgroundSecondaryColor6: string
+  backgroundSecondaryColor7: string
+
+  backgroundSuccessColor1: string
+  backgroundSuccessColor2: string
+  backgroundSuccessColor3: string
+  backgroundSuccessColor4: string
+  backgroundSuccessColor5: string
+  backgroundSuccessColor6: string
+  backgroundSuccessColor7: string
+
+  backgroundInfoColor1: string
+  backgroundInfoColor2: string
+  backgroundInfoColor3: string
+  backgroundInfoColor4: string
+  backgroundInfoColor5: string
+  backgroundInfoColor6: string
+  backgroundInfoColor7: string
+
+  backgroundWarningColor1: string
+  backgroundWarningColor2: string
+  backgroundWarningColor3: string
+  backgroundWarningColor4: string
+  backgroundWarningColor5: string
+  backgroundWarningColor6: string
+  backgroundWarningColor7: string
+
+  backgroundDangerColor1: string
+  backgroundDangerColor2: string
+  backgroundDangerColor3: string
+  backgroundDangerColor4: string
+  backgroundDangerColor5: string
+  backgroundDangerColor6: string
+  backgroundDangerColor7: string
+
   borderPrimaryColor1: string
   borderPrimaryColor2: string
   borderPrimaryColor3: string
   borderPrimaryColor4: string
   borderPrimaryColor5: string
+  borderPrimaryColor6: string
+  borderPrimaryColor7: string
+  borderPrimaryColor8: string
+
+  borderSecondaryColor1: string
+  borderSecondaryColor2: string
+  borderSecondaryColor3: string
+  borderSecondaryColor4: string
+  borderSecondaryColor5: string
+  borderSecondaryColor6: string
+  borderSecondaryColor7: string
+  borderSecondaryColor8: string
+
   borderSuccessColor1: string
   borderSuccessColor2: string
   borderSuccessColor3: string
   borderSuccessColor4: string
   borderSuccessColor5: string
+  borderSuccessColor6: string
+  borderSuccessColor7: string
+  borderSuccessColor8: string
+
   borderInfoColor1: string
   borderInfoColor2: string
   borderInfoColor3: string
   borderInfoColor4: string
   borderInfoColor5: string
+  borderInfoColor6: string
+  borderInfoColor7: string
+  borderInfoColor8: string
+
   borderWarningColor1: string
   borderWarningColor2: string
   borderWarningColor3: string
   borderWarningColor4: string
   borderWarningColor5: string
+  borderWarningColor6: string
+  borderWarningColor7: string
+  borderWarningColor8: string
+
   borderDangerColor1: string
   borderDangerColor2: string
   borderDangerColor3: string
   borderDangerColor4: string
   borderDangerColor5: string
+  borderDangerColor6: string
+  borderDangerColor7: string
+  borderDangerColor8: string
+
   textBasicColor: string
   textAlternateColor: string
   textControlColor: string

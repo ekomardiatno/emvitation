@@ -40,13 +40,13 @@ export default function Wallet(): JSX.Element {
           </View>
         </View>
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
-          <Button style={{ paddingVertical: 5, paddingHorizontal: 8, paddingRight: 16, borderRadius: 8, backgroundColor: theme.colorDangerDefault, borderColor: theme.colorDangerDefault, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Button style={{ paddingVertical: 5, paddingHorizontal: 8, paddingRight: 16, borderRadius: 8, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <>
               <Icon name='arrow-circle-down' color={COLORS.colorBasic000} size={20} />
               <Typography category='c1' color={COLORS.colorBasic000}>Tarik Saldo</Typography>
             </>
           </Button>
-          <Button style={{ paddingVertical: 5, paddingHorizontal: 8, paddingRight: 16, borderRadius: 8, backgroundColor: theme.colorPrimaryDefault, borderColor: theme.colorPrimaryDefault, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Button appearance="secondary" style={{ paddingVertical: 5, paddingHorizontal: 8, paddingRight: 16, borderRadius: 8, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <>
               <Icon name='arrow-circle-up' color={COLORS.colorBasic000} size={20} />
               <Typography category='c1' color={COLORS.colorBasic000}>Tambah Saldo</Typography>
@@ -55,22 +55,78 @@ export default function Wallet(): JSX.Element {
         </View>
       </View>
 
-      <Typography style={{ fontWeight: '700', paddingHorizontal: GUTTER_SPACE, paddingBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor2, borderBottomWidth: 1 }}>Riwayat Transaksi</Typography>
-      <ScrollView style={{ paddingHorizontal: GUTTER_SPACE }}>
-        <View style={{ flexDirection: 'column', gap: 1 }}>
-          <View style={{ paddingVertical: GUTTER_SPACE }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5, marginBottom: 3 }}>
-              <Typography category='s1'>Guest Quota</Typography>
+      <Typography style={{ fontWeight: '700', paddingHorizontal: GUTTER_SPACE, marginBottom: 14 }}>Riwayat Transaksi</Typography>
+      <ScrollView style={{ marginHorizontal: GUTTER_SPACE, marginBottom: GUTTER_SPACE, borderRadius: GUTTER_SPACE, overflow: 'hidden' }}>
+        <View style={{ flexDirection: 'column', gap: 10 }}>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Guest Quota</Typography>
               <Typography style={{ fontWeight: '600' }}>Rp100,000</Typography>
             </View>
-            <Typography category='s2' color={theme.textHintColor}>10 May 2023 05:11 PM</Typography>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>10 May 2023 05:11 PM</Typography>
           </View>
-          <View style={{ paddingVertical: GUTTER_SPACE }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5, marginBottom: 3 }}>
-              <Typography category='s1'>Tambah Saldo</Typography>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Tambah Saldo</Typography>
               <Typography style={{ fontWeight: '600' }}>Rp150,000</Typography>
             </View>
-            <Typography category='s2' color={theme.textHintColor}>01 May 2023 12:34 PM</Typography>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>01 May 2023 12:34 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Guest Quota</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp100,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>10 May 2023 05:11 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Tambah Saldo</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp150,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>01 May 2023 12:34 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Guest Quota</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp100,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>10 May 2023 05:11 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Tambah Saldo</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp150,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>01 May 2023 12:34 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Guest Quota</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp100,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>10 May 2023 05:11 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Tambah Saldo</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp150,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>01 May 2023 12:34 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Guest Quota</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp100,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>10 May 2023 05:11 PM</Typography>
+          </View>
+          <View style={{ paddingVertical: 15, paddingHorizontal: 15, borderRadius: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 5 }}>
+              <Typography>Tambah Saldo</Typography>
+              <Typography style={{ fontWeight: '600' }}>Rp150,000</Typography>
+            </View>
+            <Typography category='s2' color={theme.textHintColor} style={{ marginTop: 4 }}>01 May 2023 12:34 PM</Typography>
           </View>
         </View>
       </ScrollView>

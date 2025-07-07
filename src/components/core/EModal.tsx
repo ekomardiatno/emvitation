@@ -16,32 +16,42 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 function KeyboardHeightView(): JSX.Element {
 
-	const { top, bottom } = useSafeAreaInsets()
-
 	const keyboardHeight = useRef(new Animated.Value(0)).current
+	const [keyboardOpen, setKeyboardOpen] = useState(false)
 
 	useEffect(() => {
-		const handleKeyboardShow = (e: KeyboardEvent) => {
-			Animated.timing(keyboardHeight, {
-				toValue: e.endCoordinates.height + bottom,
-				duration: 200,
-				useNativeDriver: false
-			}).start()
+		if (!keyboardOpen) {
+			const handleKeyboardShow = (e: KeyboardEvent) => {
+				setKeyboardOpen(true)
+				Animated.timing(keyboardHeight, {
+					toValue: e.endCoordinates.height,
+					duration: 200,
+					useNativeDriver: false
+				}).start()
+			}
+			const showSub = Keyboard.addListener("keyboardDidShow", handleKeyboardShow)
+			return () => {
+				showSub.remove()
+			}
 		}
-		const handleKeyboardHide = () => {
-			Animated.timing(keyboardHeight, {
-				toValue: 0,
-				duration: 200,
-				useNativeDriver: false
-			}).start()
+	}, [keyboardOpen])
+
+	useEffect(() => {
+		if (keyboardOpen) {
+			const handleKeyboardHide = () => {
+				setKeyboardOpen(false)
+				Animated.timing(keyboardHeight, {
+					toValue: 0,
+					duration: 200,
+					useNativeDriver: false
+				}).start()
+			}
+			const hideSub = Keyboard.addListener("keyboardDidHide", handleKeyboardHide)
+			return () => {
+				hideSub.remove()
+			}
 		}
-		const showSub = Keyboard.addListener("keyboardDidShow", handleKeyboardShow)
-		const hideSub = Keyboard.addListener("keyboardDidHide", handleKeyboardHide)
-		return () => {
-			showSub.remove()
-			hideSub.remove()
-		}
-	}, [bottom])
+	}, [keyboardOpen])
 
 	return (
 		<Animated.View style={{ height: keyboardHeight, overflow: 'hidden' }}></Animated.View>
@@ -102,7 +112,7 @@ export default function EModal({ children, visible, onClose }: {
 							setHeightContentSize(height)
 						}
 					})
-				}} style={{ width: '100%', transform: [{ translateY }], alignItems: 'center' }}>
+				}} style={[{ width: '100%', transform: [{ translateY }], alignItems: 'center' }]}>
 					{children}
 				</Animated.View>
 				<KeyboardHeightView />

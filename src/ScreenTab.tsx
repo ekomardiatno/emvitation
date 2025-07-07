@@ -9,7 +9,7 @@ import { PlatformPressable } from "@react-navigation/elements"
 import { useLinkBuilder } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
 import { MasterialIconsType } from "./types/material-icons"
-import { COLORS, GUTTER_SPACE } from "./constants"
+import { GUTTER_SPACE } from "./constants"
 import Bill from "./screens/Bill"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -77,8 +77,8 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
             onLongPress={onLongPress}
             style={{ flex: 1, paddingVertical: 6, flexDirection: 'column', alignItems: 'center', borderTopWidth: 2, marginTop: -1, borderTopColor: isFocused ? theme.colorPrimaryDefault : 'transparent', borderBottomColor: 'transparent', gap: 3 }}
           >
-            <View style={{ width: 50, height: 50, borderRadius: 50, backgroundColor: isFocused ? COLORS.colorPrimary300 : theme.colorPrimaryTransparentDefault, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name={iconName} color={isFocused ? COLORS.colorPrimary500 : theme.textHintColor} size={22} />
+            <View style={{ width: 50, height: 50, borderRadius: 50, backgroundColor: isFocused ? theme.backgroundPrimaryColor3 : theme.backgroundBasicColor3, alignItems: 'center', justifyContent: 'center' }}>
+              <Icon name={iconName} color={isFocused ? theme.backgroundPrimaryColor6 : theme.textHintColor} size={22} />
             </View>
             {/* {
               typeof label === 'string' ?

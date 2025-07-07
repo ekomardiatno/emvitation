@@ -100,7 +100,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
 
   useEffect(() => {
     if (headerEnabled) {
-      outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: true, x: 0 })
+      outerScrollRef.current?.scrollTo({ y: bigTitleContainerHeight - headerHeight, animated: false, x: 0 })
       outerScrollY.setValue(bigTitleContainerHeight - headerHeight)
     }
   }, [headerEnabled])

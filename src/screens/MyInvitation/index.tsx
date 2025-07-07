@@ -29,13 +29,13 @@ export function InvitationCard(): JSX.Element {
             <Typography category="h6" style={{ fontWeight: '400' }}>John Doe & Jane Doe</Typography>
             <Typography color={theme.textHintColor} category='p2' style={{ marginTop: 4 }}>06/01/2025 05:11 PM</Typography>
           </View>
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
-            <Button appearance="danger" textStyle={{ fontSize: 13 }} style={{ paddingHorizontal: 12, paddingVertical: 6 }} onPress={() => {
+          <View style={{ flexDirection: 'row', gap: 16, marginTop: 24, flexWrap: 'wrap' }}>
+            <Button appearance='basic' textStyle={{ fontSize: 13 }} style={{ paddingHorizontal: 12, paddingVertical: 6 }} onPress={() => {
               navigation.navigate('Manage Guest', { invitationId: 1 })
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="people" color={COLORS.colorBasic000} />
-                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Kelola Tamu</Typography>
+                <Icon name="people" color={theme.textBasicColor} />
+                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={theme.textBasicColor}>Kelola Tamu</Typography>
               </View>
             </Button>
             <Confirmation mode="button" appearance="primary" buttonStyle={{ paddingHorizontal: 12, paddingVertical: 6 }}>
@@ -56,6 +56,10 @@ export default function MyInvitation(): JSX.Element {
   return (
     <ScreenLayout title="Undangan Saya">
       <View style={{ gap: GUTTER_SPACE }}>
+        <InvitationCard />
+        <InvitationCard />
+        <InvitationCard />
+        <InvitationCard />
         <InvitationCard />
       </View>
     </ScreenLayout>

@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from "react-native"
 import Typography from "../../components/core/Typography"
 import Icon from "@react-native-vector-icons/material-icons"
 import { useTheme } from "../../components/core/AppProvider"
-import { COLORS, GUTTER_SPACE } from "../../constants"
+import { GUTTER_SPACE } from "../../constants"
 
 export default function EventCard({
   title,
@@ -26,9 +26,9 @@ export default function EventCard({
         <Typography category="p2" color={theme.textHintColor}>{location}</Typography>
       </View>
       <View style={{ flexDirection: 'row', gap: GUTTER_SPACE, justifyContent: 'space-between', alignItems: 'center', marginTop: GUTTER_SPACE }}>
-        <TouchableOpacity style={{ padding: 4, paddingHorizontal: 8, paddingRight: 12, borderRadius: 8, backgroundColor: COLORS.colorWarning400, alignItems: 'center', flexDirection: 'row', gap: 8 }}>
-          <Icon name='edit' size={13} color={COLORS.colorBasic800} />
-          <Typography color={COLORS.colorBasic800} category='label'>Edit</Typography>
+        <TouchableOpacity style={{ padding: 6, paddingHorizontal: 8, paddingRight: 12, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', flexDirection: 'row', gap: 8 }}>
+          <Icon name='edit' size={13} color={theme.textBasicColor} />
+          <Typography color={theme.textBasicColor} category='label'>Edit</Typography>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, justifyContent: 'flex-end' }}>
