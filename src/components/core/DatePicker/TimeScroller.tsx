@@ -90,7 +90,7 @@ const TimeScroller = ({ setTime, time, numbers }: {
   ).current;
 
   return (
-    <View {...panResponder.panHandlers} style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, backgroundColor: theme.backgroundBasicColor2, overflow: 'hidden', width: SIZE, height: SIZE }}>
+    <View {...panResponder.panHandlers} style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor2, overflow: 'hidden', width: SIZE, height: SIZE }}>
       <Animated.View style={{
         transform: [{ translateY: scrollY }]
       }}>

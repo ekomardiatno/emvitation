@@ -19,23 +19,23 @@ export function InvitationCard(): JSX.Element {
       <TouchableHighlight underlayColor={theme.backgroundBasicColor4} onPress={() => {
         navigation.navigate('Invitation Detail', { invitationId: 1 })
       }} style={{ borderRadius: 8, overflow: 'hidden' }}>
-        <View style={{ padding: GUTTER_SPACE, borderWidth: 1, borderColor: theme.borderBasicColor2, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1 }}>
+        <View style={{ padding: GUTTER_SPACE, borderWidth: 1, borderColor: theme.borderBasicColor1, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ borderColor: theme.colorPrimaryDefault, borderWidth: 2, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
-              <Typography color={theme.colorPrimaryDefault} category="label">Template Gratis</Typography>
+            <View style={{ backgroundColor: theme.backgroundPrimaryColor1, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 4 }}>
+              <Typography color={theme.textBasicColor} category="label">Template Gratis</Typography>
             </View>
           </View>
           <View style={{ flex: 1, marginTop: 18 }}>
             <Typography category="h6" style={{ fontWeight: '400' }}>John Doe & Jane Doe</Typography>
             <Typography color={theme.textHintColor} category='p2' style={{ marginTop: 4 }}>06/01/2025 05:11 PM</Typography>
           </View>
-          <View style={{ flexDirection: 'row', gap: 16, marginTop: 24, flexWrap: 'wrap' }}>
-            <Button appearance='basic' textStyle={{ fontSize: 13 }} style={{ paddingHorizontal: 12, paddingVertical: 6 }} onPress={() => {
+          <View style={{ flexDirection: 'row', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
+            <Button appearance='secondary' textStyle={{ fontSize: 13 }} style={{ paddingHorizontal: 12, paddingVertical: 6 }} onPress={() => {
               navigation.navigate('Manage Guest', { invitationId: 1 })
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Icon name="people" color={theme.textBasicColor} />
-                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={theme.textBasicColor}>Kelola Tamu</Typography>
+                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Kelola Tamu</Typography>
               </View>
             </Button>
             <Confirmation mode="button" appearance="primary" buttonStyle={{ paddingHorizontal: 12, paddingVertical: 6 }}>

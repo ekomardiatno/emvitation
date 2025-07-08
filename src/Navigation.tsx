@@ -46,7 +46,7 @@ const Navigation = () => {
         background: theme.backgroundBasicColor0,
         primary: theme.colorPrimaryDefault,
         text: theme.textBasicColor,
-        border: theme.borderBasicColor2,
+        border: theme.borderBasicColor1,
         card: theme.backgroundBasicColor1,
         notification: theme.colorInfoDefault
       },

@@ -25,7 +25,7 @@ const Option = ({ value, title, onChange, icon, selected, isLastIndex = false }:
             {icon}
           </View>
         }
-        <View style={{ flex: 1, borderBottomWidth: isLastIndex ? 0 : BORDER_WIDTH, borderColor: selected ? COLORS.colorPrimary400 : theme.borderBasicColor4, paddingVertical: 10, justifyContent: 'center' }}>
+        <View style={{ flex: 1, borderBottomWidth: isLastIndex ? 0 : BORDER_WIDTH, borderColor: selected ? COLORS.colorPrimary400 : theme.borderBasicColor3, paddingVertical: 10, justifyContent: 'center' }}>
           <Typography color={selected ? COLORS.colorBasic000 : undefined}>{title}</Typography>
         </View>
       </View>

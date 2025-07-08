@@ -28,7 +28,7 @@ export default function SelectTemplate({ control, containerStyle }: {
   return (
     <View style={{ padding: GUTTER_SPACE, ...flatContainerStyle }}>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <View style={{ borderRadius: BORDER_RADIUS, overflow: 'hidden', borderWidth: 1, borderColor: errors['invitation_template_id'] ? theme.borderDangerColor1 : theme.borderBasicColor1 }}>
+        <View style={{ borderRadius: BORDER_RADIUS, overflow: 'hidden', borderWidth: 1, borderColor: errors['invitation_template_id'] ? theme.borderDangerColor1 : theme.borderBasicColor0 }}>
           <PlatformPressable onPress={() => {
             navigation.navigate('Template', {
               action: 'select',

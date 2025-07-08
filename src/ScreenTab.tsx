@@ -21,7 +21,7 @@ function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets()
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor2, paddingBottom: insets.bottom }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundBasicColor1, paddingHorizontal: GUTTER_SPACE, borderTopWidth: 1, borderTopColor: theme.borderBasicColor1, paddingBottom: insets.bottom }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
         const label =

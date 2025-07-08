@@ -16,7 +16,7 @@ export default function PressableCard({ title, iconName, shotDescription, onPres
   const theme = useTheme()
   const { width } = useWindowDimensions()
   return (
-    <View style={{ justifyContent: 'space-between', gap: 5, padding: GUTTER_SPACE * 2, paddingHorizontal: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1, borderRadius: BORDER_RADIUS, width: '100%', overflow: 'hidden', borderColor: theme.borderBasicColor2, borderWidth: 1 }}>
+    <View style={{ justifyContent: 'space-between', gap: 5, padding: GUTTER_SPACE * 2, paddingHorizontal: GUTTER_SPACE, backgroundColor: theme.backgroundBasicColor1, borderRadius: BORDER_RADIUS, width: '100%', overflow: 'hidden', borderColor: theme.borderBasicColor1, borderWidth: 1 }}>
       <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ width: 100, height: 100, borderRadius: 100, backgroundColor: theme.backgroundBasicColor2, alignItems: 'center', justifyContent: 'center', marginBottom: GUTTER_SPACE }}>
           <Icon name={iconName} color={theme.textBasicColor} size={50} />

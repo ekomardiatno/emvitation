@@ -12,7 +12,7 @@ export default function InvitationDetail(): JSX.Element {
   return (
     <ScreenLayout title="Detail Undangan">
       <View style={{ gap: GUTTER_SPACE }}>
-        <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor1 }}>
+        <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor1, backgroundColor: theme.backgroundBasicColor1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, marginBottom: GUTTER_SPACE }}>
             <Typography style={{ fontWeight: 'bold' }}>Detail Pasangan</Typography>
             <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', justifyContent: 'center' }}>
@@ -48,8 +48,8 @@ export default function InvitationDetail(): JSX.Element {
             </View>
           </View>
         </View>
-        <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor1 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor2, marginBottom: GUTTER_SPACE }}>
+        <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor1, backgroundColor: theme.backgroundBasicColor1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor1, marginBottom: GUTTER_SPACE }}>
             <Typography style={{ fontWeight: 'bold' }}>Daftar Acara</Typography>
             <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.colorPrimaryDefault, alignItems: 'center', justifyContent: 'center' }}>
               <Icon name='add' size={20} color={COLORS.colorSlate100} />

@@ -59,7 +59,7 @@ export default function ManageGuest(): JSX.Element {
           </View>
         </View>
         <EModal visible={isModalVisible} onClose={() => { setIsModalVisible(false) }}>
-          <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor3, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : top) }}>
+          <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE, borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor1, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : top) }}>
             <Input control={control} name="guest_name" placeholder="Nama Tamu" label="Nama Tamu" required={true} />
             <View style={{ marginTop: 16 }}>
               <Confirmation

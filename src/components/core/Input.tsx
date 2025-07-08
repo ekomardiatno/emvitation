@@ -34,7 +34,7 @@ const Input = ({ label, placeholder, name, control, keyboardType, required, defa
         label &&
         <FieldLabel label={label} required={required} />
       }
-      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor1 : theme.borderBasicColor2, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row' }}>
+      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor1 : theme.borderBasicColor1, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row' }}>
         <TextInput editable={editable} placeholderTextColor={theme.textHintColor} keyboardType={keyboardType} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, fontFamily: getFontFamily({}), color: !editable ? theme.textDisabledColor : theme.textBasicColor, flex: 1 }} placeholder={placeholder} value={value} onChangeText={value => {
           setValue(keyboardType === 'numeric' && value ? numeral(value).format('0,0') : value)
           if (keyboardType === 'numeric') value = value.replace(/\D/g, '')
