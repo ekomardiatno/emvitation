@@ -205,7 +205,7 @@ const DatePicker = ({ label, placeholder, name, control, required, defaultValue,
         visible={isCalendarPanelVisible}
         onClose={onCancel}
       >
-        <View style={{ backgroundColor: theme.backgroundBasicColor0, padding: GUTTER_SPACE, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight), borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor0, width: (width < height ? width : height) - (GUTTER_SPACE * 2), marginLeft: GUTTER_SPACE }}>
+        <View style={{ backgroundColor: theme.backgroundBasicColor0, padding: GUTTER_SPACE, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight), borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: theme.borderBasicColor0, width: (width < height ? width : height) - (GUTTER_SPACE * 2) }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
             <TouchableOpacity
               activeOpacity={0.65}

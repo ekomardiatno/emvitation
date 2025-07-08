@@ -612,12 +612,12 @@ export const THEME = {
   backgroundAlternativeColor3: COLORS.colorBasic800,
   backgroundAlternativeColor4: COLORS.colorBasic700,
 
-  borderBasicColor0: COLORS.colorBasic200,
-  borderBasicColor1: COLORS.colorBasic100,
-  borderBasicColor2: COLORS.colorBasic200,
-  borderBasicColor3: COLORS.colorBasic300,
-  borderBasicColor4: COLORS.colorBasic400,
-  borderBasicColor5: COLORS.colorBasic500,
+  borderBasicColor0: COLORS.colorBasic300,
+  borderBasicColor1: COLORS.colorBasic200,
+  borderBasicColor2: COLORS.colorBasic300,
+  borderBasicColor3: COLORS.colorBasic400,
+  borderBasicColor4: COLORS.colorBasic500,
+  borderBasicColor5: COLORS.colorBasic600,
 
   borderAlternativeColor1: COLORS.colorBasic900,
   borderAlternativeColor2: COLORS.colorBasic1000,
@@ -672,7 +672,7 @@ export const THEME = {
   backgroundDangerColor5: COLORS.colorDanger500,
   backgroundDangerColor6: COLORS.colorDanger600,
   backgroundDangerColor7: COLORS.colorDanger700,
-  
+
   borderPrimaryColor1: COLORS.colorPrimary200,
   borderPrimaryColor2: COLORS.colorPrimary300,
   borderPrimaryColor3: COLORS.colorPrimary400,
@@ -730,8 +730,10 @@ export const THEME = {
   textBasicColor: COLORS.colorBasic900,
   textAlternateColor: COLORS.colorBasic100,
   textControlColor: COLORS.colorBasic100,
-  textDisabledColor: COLORS.colorBasic500,
-  textHintColor: COLORS.colorBasic700,
+  textDisabledColor: COLORS.colorBasic300,
+  textHintColor: COLORS.colorBasic400,
+  textSecondaryColor: COLORS.colorBasic600,
+  textMutedColor: COLORS.colorBasic500,
 
   textPrimaryColor: COLORS.colorPrimary500,
   textPrimaryFocusColor: COLORS.colorPrimary600,
@@ -764,7 +766,78 @@ export const THEME = {
   textDangerDisabledColor: COLORS.colorDanger400,
 
   outlineColor: COLORS.colorBasicTransparent200,
-  backgroundModalBackdropColor: 'rgba(0,0,0,.5)'
+  backgroundModalBackdropColor: 'rgba(0,0,0,.25)',
+  googleMapStyle: [
+    {
+      "featureType": "landscape.natural",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "visibility": "on"
+        },
+        {
+          "color": "#e0efef"
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "visibility": "on"
+        },
+        {
+          "hue": "#1900ff"
+        },
+        {
+          "color": "#c0e8e8"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "lightness": 100
+        },
+        {
+          "visibility": "simplified"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "transit.line",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "visibility": "on"
+        },
+        {
+          "lightness": 700
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#7dcdcd"
+        }
+      ]
+    }
+  ]
 }
 
 export const DARK_THEME = {
@@ -796,7 +869,9 @@ export const DARK_THEME = {
   textBasicColor: COLORS.colorBasic100,
   textAlternateColor: COLORS.colorBasic900,
   textDisabledColor: COLORS.colorBasic700,
-  textHintColor: COLORS.colorBasic500,
+  textHintColor: COLORS.colorBasic600,
+  textSecondaryColor: COLORS.colorBasic400,
+  textMutedColor: COLORS.colorBasic300,
 
   backgroundPrimaryColor1: COLORS.colorPrimary900,
   backgroundPrimaryColor2: COLORS.colorPrimary800,
@@ -845,7 +920,7 @@ export const DARK_THEME = {
   backgroundDangerColor5: COLORS.colorDanger500,
   backgroundDangerColor6: COLORS.colorDanger400,
   backgroundDangerColor7: COLORS.colorDanger300,
-  
+
   borderPrimaryColor1: COLORS.colorPrimary800,
   borderPrimaryColor2: COLORS.colorPrimary700,
   borderPrimaryColor3: COLORS.colorPrimary600,
@@ -901,7 +976,144 @@ export const DARK_THEME = {
   borderDangerColor8: COLORS.colorDanger100,
 
   outlineColor: COLORS.colorBasic700,
-  backgroundModalBackdropColor: 'rgba(32, 37, 42, .5)'
+  backgroundModalBackdropColor: 'rgba(255,255,255, .05)',
+  googleMapStyle: [
+    {
+      "featureType": "all",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "featureType": "all",
+      "elementType": "labels.text.stroke",
+      "stylers": [
+        {
+          "color": "#000000"
+        },
+        {
+          "lightness": 13
+        }
+      ]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#000000"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry.stroke",
+      "stylers": [
+        {
+          "color": "#144b53"
+        },
+        {
+          "lightness": 14
+        },
+        {
+          "weight": 1.4
+        }
+      ]
+    },
+    {
+      "featureType": "landscape",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#08304b"
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#0c4152"
+        },
+        {
+          "lightness": 5
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#000000"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry.stroke",
+      "stylers": [
+        {
+          "color": "#0b434f"
+        },
+        {
+          "lightness": 25
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#000000"
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "geometry.stroke",
+      "stylers": [
+        {
+          "color": "#0b3d51"
+        },
+        {
+          "lightness": 16
+        }
+      ]
+    },
+    {
+      "featureType": "road.local",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#000000"
+        }
+      ]
+    },
+    {
+      "featureType": "transit",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#146474"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#021019"
+        }
+      ]
+    }
+  ]
 }
 
 export const SIZE = {

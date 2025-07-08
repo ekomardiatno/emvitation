@@ -91,5 +91,7 @@
 		<string>MarckScript-Regular.ttf</string>
 		<string>HomemadeApple-Regular.ttf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show it on the map.</string>
 </dict>
 </plist>

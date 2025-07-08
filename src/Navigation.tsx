@@ -7,12 +7,13 @@ import { FONT_FAMILY } from './constants'
 import { useEffect } from 'react'
 import { setDarkAppearance, setLightAppearance } from './redux/actions/app.action'
 import { useDispatch } from 'react-redux'
-import CreateInvitation from './screens/CreateInvitation'
+import CreateInvitation from './screens/InvitationForm/CreateInvitation'
 import Template from './screens/Template'
 import MyInvitation from './screens/MyInvitation'
 import InvitationDetail from './screens/InvitationDetail'
 import ManageGuest from './screens/ManageGuest'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
+import CreateEvent from './screens/EventForm/CreateEvent'
 
 const Stack = createNativeStackNavigator()
 
@@ -79,6 +80,7 @@ const Navigation = () => {
         <Stack.Screen name='My Invitation' component={MyInvitation} options={{ headerShown: false }} />
         <Stack.Screen name='Invitation Detail' component={InvitationDetail} options={{ headerShown: false }} />
         <Stack.Screen name='Manage Guest' component={ManageGuest} options={{ headerShown: false }} />
+        <Stack.Screen name='Create Event' component={CreateEvent} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

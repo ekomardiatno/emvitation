@@ -6,9 +6,12 @@ import { JSX } from "react"
 import Typography from "../../components/core/Typography"
 import Icon from "@react-native-vector-icons/material-icons"
 import EventCard from "./EventCard"
+import { useNavigation } from "@react-navigation/native"
+import { NavigationProp } from "../../types/navigation-props"
 
 export default function InvitationDetail(): JSX.Element {
   const theme = useTheme()
+  const navigation = useNavigation<NavigationProp>()
   return (
     <ScreenLayout title="Detail Undangan">
       <View style={{ gap: GUTTER_SPACE }}>
@@ -51,7 +54,9 @@ export default function InvitationDetail(): JSX.Element {
         <View style={{ padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor1, backgroundColor: theme.backgroundBasicColor1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, paddingBottom: GUTTER_SPACE, borderBottomWidth: 1, borderBottomColor: theme.borderBasicColor1, marginBottom: GUTTER_SPACE }}>
             <Typography style={{ fontWeight: 'bold' }}>Daftar Acara</Typography>
-            <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.colorPrimaryDefault, alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity style={{ padding: 4, borderRadius: 8, backgroundColor: theme.colorPrimaryDefault, alignItems: 'center', justifyContent: 'center' }} onPress={() => {
+              navigation.navigate('Create Event')
+            }}>
               <Icon name='add' size={20} color={COLORS.colorSlate100} />
             </TouchableOpacity>
           </View>

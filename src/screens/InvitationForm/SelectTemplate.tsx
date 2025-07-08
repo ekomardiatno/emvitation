@@ -9,7 +9,7 @@ import { BORDER_RADIUS, GUTTER_SPACE } from "../../constants"
 import { NavigationProp } from "../../types/navigation-props"
 import { Control, useController } from "react-hook-form"
 import { InferType } from "yup"
-import { createInvitationSchema } from "."
+import { createInvitationSchema } from "./CreateInvitation"
 import capitalizeFirstText from "../../utils/capitalizeFirstText"
 
 export default function SelectTemplate({ control, containerStyle }: {

@@ -33,3 +33,5 @@ target 'EMvitation' do
     )
   end
 end
+
+pod 'GoogleMaps'

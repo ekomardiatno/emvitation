@@ -1,8 +1,8 @@
 import { JSX, useEffect, useRef, useState } from "react"
 import {
   Animated,
+  BackHandler,
   Dimensions,
-  Keyboard,
   NativeScrollEvent,
   ScrollView,
   TouchableOpacity,
@@ -14,6 +14,7 @@ import Typography from "./Typography"
 import { useNavigation } from "@react-navigation/native"
 import Icon from "@react-native-vector-icons/material-icons"
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context"
+import useWindowHeightOnKeyboard from "../../hooks/useWindowHeightOnKeyboard"
 
 const { height } = Dimensions.get('window')
 
@@ -36,6 +37,22 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     if (navigation.canGoBack())
       navigation.goBack()
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      if (onBackPress && goBack) {
+        onBackPress(goBack)
+        return true
+      }
+    }
+    if (onBackPress) {
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction)
+      return () => {
+        backHandler.remove()
+      }
+    }
+  }, [onBackPress])
+
   const theme = useTheme()
   const headerHeight = headerEnabled ? HEADER_HEIGHT : 0
   const innerContainerHeight = (safeArea.height - insets.top - insets.bottom) - headerHeight
@@ -73,30 +90,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
     extrapolate: "clamp",
   })
 
-  const [keyboardShown, setKeyboardShown] = useState<boolean>(false)
-  const [keyboardHeight, setKeyboardHeight] = useState<number>(0)
-
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', (e) => {
-      setKeyboardShown(true)
-      if (!keyboardHeight) {
-        setKeyboardHeight(e.endCoordinates.height)
-      }
-      if (innerScrollRef.current) {
-        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() + e.endCoordinates.height, animated: true, x: 0 })
-      }
-    })
-    Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardShown(false)
-      if (innerScrollRef.current) {
-        innerScrollRef.current.scrollTo({ y: (innerScrollY as any).__getValue() - keyboardHeight, animated: true, x: 0 })
-      }
-    })
-    return () => {
-      Keyboard.removeAllListeners('keyboardDidShow')
-      Keyboard.removeAllListeners('keyboardDidHide')
-    }
-  }, [keyboardHeight])
+  const { keyboardHeight } = useWindowHeightOnKeyboard()
 
   useEffect(() => {
     if (headerEnabled) {
@@ -289,11 +283,7 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                   </View>
                 )
             }
-            {
-              keyboardShown && (
-                <View style={{ height: keyboardHeight }} />
-              )
-            }
+            <Animated.View style={{ height: keyboardHeight }} />
           </ScrollView>
 
           {/* Custom Scroll Bar */}

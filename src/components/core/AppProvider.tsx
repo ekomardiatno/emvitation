@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { JSX } from 'react'
 
 import { AppAppearanceType } from '../../types/app-appearance-type'
+import { MapStyleElement } from 'react-native-maps'
 
 export const useTheme = (): ThemeType => {
   const appearanceType = useSelector<any>(state => state.appReducer.appearanceType) as AppAppearanceType
@@ -290,6 +291,9 @@ export type ThemeType = {
   textControlColor: string
   textDisabledColor: string
   textHintColor: string
+  textSecondaryColor: string
+  textMutedColor: string
+  
   textPrimaryColor: string
   textPrimaryFocusColor: string
   textPrimaryHoverColor: string
@@ -317,6 +321,7 @@ export type ThemeType = {
   textDangerDisabledColor: string
   outlineColor: string
   backgroundModalBackdropColor: string
+  googleMapStyle: MapStyleElement[]
 }
 
 export default AppProvider
