@@ -20,15 +20,15 @@ export default function EventCard({
   return (
     <View style={{ backgroundColor: theme.backgroundBasicColor2, padding: GUTTER_SPACE, borderRadius: 8, borderWidth: 1, borderColor: theme.borderBasicColor2 }}>
       <Typography category="h6" style={{ fontWeight: 'bold' }}>{title}</Typography>
-      <Typography category="p2" color={theme.textHintColor} style={{ marginTop: 5 }}>{date}</Typography>
+      <Typography category="p2" color={theme.textSecondaryColor} style={{ marginTop: 5 }}>{date}</Typography>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 10 }}>
-        <Icon name='place' size={16} color={theme.textHintColor} />
-        <Typography category="p2" color={theme.textHintColor}>{location}</Typography>
+        <Icon name='place' size={16} color={theme.textMutedColor} />
+        <Typography category="p2" color={theme.textMutedColor}>{location}</Typography>
       </View>
       <View style={{ flexDirection: 'row', gap: GUTTER_SPACE, justifyContent: 'space-between', alignItems: 'center', marginTop: GUTTER_SPACE }}>
-        <TouchableOpacity style={{ padding: 6, paddingHorizontal: 8, paddingRight: 12, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1, alignItems: 'center', flexDirection: 'row', gap: 8 }}>
-          <Icon name='edit' size={13} color={theme.textBasicColor} />
-          <Typography color={theme.textBasicColor} category='label'>Edit</Typography>
+        <TouchableOpacity style={{ padding: 8, paddingHorizontal: 10, paddingRight: 12, borderRadius: 8, backgroundColor: theme.backgroundAlternativeColor4, alignItems: 'center', flexDirection: 'row', gap: 8 }}>
+          <Icon name='edit' size={13} color={theme.textAlternateColor} />
+          <Typography color={theme.textAlternateColor} category='label'>Edit</Typography>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, justifyContent: 'flex-end' }}>

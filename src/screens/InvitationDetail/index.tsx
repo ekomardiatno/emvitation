@@ -31,8 +31,8 @@ export default function InvitationDetail(): JSX.Element {
                 <Typography category="h6">John Doe</Typography>
                 <Typography category="p2" style={{ marginTop: 5 }}>Putra dari James Doe & Joanne Doe</Typography>
                 <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Icon name="location-city" size={16} color={theme.textHintColor} />
-                  <Typography category='s2' color={theme.textHintColor}>Rengat</Typography>
+                  <Icon name="location-city" size={16} color={theme.textMutedColor} />
+                  <Typography category='s2' color={theme.textMutedColor}>Rengat</Typography>
                 </View>
               </View>
             </View>
@@ -44,8 +44,8 @@ export default function InvitationDetail(): JSX.Element {
                 <Typography category="h6">Jane Doe</Typography>
                 <Typography category="p2" style={{ marginTop: 5 }}>Putri dari Jack Doe & Jinny Doe</Typography>
                 <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Icon name="location-city" size={16} color={theme.textHintColor} />
-                  <Typography category='s2' color={theme.textHintColor}>Rengat</Typography>
+                  <Icon name="location-city" size={16} color={theme.textMutedColor} />
+                  <Typography category='s2' color={theme.textMutedColor}>Rengat</Typography>
                 </View>
               </View>
             </View>

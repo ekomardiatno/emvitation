@@ -611,6 +611,7 @@ export const THEME = {
   backgroundAlternativeColor2: COLORS.colorBasic900,
   backgroundAlternativeColor3: COLORS.colorBasic800,
   backgroundAlternativeColor4: COLORS.colorBasic700,
+  backgroundAlternativeColor5: COLORS.colorBasic600,
 
   borderBasicColor0: COLORS.colorBasic300,
   borderBasicColor1: COLORS.colorBasic200,
@@ -871,7 +872,7 @@ export const DARK_THEME = {
   textDisabledColor: COLORS.colorBasic700,
   textHintColor: COLORS.colorBasic600,
   textSecondaryColor: COLORS.colorBasic400,
-  textMutedColor: COLORS.colorBasic300,
+  textMutedColor: COLORS.colorBasic500,
 
   backgroundPrimaryColor1: COLORS.colorPrimary900,
   backgroundPrimaryColor2: COLORS.colorPrimary800,

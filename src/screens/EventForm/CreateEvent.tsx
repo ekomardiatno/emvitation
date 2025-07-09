@@ -1,18 +1,17 @@
-import { JSX } from "react"
-import ScreenLayout from "../../components/core/ScreenLayout"
-import { View } from "react-native"
-import { useTheme } from "../../components/core/AppProvider"
-import { GUTTER_SPACE } from "../../constants"
-import * as yup from 'yup'
-import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import Typography from "../../components/core/Typography"
-import Input from "../../components/core/Input"
-import DatePicker from "../../components/core/DatePicker"
-import Confirmation from "../../components/core/Confirmation"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProp } from "../../types/navigation-props"
+import { JSX } from "react"
+import { useForm } from "react-hook-form"
+import { View } from "react-native"
+import * as yup from 'yup'
+import { useTheme } from "../../components/core/AppProvider"
+import Confirmation from "../../components/core/Confirmation"
+import DatePicker from "../../components/core/DatePicker"
+import Input from "../../components/core/Input"
+import ScreenLayout from "../../components/core/ScreenLayout"
 import SelectPlace from "../../components/core/SelectPlace"
+import { BORDER_RADIUS, GUTTER_SPACE } from "../../constants"
+import { NavigationProp } from "../../types/navigation-props"
 
 const createEventSchema = yup.object({
   event_name: yup.string().required("Nama acara harus diisi"),
@@ -38,10 +37,7 @@ export default function CreateEvent(): JSX.Element {
       goBack()
     }}>
       <View style={{ gap: GUTTER_SPACE }}>
-        <View style={{ backgroundColor: theme.backgroundBasicColor1, borderWidth: 1, borderColor: theme.borderBasicColor1, borderRadius: 8, padding: GUTTER_SPACE }}>
-          <View style={{ paddingBottom: GUTTER_SPACE, marginBottom: GUTTER_SPACE, borderBottomColor: theme.borderBasicColor1, borderBottomWidth: 1 }}>
-            <Typography style={{ fontWeight: '700' }}>Informasi Acara</Typography>
-          </View>
+        <View style={{ backgroundColor: theme.backgroundBasicColor1, borderWidth: 1, borderColor: theme.borderBasicColor1, borderRadius: BORDER_RADIUS + GUTTER_SPACE, padding: GUTTER_SPACE }}>
           <View style={{ gap: GUTTER_SPACE }}>
             <Input name="event_name" required control={control} placeholder="Cth. Resepsi Pernikahan" label="Nama Acara" />
             <DatePicker name="start_timestamp" required control={control} label="Tanggal & Waktu Mulai" placeholder="Tue, 08 Jul 25 11:00:00" />

@@ -2,7 +2,7 @@ import { JSX, useEffect, useRef, useState } from "react"
 import { PermissionsAndroid, PermissionStatus, ScrollView, TouchableHighlight, View } from "react-native"
 import MapView, { Marker } from "react-native-maps"
 import { useTheme } from "../AppProvider"
-import { GUTTER_SPACE } from "../../../constants"
+import { BORDER_RADIUS, GUTTER_SPACE } from "../../../constants"
 import Geolocation from "@react-native-community/geolocation"
 import Icon from "@react-native-vector-icons/material-icons"
 import Button from "../Button"
@@ -183,7 +183,7 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
         longitudeDelta: LONGITUDE_DELTA
       })
       setInitialLocation({ latitude: lat, longitude: lng })
-      setSelectedLocation({ latitude: lat, longitude: lng })
+      if (!selectedLocation) setSelectedLocation({ latitude: lat, longitude: lng })
       setIsSearchModalOpened(false)
     }
   }
@@ -218,19 +218,19 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
         label &&
         <FieldLabel label={label} required={required} />
       }
-      <View style={{ position: 'relative', borderWidth: 1, borderColor: controller?.formState.errors && name && controller.formState.errors[name] ? theme.borderDangerColor4 : theme.borderBasicColor1, borderRadius: GUTTER_SPACE, overflow: 'hidden', width: '100%', height: 300 }}>
+      <View style={{ position: 'relative', borderWidth: 1, borderColor: controller?.formState.errors && name && controller.formState.errors[name] ? theme.borderDangerColor4 : theme.borderBasicColor1, borderRadius: BORDER_RADIUS, overflow: 'hidden', width: '100%' }}>
         {
           (!isLoadingMap && initialLocation) && (
             <MapView
               ref={mapRef}
-              style={{ width: '100%', height: '100%' }}
+              style={{ width: '100%', height: frame.width > frame.height ? frame.height - 115 : frame.width }}
               initialRegion={{
                 latitude: initialLocation.latitude,
                 longitude: initialLocation.longitude,
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LATITUDE_DELTA
               }}
-              onRegionChange={e => {
+              onRegionChangeComplete={e => {
                 setInitialLocation({
                   latitude: e.latitude,
                   longitude: e.longitude
@@ -244,7 +244,7 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
                 const { latitude, longitude } = e.nativeEvent.coordinate
                 setSelectedLocation({ latitude, longitude })
               }}
-              customMapStyle={theme.googleMapStyle}
+              // customMapStyle={theme.googleMapStyle}
             >
               {
                 selectedLocation && (
@@ -257,12 +257,47 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
             </MapView>
           )
         }
-        <View style={{ position: 'absolute', right: GUTTER_SPACE / 2, top: GUTTER_SPACE / 2, zIndex: 1 }}>
-          <Button onPress={() => {
-            setIsSearchModalOpened(true)
-          }} style={{ backgroundColor: theme.backgroundPrimaryColor1, paddingVertical: 5, paddingHorizontal: 5, borderRadius: GUTTER_SPACE - GUTTER_SPACE / 2 }} appearance="transparent">
-            <Icon color={theme.textBasicColor} size={20} name="search" />
-          </Button>
+        {
+          selectedLocation && (
+            <View style={{ paddingHorizontal: 14, height: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                <Typography numberOfLines={1} style={{ textAlign: 'center' }} category='c1'>{Object.keys(selectedLocation).map(k => selectedLocation[k as keyof typeof selectedLocation]).join(', ')}</Typography>
+              </View>
+            </View>
+          )
+        }
+        <View style={{ position: 'absolute', right: GUTTER_SPACE / 2, top: GUTTER_SPACE / 2, zIndex: 1, gap: 8 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Button onPress={() => {
+              setIsSearchModalOpened(true)
+            }} style={{ backgroundColor: theme.backgroundPrimaryColor1, paddingVertical: 6, paddingHorizontal: 6, borderRadius: GUTTER_SPACE - GUTTER_SPACE / 2 }} appearance="transparent">
+              <Icon color={theme.textBasicColor} size={20} name="search" />
+            </Button>
+          </View>
+          {
+            selectedLocation &&
+            (
+              <View style={{ gap: 8 }}>
+                <Button onPress={() => {
+                  const { latitude, longitude } = selectedLocation
+                  setInitialLocation({ latitude, longitude })
+                  mapRef.current?.animateToRegion({
+                    latitude,
+                    longitude,
+                    latitudeDelta: LATITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA
+                  })
+                }} style={{ backgroundColor: theme.backgroundSecondaryColor1, paddingVertical: 6, paddingHorizontal: 6, borderRadius: GUTTER_SPACE - GUTTER_SPACE / 2 }} appearance="transparent">
+                  <Icon color={theme.textBasicColor} size={20} name="pin-drop" />
+                </Button>
+                <Button onPress={() => {
+                  setSelectedLocation(null)
+                }} style={{ paddingVertical: 6, paddingHorizontal: 6, borderRadius: GUTTER_SPACE - GUTTER_SPACE / 2 }} appearance="basic">
+                  <Icon color={theme.textBasicColor} size={20} name="wrong-location" />
+                </Button>
+              </View>
+            )
+          }
         </View>
       </View>
       {
@@ -274,16 +309,16 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
       <EModal visible={isSearchModalOpened} onClose={() => setIsSearchModalOpened(false)}>
         <View style={{ backgroundColor: theme.backgroundBasicColor1, width: '100%', height: frame.width < frame.height ? 500 - keyboardHeight / 2 : frame.width - 100, paddingHorizontal: GUTTER_SPACE, paddingVertical: GUTTER_SPACE, borderTopLeftRadius: GUTTER_SPACE, borderTopRightRadius: GUTTER_SPACE }}>
           <View style={{ position: 'relative' }}>
-            <Input name="search_input" placeholder={placeholderSearch ?? "Cari Tempat"} control={searchControl} onChangeText={handleChangeSearchText} inputStyle={{ paddingRight: 40 }} />
+            <Input name="search_input" placeholder={placeholderSearch ?? "Cari Tempat"} control={searchControl} onChangeText={handleChangeSearchText} inputWrapperStyle={{ backgroundColor: theme.backgroundAlternativeColor4 }} inputStyle={{ paddingRight: 40, paddingLeft: 14, color: theme.textAlternateColor }} />
             <View style={{ position: 'absolute', top: 0, right: 0, height: '100%', alignItems: 'center', justifyContent: 'center', width: 40 }}>
-              <Icon name="search" color={theme.textBasicColor} size={20} />
+              <Icon name="search" color={theme.textAlternateColor} size={20} />
             </View>
           </View>
           <View style={{ overflow: 'hidden', flex: 1, borderRadius: 16, paddingTop: GUTTER_SPACE }}>
             {
               isSearching ?
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                  <Icon name="location-searching" color={theme.backgroundPrimaryColor4} size={80} />
+                  <Icon name="location-searching" color={theme.backgroundBasicColor4} size={80} />
                   <View style={{ alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                     <Typography style={{ fontWeight: '600' }}>Mencari...</Typography>
                   </View>

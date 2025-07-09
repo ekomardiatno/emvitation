@@ -34,13 +34,13 @@ export function InvitationCard(): JSX.Element {
               navigation.navigate('Manage Guest', { invitationId: 1 })
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="people" color={theme.textBasicColor} />
+                <Icon name="people" color={COLORS.colorBasic000} size={18} />
                 <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Kelola Tamu</Typography>
               </View>
             </Button>
             <Confirmation mode="button" appearance="primary" buttonStyle={{ paddingHorizontal: 12, paddingVertical: 6 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="send" color={COLORS.colorBasic000} />
+                <Icon name="send" color={COLORS.colorBasic000} size={18} />
                 <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Terbitkan</Typography>
               </View>
             </Confirmation>
