@@ -218,12 +218,12 @@ export default function SelectPlace({ label, required, name, defaultValue, contr
         label &&
         <FieldLabel label={label} required={required} />
       }
-      <View style={{ position: 'relative', borderWidth: 1, borderColor: controller?.formState.errors && name && controller.formState.errors[name] ? theme.borderDangerColor4 : theme.borderBasicColor1, borderRadius: BORDER_RADIUS, overflow: 'hidden', width: '100%' }}>
+      <View style={{ position: 'relative', borderWidth: 1, borderColor: controller?.formState.errors && name && controller.formState.errors[name] ? theme.borderDangerColor4 : theme.borderBasicColor1, borderRadius: BORDER_RADIUS, overflow: 'hidden', width: '100%', height: frame.width > frame.height ? frame.height - 115 : frame.width }}>
         {
           (!isLoadingMap && initialLocation) && (
             <MapView
               ref={mapRef}
-              style={{ width: '100%', height: frame.width > frame.height ? frame.height - 115 : frame.width }}
+              style={{ width: '100%', height: '100%' }}
               initialRegion={{
                 latitude: initialLocation.latitude,
                 longitude: initialLocation.longitude,
