@@ -221,10 +221,10 @@ export default function ScreenLayout({ children, headerEnabled = true, title, lo
                     navigation.canGoBack() ? (
                       <TouchableOpacity onPress={onBackPress ? () => onBackPress(goBack) : goBack}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden', minWidth: 45, paddingVertical: GUTTER_SPACE }}>
-                          <View style={{ alignItems: 'center', width: 45 }}>
+                          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: 45 }}>
                             <Icon size={32} name='chevron-left' color={theme.textBasicColor} />
                           </View>
-                          <Typography numberOfLines={1} animated size={20} style={{ fontWeight: '500', marginLeft: titleMarginLeftAnim, opacity: titleSmallOpacityAnim, marginRight: 15 }}>{title}</Typography>
+                          <Typography numberOfLines={1} animated size={21} style={{ fontWeight: '500', marginLeft: titleMarginLeftAnim, opacity: titleSmallOpacityAnim, marginRight: 15, transform: [{ translateY: 1 }] }}>{title}</Typography>
                         </View>
                       </TouchableOpacity>
                     ) : (
