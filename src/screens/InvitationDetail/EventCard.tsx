@@ -41,8 +41,8 @@ export default function EventCard({
           gap: 4,
           marginTop: 10,
         }}>
-        <Icon name="place" size={16} color={theme['text-disabled']} />
-        <Typography category="small" color={theme['text-disabled']}>
+        <Icon name="place" size={16} color={theme['text-secondary']} />
+        <Typography category="small" color={theme['text-secondary']}>
           {location}
         </Typography>
       </View>

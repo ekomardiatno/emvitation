@@ -30,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       launchOptions: launchOptions
     )
 
-    GMSServices.provideAPIKey("YOUR_API_KEY") // Use your actual API key here
+    GMSServices.provideAPIKey(
+      Bundle.main.object(forInfoDictionaryKey: "GMSApiKey") as! String
+    )
 
     return true
   }
