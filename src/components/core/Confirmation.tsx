@@ -1,68 +1,139 @@
-import { View, StatusBar, Platform, useWindowDimensions, ViewStyle, TextStyle, StyleProp } from "react-native"
-import { useTheme } from "./AppProvider"
-import { BORDER_RADIUS, GUTTER_SPACE } from "../../constants"
-import Typography from "./Typography"
-import Button, { ButtonAppearance } from "./Button"
-import { JSX, useEffect, useState } from "react"
-import EModal from "./EModal"
+import {
+  View,
+  StatusBar,
+  Platform,
+  useWindowDimensions,
+  ViewStyle,
+  TextStyle,
+  StyleProp,
+  Image,
+} from 'react-native';
+import { useTheme } from './AppProvider';
+import { RADIUS, SPACING } from '../../constants';
+import Typography from './Typography';
+import Button, { ButtonAppearance } from './Button';
+import { useEffect, useState } from 'react';
+import EModal from './EModal';
 
-export default function Confirmation({ children, onCancel, onConfirmed, confirmText, cautionText, cancelText, cautionTitle, appearance, mode, visible, textStyle, buttonStyle }: {
-  children?: string | JSX.Element
-  onCancel?: () => void
-  onConfirmed?: () => void
-  cautionText?: string
-  confirmText?: string
-  cancelText?: string
-  cautionTitle?: string
-  appearance?: ButtonAppearance
-  mode?: 'button' | 'alert',
-  visible?: boolean
-  buttonStyle?: StyleProp<ViewStyle>
-  textStyle?: StyleProp<TextStyle>
-}): JSX.Element {
-  const theme = useTheme()
-  const { width, height } = useWindowDimensions()
-  const [isOpen, setIsOpen] = useState(false)
+export default function Confirmation({
+  children,
+  onCancel,
+  onConfirmed,
+  confirmText,
+  cautionText,
+  cancelText,
+  cautionTitle,
+  appearance,
+  mode,
+  visible,
+  textStyle,
+  buttonStyle,
+}: {
+  children?: string | React.ReactNode;
+  onCancel?: () => void;
+  onConfirmed?: () => void;
+  cautionText?: string;
+  confirmText?: string;
+  cancelText?: string;
+  cautionTitle?: string;
+  appearance?: ButtonAppearance;
+  mode?: 'button' | 'alert';
+  visible?: boolean;
+  buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+}) {
+  const theme = useTheme();
+  const {width, height} = useWindowDimensions();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (visible !== undefined) {
-      setIsOpen(visible)
+      setIsOpen(visible);
     }
-  }, [visible])
+  }, [visible]);
 
   const handleOpen = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
 
   const handleClose = () => {
-    setIsOpen(false)
-    if (onCancel) onCancel()
-  }
+    setIsOpen(false);
+    if (onCancel) {
+      onCancel();
+    }
+  };
 
   const handleConfirm = () => {
-    setIsOpen(false)
-    if (onConfirmed) onConfirmed()
-  }
+    setIsOpen(false);
+    if (onConfirmed) {
+      onConfirmed();
+    }
+  };
+
+  const illustration = () => {
+    switch (appearance) {
+      case 'warning':
+        return require('../../assets/images/warning-illustration.png');
+      case 'success':
+        return require('../../assets/images/success-illustration.png');
+      case 'danger':
+        return require('../../assets/images/error-illustration.png');
+      case 'info':
+        return require('../../assets/images/info-illustration.png');
+      default:
+        return require('../../assets/images/neutral-illustration.png');
+    }
+  };
 
   return (
     <>
-      {
-        (mode === 'button') &&
-        <Button appearance={appearance} onPress={handleOpen} style={buttonStyle} textStyle={textStyle}>{children || 'Confirm'}</Button>
-      }
-      <EModal
-        visible={isOpen}
-        onClose={handleClose}
-      >
-        <View style={{ backgroundColor: theme.backgroundBasicColor1, padding: GUTTER_SPACE * 2, paddingBottom: GUTTER_SPACE, borderRadius: BORDER_RADIUS, width: width < height ? width - GUTTER_SPACE * 2 : height - GUTTER_SPACE * 2, marginBottom: (Platform.OS === 'ios' ? GUTTER_SPACE * 3 : StatusBar.currentHeight) }}>
-          <Typography size={21} style={{ fontWeight: '700', textAlign: 'center' }} marginBottom={GUTTER_SPACE}>{cautionTitle || 'Anda yakin?'}</Typography>
-          <Typography style={{ textAlign: 'center' }}>{cautionText || 'Tindakan ini tidak dapat dibatalkan.'}</Typography>
-          <View style={{ paddingTop: GUTTER_SPACE * 2, gap: 5 }}>
-            <Button appearance={appearance} onPress={handleConfirm}>{confirmText || 'Ya, saya yakin'}</Button>
-            <Button appearance='transparent' onPress={handleClose}>{cancelText || 'Batalkan'}</Button>
+      {mode === 'button' && (
+        <Button
+          appearance={appearance}
+          onPress={handleOpen}
+          style={buttonStyle}
+          textStyle={textStyle}>
+          {children || 'Confirm'}
+        </Button>
+      )}
+      <EModal visible={isOpen} onClose={handleClose}>
+        <View
+          style={{
+            backgroundColor: theme['bg-surface'],
+            padding: SPACING.md * 2,
+            paddingBottom: SPACING.md,
+            borderRadius: RADIUS.xl,
+            width:
+              width < height ? width - SPACING.md * 2 : height - SPACING.md * 2,
+            marginBottom:
+              Platform.OS === 'ios' ? SPACING.md * 3 : StatusBar.currentHeight,
+          }}>
+          <Image
+            width={180}
+            height={180}
+            resizeMode="contain"
+            resizeMethod="resize"
+            style={{width: 180, height: 180, alignSelf: 'center'}}
+            source={illustration()}
+          />
+          <Typography
+            category="large"
+            style={{fontWeight: '700', textAlign: 'center'}}>
+            {cautionTitle || 'Konfirmasi Tindakan'}
+          </Typography>
+          <Typography category="small" style={{textAlign: 'center'}}>
+            {cautionText || 'Apakah Anda yakin ingin melanjutkan tindakan ini?'}
+          </Typography>
+          <View style={{paddingTop: SPACING.lg, gap: 5}}>
+            <Button appearance={appearance} onPress={handleConfirm}>
+              {confirmText || 'Ya, lanjutkan'}
+            </Button>
+            <Button appearance="transparent" onPress={handleClose}>
+              {cancelText || 'Tidak, batal'}
+            </Button>
           </View>
         </View>
       </EModal>
     </>
-  )
+  );
 }

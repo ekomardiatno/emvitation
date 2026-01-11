@@ -1,63 +1,185 @@
-import { useController } from 'react-hook-form'
-import { View, TextInput, Platform, KeyboardType, StyleProp, ViewStyle, TextStyle, StyleSheet } from 'react-native'
-import { BORDER_RADIUS, BORDER_WIDTH, TEXT_CONFIG } from '../../constants'
-import { useTheme } from './AppProvider'
-import Typography from './Typography'
-import Icon from '@react-native-vector-icons/material-icons'
-import capitalizeFirstText from '../../utils/capitalizeFirstText'
-import numeral from 'numeral'
-import { JSX, useEffect, useState } from 'react'
-import { getFontFamily } from './Typography'
-import ControlProps from './ControlProps'
-import FieldLabel from './FieldLabel'
+import { useController } from 'react-hook-form';
+import {
+  View,
+  TextInput,
+  KeyboardType,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
+import { useTheme } from './AppProvider';
+import Icon from '@react-native-vector-icons/material-icons';
+import capitalizeFirstText from '../../utils/capitalizeFirstText';
+import numeral from 'numeral';
+import { useEffect, useState } from 'react';
+import { getFontFamily } from './Typography';
+import ControlProps from './ControlProps';
+import FieldLabel from './FieldLabel';
+import { MaterialIconsType } from '../../types/material-icons';
+import FieldErrorText from './FieldErrorText';
 
-const Input = ({ label, placeholder, name, control, keyboardType, required, defaultValue = '', editable = true, containerStyle, inputWrapperStyle, onChangeText, inputStyle, placeholderTextColor }: ControlProps & {
-  keyboardType?: KeyboardType,
-  containerStyle?: StyleProp<ViewStyle>
-  inputWrapperStyle?: StyleProp<ViewStyle>
-  onChangeText?: (str: string) => void
-  inputStyle?: StyleProp<TextStyle>
-  placeholderTextColor?: string
-}): JSX.Element => {
-  const theme = useTheme()
-  const [value, setValue] = useState('')
+const Input = ({
+  label,
+  placeholder,
+  name,
+  control,
+  keyboardType,
+  required,
+  defaultValue = '',
+  editable = true,
+  containerStyle,
+  inputWrapperStyle,
+  onChangeText,
+  inputStyle,
+  placeholderTextColor,
+  secureTextEntry,
+  iconName,
+}: ControlProps & {
+  keyboardType?: KeyboardType;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputWrapperStyle?: StyleProp<ViewStyle>;
+  onChangeText?: (str: string) => void;
+  inputStyle?: StyleProp<TextStyle>;
+  placeholderTextColor?: string;
+  secureTextEntry?: boolean;
+  iconName?: MaterialIconsType;
+}) => {
+  const theme = useTheme();
+  const [value, setValue] = useState('');
+  const [showInsecuredValue, setShowInsecuredValue] = useState(false);
 
-  const { field, formState: { errors } } = useController({
+  const {
+    field,
+    formState: {errors},
+  } = useController({
     control,
     defaultValue,
-    name
-  })
+    name,
+  });
 
   useEffect(() => {
-    setValue(keyboardType === 'numeric' && defaultValue ? numeral(defaultValue).format('0,0') : defaultValue)
-  }, [defaultValue])
+    setValue(
+      keyboardType === 'numeric' && defaultValue
+        ? numeral(defaultValue).format('0,0')
+        : defaultValue,
+    );
+  }, [defaultValue, keyboardType]);
 
   return (
     <View style={containerStyle}>
-      {
-        label &&
-        <FieldLabel label={label} required={required} />
-      }
-      <View style={{ borderWidth: BORDER_WIDTH, borderRadius: BORDER_RADIUS, borderColor: errors[name] ? theme.borderDangerColor1 : !editable ? theme.backgroundBasicColor1 : theme.borderBasicColor1, backgroundColor: theme.backgroundBasicColor1, flexDirection: 'row', ...(inputWrapperStyle ? StyleSheet.flatten(inputWrapperStyle) : {}) }}>
-        <TextInput editable={editable} placeholderTextColor={placeholderTextColor ?? theme.textHintColor} keyboardType={keyboardType} style={{ paddingHorizontal: 15, paddingVertical: Platform.OS === 'ios' ? 15 : 10, fontFamily: getFontFamily({}), color: !editable ? theme.textDisabledColor : theme.textBasicColor, flex: 1, ...(inputStyle ? StyleSheet.flatten(inputStyle) : {}) }} placeholder={placeholder} value={value} onChangeText={value => {
-          setValue(keyboardType === 'numeric' && value ? numeral(value).format('0,0') : value)
-          if (keyboardType === 'numeric') value = value.replace(/\D/g, '')
-          field.onChange(value || undefined)
-          if (onChangeText) onChangeText(value)
-        }} multiline={false} />
-        {
-          errors[name] &&
-          <View style={{ alignSelf: 'center', paddingRight: 15 }}>
-            <Icon name='error' size={TEXT_CONFIG.h6.fontSize} color={theme.colorDangerDefault} />
+      {label && <FieldLabel label={label} required={required} />}
+      <View
+        style={{
+          borderWidth: 1,
+          borderRadius: RADIUS.sm,
+          borderColor: errors[name]
+            ? theme['error-text']
+            : !editable
+            ? theme['border-muted']
+            : theme['border-default'],
+          backgroundColor: theme['input-bg'],
+          flexDirection: 'row',
+          ...(inputWrapperStyle ? StyleSheet.flatten(inputWrapperStyle) : {}),
+        }}>
+        {iconName && (
+          <View
+            style={{
+              paddingLeft: SPACING.sm,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              color={theme['input-placeholder']}
+              name={iconName}
+              size={18}
+            />
           </View>
-        }
+        )}
+        <TextInput
+          editable={editable}
+          placeholderTextColor={
+            placeholderTextColor ?? theme['input-placeholder']
+          }
+          cursorColor={theme['primary-disabled-bg']}
+          selectionColor={theme['primary-disabled-bg']}
+          selectionHandleColor={theme['primary-bg']}
+          secureTextEntry={secureTextEntry ? !showInsecuredValue : false}
+          keyboardType={keyboardType}
+          style={{
+            paddingHorizontal: SPACING.sm,
+            paddingRight: secureTextEntry ? 0 : SPACING.sm,
+            paddingVertical: SPACING.sm,
+            fontFamily: getFontFamily({fontWeight: 400}),
+            color: !editable ? theme['input-text'] : theme['input-text'],
+            flex: 1,
+            ...(inputStyle ? StyleSheet.flatten(inputStyle) : {}),
+          }}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={val => {
+            setValue(
+              keyboardType === 'numeric' && val
+                ? numeral(val).format('0,0')
+                : val,
+            );
+            if (keyboardType === 'numeric') {
+              val = val.replace(/\D/g, '');
+            }
+            field.onChange(val || undefined);
+            if (onChangeText) {
+              onChangeText(val);
+            }
+          }}
+          multiline={false}
+        />
+        {errors[name] && (
+          <View
+            style={{
+              alignSelf: 'center',
+              paddingLeft: secureTextEntry ? SPACING.sm : 0,
+              paddingRight: secureTextEntry ? 0 : SPACING.sm,
+            }}>
+            <Icon
+              name="error"
+              size={TYPOGRAPHY.textStyle.small.fontSize}
+              color={theme['error-text']}
+            />
+          </View>
+        )}
+        {secureTextEntry && (
+          <Pressable
+            style={{
+              paddingRight: SPACING.sm,
+              paddingLeft: errors[name] ? 5 : SPACING.sm,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => {
+              setShowInsecuredValue(!showInsecuredValue);
+            }}
+            focusable={false}>
+            <Icon
+              size={16}
+              color={
+                !showInsecuredValue
+                  ? theme['text-disabled']
+                  : theme['input-placeholder']
+              }
+              name={showInsecuredValue ? 'visibility' : 'visibility-off'}
+            />
+          </Pressable>
+        )}
       </View>
-      {
-        (errors[name] && typeof errors[name].message === 'string') &&
-        <Typography category='c1' style={{ marginTop: 5 }} color={theme.textDangerColor}>{capitalizeFirstText(errors[name].message)}</Typography>
-      }
+      {errors[name] && typeof errors[name].message === 'string' && (
+        <FieldErrorText>
+          {capitalizeFirstText(errors[name].message)}
+        </FieldErrorText>
+      )}
     </View>
   );
-}
+};
 
-export default Input
+export default Input;

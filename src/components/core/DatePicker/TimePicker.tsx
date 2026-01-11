@@ -1,7 +1,6 @@
 import { View } from 'react-native'
 import Typography from '../Typography'
 import TimeScroller from './TimeScroller'
-import { JSX } from 'react'
 
 const TimePicker = ({
   second,
@@ -17,7 +16,7 @@ const TimePicker = ({
   setMinute: (time: string) => void
   hour: string
   setHour: (time: string) => void
-}): JSX.Element => {
+}) => {
   const minutes = () => {
     let minute = []
     let i = 0

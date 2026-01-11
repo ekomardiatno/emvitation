@@ -1,21 +1,30 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type TemplateParamsProp = {
-  action: 'view' | 'select'
-  onSelected?: (templateId: number) => void
-}
+  action: 'view' | 'select';
+  onSelected?: (templateId: number) => void;
+};
 
 export type RouteNavigationParamList = {
-  'Home': undefined,
-  'Create Invitation': undefined,
-  'Bill': undefined,
-  'Wallet': undefined
-  'Profile': undefined
-  'Template'?: TemplateParamsProp
-  'My Invitation': undefined
-  'Invitation Detail': { invitationId: number }
-  'Manage Guest': { invitationId: number }
-  'Create Event': undefined
-}
+  Login: undefined;
+  Registration: undefined;
+  RegistrationSuccess: undefined;
+  AccountRecovery: undefined;
+  ResetPassword: {
+    resetPasswordToken: string;
+  };
+  ChangePassword: undefined;
+  Home: undefined;
+  CreateInvitation: undefined;
+  Bill: undefined;
+  Wallet: undefined;
+  Profile: undefined;
+  Template?: TemplateParamsProp;
+  MyInvitation: undefined;
+  InvitationDetail: {invitationId: number};
+  ManageGuest: {invitationId: number};
+  CreateEvent: undefined;
+};
 
-export type NavigationProp = NativeStackNavigationProp<RouteNavigationParamList>
+export type NavigationProp =
+  NativeStackNavigationProp<RouteNavigationParamList>;

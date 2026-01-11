@@ -1,61 +1,116 @@
-import { JSX } from "react"
-import ScreenLayout from "../../components/core/ScreenLayout"
-import { TouchableHighlight, View } from "react-native"
-import { COLORS, GUTTER_SPACE } from "../../constants"
-import { useTheme } from "../../components/core/AppProvider"
-import Typography from "../../components/core/Typography"
-import Icon from "@react-native-vector-icons/material-icons"
-import { useNavigation } from "@react-navigation/native"
-import { NavigationProp } from "../../types/navigation-props"
-import Button from "../../components/core/Button"
-import Confirmation from "../../components/core/Confirmation"
+import ScreenLayout from '../../components/core/ScreenLayout';
+import { TouchableHighlight, View } from 'react-native';
+import { useTheme } from '../../components/core/AppProvider';
+import Typography from '../../components/core/Typography';
+import Icon from '@react-native-vector-icons/material-icons';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '../../types/navigation-props';
+import Button from '../../components/core/Button';
+import Confirmation from '../../components/core/Confirmation';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
 
-export function InvitationCard(): JSX.Element {
-  const theme = useTheme()
-  const navigation = useNavigation<NavigationProp>()
+export function InvitationCard() {
+  const theme = useTheme();
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <>
-      <TouchableHighlight underlayColor={theme.backgroundBasicColor4} onPress={() => {
-        navigation.navigate('Invitation Detail', { invitationId: 1 })
-      }} style={{ borderRadius: 8, overflow: 'hidden' }}>
-        <View style={{ padding: GUTTER_SPACE, borderWidth: 1, borderColor: theme.borderBasicColor1, borderRadius: 8, backgroundColor: theme.backgroundBasicColor1 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ backgroundColor: theme.backgroundPrimaryColor1, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 4 }}>
-              <Typography color={theme.textBasicColor} category="label">Template Gratis</Typography>
+      <TouchableHighlight
+        underlayColor={theme.overlay}
+        onPress={() => {
+          navigation.navigate('InvitationDetail', {invitationId: 1});
+        }}
+        style={{borderRadius: 8, overflow: 'hidden'}}>
+        <View
+          style={{
+            padding: SPACING.md,
+            borderWidth: 1,
+            borderColor: theme['border-default'],
+            borderRadius: 8,
+            backgroundColor: theme['bg-surface'],
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View
+              style={{
+                backgroundColor: theme['secondary-bg'],
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: RADIUS.full,
+                borderWidth: 1,
+                borderColor: theme['border-default'],
+              }}>
+              <Typography
+                color={theme['secondary-text']}
+                category="small"
+                size={TYPOGRAPHY.textStyle.xsmall.fontSize}>
+                Template Gratis
+              </Typography>
             </View>
           </View>
-          <View style={{ flex: 1, marginTop: 18 }}>
-            <Typography category="h6" style={{ fontWeight: '400' }}>John Doe & Jane Doe</Typography>
-            <Typography color={theme.textHintColor} category='p2' style={{ marginTop: 4 }}>06/01/2025 05:11 PM</Typography>
+          <View style={{flex: 1, marginTop: 10}}>
+            <Typography style={{fontWeight: '400'}}>
+              John Doe & Jane Doe
+            </Typography>
+            <Typography
+              color={theme['text-secondary']}
+              category="small"
+              style={{marginTop: 4}}>
+              06/01/2025 05:11 PM
+            </Typography>
           </View>
-          <View style={{ flexDirection: 'row', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
-            <Button appearance='secondary' textStyle={{ fontSize: 13 }} style={{ paddingHorizontal: 12, paddingVertical: 6 }} onPress={() => {
-              navigation.navigate('Manage Guest', { invitationId: 1 })
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 8,
+              marginTop: 15,
+              flexWrap: 'wrap',
+              borderTopColor: theme.divider,
+              borderTopWidth: 1,
+              paddingTop: SPACING.md,
+              justifyContent: 'flex-end',
             }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="people" color={COLORS.colorBasic000} size={18} />
-                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Kelola Tamu</Typography>
+            <Button
+              appearance="secondary"
+              textStyle={{fontSize: 13}}
+              style={{paddingHorizontal: 12, paddingVertical: 6}}
+              onPress={() => {
+                navigation.navigate('ManageGuest', {invitationId: 1});
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center', gap: SPACING.xs}}>
+                <Icon name="people" color={theme['secondary-text']} size={14} />
+                <Typography
+                  category="xsmall"
+                  color={theme['secondary-text']}
+                  fontWeight={500}>
+                  0 Tamu
+                </Typography>
               </View>
             </Button>
-            <Confirmation mode="button" appearance="primary" buttonStyle={{ paddingHorizontal: 12, paddingVertical: 6 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="send" color={COLORS.colorBasic000} size={18} />
-                <Typography style={{ marginLeft: 4, fontSize: 13 }} color={COLORS.colorBasic000}>Terbitkan</Typography>
+            <Confirmation
+              mode="button"
+              appearance="primary"
+              buttonStyle={{paddingHorizontal: 12, paddingVertical: 6}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', gap: SPACING.xs}}>
+                <Icon name="send" color={theme['primary-text']} size={14} />
+                <Typography
+                  category="xsmall"
+                  color={theme['primary-text']}
+                  fontWeight={500}>
+                  Terbitkan
+                </Typography>
               </View>
             </Confirmation>
           </View>
         </View>
       </TouchableHighlight>
     </>
-  )
+  );
 }
 
-export default function MyInvitation(): JSX.Element {
-  const theme = useTheme()
+export default function MyInvitation() {
   return (
     <ScreenLayout title="Undangan Saya">
-      <View style={{ gap: GUTTER_SPACE }}>
+      <View style={{gap: SPACING.md}}>
         <InvitationCard />
         <InvitationCard />
         <InvitationCard />
@@ -63,5 +118,5 @@ export default function MyInvitation(): JSX.Element {
         <InvitationCard />
       </View>
     </ScreenLayout>
-  )
+  );
 }

@@ -1,17 +1,27 @@
-import { JSX } from "react"
-import Typography from "./Typography"
-import { useTheme } from "./AppProvider"
-import { ToastAndroid, TouchableOpacity } from "react-native"
-export default function FieldLabel({ required, label }: {
-  required?: boolean
-  label: string
-}): JSX.Element {
-  const theme = useTheme()
+import Typography from './Typography';
+import { useTheme } from './AppProvider';
+import { SPACING } from '../../constants';
+export default function FieldLabel({
+  required,
+  label,
+}: {
+  required?: boolean;
+  label: string;
+}) {
+  const theme = useTheme();
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => {
-      ToastAndroid.show(`${label}${required ? ' *' : ''}`, 1000)
-    }}>
-      <Typography category='label' style={{ marginBottom: 6 }} numberOfLines={1}>{label}{required && <Typography category='label' color={theme.textDangerColor}> *</Typography>}</Typography>
-    </TouchableOpacity>
-  )
+    <Typography
+      category="small"
+      fontWeight={500}
+      style={{marginBottom: SPACING.xs}}
+      numberOfLines={1}>
+      {label}
+      {required && (
+        <Typography category="small" fontWeight={700} color={theme['error-text']}>
+          {' '}
+          *
+        </Typography>
+      )}
+    </Typography>
+  );
 }
