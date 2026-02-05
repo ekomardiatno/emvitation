@@ -2,6 +2,7 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import GoogleMaps
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       withModuleName: "EMvitation",
       in: window,
       launchOptions: launchOptions
+    )
+
+    GMSServices.provideAPIKey(
+      Bundle.main.object(forInfoDictionaryKey: "GMSApiKey") as! String
     )
 
     return true
