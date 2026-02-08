@@ -151,7 +151,8 @@ export default function WeddingDetail({
                 padding: SPACING.sm,
                 backgroundColor: theme['bg-muted'],
                 borderRadius: SPACING.sm,
-                elevation: 1,
+                borderWidth: 1,
+                borderColor: theme['border-default'],
               }}>
               <View
                 style={{

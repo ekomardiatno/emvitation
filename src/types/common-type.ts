@@ -1,4 +1,4 @@
-export type BaseCommonDataProp = {
+export type BaseCommonDataType = {
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;

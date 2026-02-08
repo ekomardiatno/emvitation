@@ -26,6 +26,7 @@ import VendorSection from './VendorSection';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { gettingProfile } from '../../redux/reducers/profile.reducer';
 import LoadingState from '../../components/LoadingState';
+import MinimalOverviewCard from './MinimalOverviewCard';
 
 export default function Home() {
   const navigation = useAppNavigation<AppStackNavigationProp>();
@@ -156,6 +157,9 @@ export default function Home() {
             variant="success"
           />
         </View>
+        <View style={{marginTop: SPACING.md}}>
+          <MinimalOverviewCard />
+        </View>
         <View style={{marginTop: SPACING.lg}}>
           <Card
             title={latestUnpublishedWedding ? 'Undangan terakhir' : undefined}
@@ -234,105 +238,6 @@ export default function Home() {
             description="Vendor terpercaya untuk melengkapi hari spesial Kamu"
           />
         </View>
-        {/* <View
-          style={{
-            padding: 10,
-            flexDirection: 'row',
-            gap: SPACING.md,
-            backgroundColor: theme['bg-surface'],
-            borderWidth: 1,
-            borderColor: theme['border-default'],
-            marginTop: SPACING.md,
-            borderRadius: RADIUS.lg,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexGrow: 1,
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: theme['error-bg'],
-                borderRadius: 30,
-              }}>
-              <Icon
-                name="insert-invitation"
-                size={15}
-                style={{color: theme['error-text']}}
-              />
-            </View>
-            <View>
-              <Typography category="xsmall" numberOfLines={1}>
-                Undangan Aktif
-              </Typography>
-              <Typography category="small">1</Typography>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexGrow: 1,
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: theme['warning-bg'],
-                borderRadius: 30,
-              }}>
-              <Icon
-                name="insert-invitation"
-                size={15}
-                style={{color: theme['warning-text']}}
-              />
-            </View>
-            <View>
-              <Typography category="xsmall" numberOfLines={1}>
-                Tamu Terdaftar
-              </Typography>
-              <Typography category="small">120</Typography>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexGrow: 1,
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: theme['info-bg'],
-                borderRadius: 30,
-              }}>
-              <Icon
-                name="insert-invitation"
-                size={15}
-                style={{color: theme['info-text']}}
-              />
-            </View>
-            <View>
-              <Typography category="xsmall" numberOfLines={1}>
-                RSVP Masuk
-              </Typography>
-              <Typography category="small">25</Typography>
-            </View>
-          </View>
-        </View> */}
       </View>
     </ScreenLayout>
   );

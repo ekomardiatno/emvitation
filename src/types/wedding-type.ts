@@ -1,6 +1,6 @@
-import { BaseCommonDataProp } from './common-type';
+import { BaseCommonDataType } from './common-type';
 
-export type WeddingDataType = BaseCommonDataProp & {
+export type WeddingDataType = BaseCommonDataType & {
   id: string;
   userId: string;
   templateId: string;

@@ -1,6 +1,6 @@
-import { BaseCommonDataProp } from './common-type';
+import { BaseCommonDataType } from './common-type';
 
-export type EventDataType = BaseCommonDataProp & {
+export type EventDataType = BaseCommonDataType & {
   id: string;
   invitationId: string;
   title: string;

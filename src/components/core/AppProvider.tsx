@@ -5,14 +5,7 @@ import { MapStyleElement } from 'react-native-maps';
 import { createContext, useContext, useEffect, useState } from 'react';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { logout } from '../../redux/reducers/auth.reducer';
-import { resetEvents } from '../../redux/reducers/event.reducer';
-import { resetGuests } from '../../redux/reducers/guest.reducer';
-import { resetProfile } from '../../redux/reducers/profile.reducer';
-import { resetTemplates } from '../../redux/reducers/template.reducer';
-import { resetWeddings } from '../../redux/reducers/wedding.reducer';
-import { resetVendors } from '../../redux/reducers/vendor.reducer';
-import { resetGiftInfos } from '../../redux/reducers/gift-info.reducer';
+import { resetAppState } from '../../redux/store';
 
 type AppContextType = {theme: ThemeType; appLogout: () => void};
 
@@ -35,14 +28,7 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
   const dispatch = useAppDispatch();
 
   const appLogout = () => {
-    dispatch(logout());
-    dispatch(resetEvents());
-    dispatch(resetGiftInfos());
-    dispatch(resetGuests());
-    dispatch(resetProfile());
-    dispatch(resetTemplates());
-    dispatch(resetVendors());
-    dispatch(resetWeddings());
+    resetAppState(dispatch);
   };
 
   useEffect(() => {

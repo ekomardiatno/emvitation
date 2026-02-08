@@ -1,6 +1,6 @@
-import { BaseCommonDataProp } from './common-type';
+import { BaseCommonDataType } from './common-type';
 
-export type GiftInfoDataType = BaseCommonDataProp & {
+export type GiftInfoDataType = BaseCommonDataType & {
   id: string;
   invitationId: string;
   type: 'bank' | 'e-wallet';

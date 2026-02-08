@@ -12,6 +12,8 @@ import WeddingDetail from '../screens/WeddingDetail';
 import ManageGuest from '../screens/ManageGuest';
 import EventForm from '../screens/EventForm';
 import GiftInfoForm from '../screens/GiftInfoForm';
+import WishList from '../screens/WishList';
+import RsvpList from '../screens/RsvpList';
 
 const Stack = createNativeStackNavigator();
 
@@ -69,6 +71,16 @@ export default function AppStack() {
       <Stack.Screen
         name="GiftInfoForm"
         component={GiftInfoForm}
+        options={stackScreenOptions}
+      />
+      <Stack.Screen
+        name="WishList"
+        component={WishList}
+        options={stackScreenOptions}
+      />
+      <Stack.Screen
+        name="RsvpList"
+        component={RsvpList}
         options={stackScreenOptions}
       />
     </Stack.Navigator>

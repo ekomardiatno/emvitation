@@ -42,6 +42,8 @@ export type AppStackParamList = {
     invitationId: string;
     giftInfoId?: string;
   };
+  RsvpList: undefined;
+  WishList: undefined;
 };
 
 export type AppStackNavigationProp =

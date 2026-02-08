@@ -117,7 +117,7 @@ export default function InvitationCard({
             color={theme['text-secondary']}
             category="small"
             style={{textAlign: 'center'}}>
-            Mengundang
+            Untuk
           </Typography>
           <Typography category="large" style={{textAlign: 'center'}}>
             {guestName}

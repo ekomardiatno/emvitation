@@ -1,7 +1,8 @@
 import { BaseCommonDataType } from './common-type';
 
-export type GuestDataType = BaseCommonDataType & {
+export type WishDataType = BaseCommonDataType & {
   id: string;
   invitationId: string;
-  name: string;
+  guestName: string;
+  message: string;
 };

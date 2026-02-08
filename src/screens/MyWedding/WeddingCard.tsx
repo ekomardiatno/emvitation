@@ -23,9 +23,11 @@ import { ApiError } from '../../services/common';
 export function WeddingCard({
   data,
   controls,
+  hideTemplateInfo,
 }: {
   data: WeddingDataType;
   controls?: React.ReactNode;
+  hideTemplateInfo?: boolean;
 }) {
   const theme = useTheme();
   const navigation = useAppNavigation<AppStackNavigationProp>();
@@ -143,46 +145,57 @@ export function WeddingCard({
             flexDirection: 'row',
             gap: SPACING.md,
           }}>
-          <View
-            style={{
-              width: 80,
-              height: (80 / 3) * 4,
-              overflow: 'hidden',
-              borderRadius: SPACING.sm,
-              borderWidth: 1,
-              borderColor: theme['border-default'],
-            }}>
-            <Image
-              source={{
-                uri:
-                  APP_API_URL + '/file?filePath=' + template?.previewImagePath,
-              }}
-              resizeMode="cover"
-              style={{width: '100%', height: '100%'}}
-            />
-          </View>
+          {!hideTemplateInfo && (
+            <View
+              style={{
+                width: 80,
+                height: (80 / 3) * 4,
+                overflow: 'hidden',
+                borderRadius: SPACING.sm,
+                borderWidth: 1,
+                borderColor: theme['border-default'],
+              }}>
+              <Image
+                source={{
+                  uri:
+                    APP_API_URL +
+                    '/file?filePath=' +
+                    template?.previewImagePath,
+                }}
+                resizeMode="cover"
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+          )}
           <View style={{flexGrow: 1}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {!hideTemplateInfo && (
               <View
                 style={{
-                  backgroundColor: theme['secondary-bg'],
-                  paddingHorizontal: SPACING.sm,
-                  paddingVertical: SPACING.xs,
-                  borderRadius: RADIUS.full,
-                  borderWidth: 1,
-                  borderColor: theme['border-default'],
                   flexDirection: 'row',
                   alignItems: 'center',
-                  gap: SPACING.xs,
+                  marginBottom: SPACING.sm,
                 }}>
-                <Icon name="web" color={theme['text-primary']} />
-                <Typography color={theme['secondary-text']} category="xsmall">
-                  {template?.name}
-                </Typography>
+                <View
+                  style={{
+                    backgroundColor: theme['secondary-bg'],
+                    paddingHorizontal: SPACING.sm,
+                    paddingVertical: SPACING.xs,
+                    borderRadius: RADIUS.full,
+                    borderWidth: 1,
+                    borderColor: theme['border-default'],
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: SPACING.xs,
+                  }}>
+                  <Icon name="web" color={theme['text-primary']} />
+                  <Typography color={theme['secondary-text']} category="xsmall">
+                    {template?.name}
+                  </Typography>
+                </View>
               </View>
-            </View>
-            <View style={{flex: 1, marginTop: SPACING.sm}}>
-              <Typography style={{fontWeight: '400'}}>
+            )}
+            <View style={{flex: 1}}>
+              <Typography style={{fontWeight: 500}}>
                 {`${data.groomNickname || data.groomName} & ${
                   data.brideNickname || data.brideName
                 }`}

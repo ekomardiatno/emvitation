@@ -1,6 +1,6 @@
-import { BaseCommonDataProp } from './common-type';
+import { BaseCommonDataType } from './common-type';
 
-export type TemplateDataType = BaseCommonDataProp & {
+export type TemplateDataType = BaseCommonDataType & {
   id: string;
   name: string;
   description: string | null;
