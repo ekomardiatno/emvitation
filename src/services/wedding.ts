@@ -38,7 +38,7 @@ export async function createWedding(
     keyof createWeddingPayloadType
   >) {
     const value = payload[key];
-    if (!value) {
+    if (value === undefined) {
       continue;
     }
     if ((value as fileObjetType).filename) {
@@ -76,7 +76,7 @@ export async function updateWedding(
     keyof createWeddingPayloadType
   >) {
     const value = payload[key];
-    if (!value) {
+    if (value === undefined) {
       continue;
     }
     if ((value as fileObjetType).filename) {
