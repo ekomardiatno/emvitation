@@ -42,10 +42,13 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
   const dispatch = useAppDispatch();
   const toast = useToast();
   const [selectedGuestId, setSelectedGuestId] = useState<string | null>(null);
+  const {weddings} = useAppSelector(state => state.wedding);
 
   const invitationGuests = useMemo(() => {
     return guests.filter(g => g.invitationId === invitationId);
   }, [guests, invitationId]);
+
+  const wedding = weddings.find(w => w.invitationId === invitationId);
 
   const onSubmit = handleSubmit(() => {
     setIsSubmitting(true);
@@ -116,16 +119,20 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
     <ScreenLayout
       title="Kelola Tamu"
       rightControl={
-        <Button
-          style={{paddingHorizontal: 12}}
-          appearance="transparent"
-          onPress={() => {
-            setIsModalVisible(true);
-            setSelectedGuestId(null);
-            setValue('guest_name', '');
-          }}>
-          <Icon name="add" size={24} color={theme['text-primary']} />
-        </Button>
+        <>
+          {wedding?.status !== 'published' && (
+            <Button
+              style={{paddingHorizontal: 12}}
+              appearance="transparent"
+              onPress={() => {
+                setIsModalVisible(true);
+                setSelectedGuestId(null);
+                setValue('guest_name', '');
+              }}>
+              <Icon name="add" size={24} color={theme['text-primary']} />
+            </Button>
+          )}
+        </>
       }>
       <>
         {invitationGuests.length < 1 ? (
@@ -139,12 +146,14 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
               return (
                 <GuestCard
                   key={g.id}
-                  name={g.name}
+                  guest={g}
+                  invitationId={invitationId}
                   onEdit={() => {
                     setSelectedGuestId(g.id);
                     setIsModalVisible(true);
                     setValue('guest_name', g.name);
                   }}
+                  disableEdit={wedding?.status === 'published'}
                 />
               );
             })}

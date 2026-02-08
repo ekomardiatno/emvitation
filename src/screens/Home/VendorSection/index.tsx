@@ -124,7 +124,7 @@ function VendorSection({
       )}
       {error ? (
         <ErrorState
-          message={error}
+          message={error || 'Unknown Error'}
           onRetry={() => {
             dispatch(loadingVendors());
           }}

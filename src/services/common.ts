@@ -4,6 +4,13 @@ import { tokenService } from './tokenService';
 import { authRefreshToken } from './auth';
 import { store } from '../redux/store';
 import { loginSuccess, logout } from '../redux/reducers/auth.reducer';
+import { resetEvents } from '../redux/reducers/event.reducer';
+import { resetGiftInfos } from '../redux/reducers/gift-info.reducer';
+import { resetGuests } from '../redux/reducers/guest.reducer';
+import { resetProfile } from '../redux/reducers/profile.reducer';
+import { resetTemplates } from '../redux/reducers/template.reducer';
+import { resetVendors } from '../redux/reducers/vendor.reducer';
+import { resetWeddings } from '../redux/reducers/wedding.reducer';
 
 const api = axios.create({
   baseURL: APP_API_URL,
@@ -86,6 +93,13 @@ api.interceptors.response.use(
     } catch (err) {
       processQueue(err);
       store.dispatch(logout());
+      store.dispatch(resetEvents());
+      store.dispatch(resetGiftInfos());
+      store.dispatch(resetGuests());
+      store.dispatch(resetProfile());
+      store.dispatch(resetTemplates());
+      store.dispatch(resetVendors());
+      store.dispatch(resetWeddings());
       return Promise.reject(err);
     } finally {
       isRefreshing = false;

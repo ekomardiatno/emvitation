@@ -11,6 +11,7 @@ import MyWedding from '../screens/MyWedding';
 import WeddingDetail from '../screens/WeddingDetail';
 import ManageGuest from '../screens/ManageGuest';
 import EventForm from '../screens/EventForm';
+import GiftInfoForm from '../screens/GiftInfoForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,11 @@ export default function AppStack() {
       <Stack.Screen
         name="EventForm"
         component={EventForm}
+        options={stackScreenOptions}
+      />
+      <Stack.Screen
+        name="GiftInfoForm"
+        component={GiftInfoForm}
         options={stackScreenOptions}
       />
     </Stack.Navigator>

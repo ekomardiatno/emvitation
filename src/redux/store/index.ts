@@ -15,6 +15,7 @@ import persistedWeddingReducer from '../reducers/wedding.reducer';
 import persistedEventReducer from '../reducers/event.reducer';
 import persistedGuestReducer from '../reducers/guest.reducer';
 import persistedVendorReducer from '../reducers/vendor.reducer';
+import persistedGiftInfoReducer from '../reducers/gift-info.reducer';
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     event: persistedEventReducer,
     guest: persistedGuestReducer,
     vendor: persistedVendorReducer,
+    giftInfo: persistedGiftInfoReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

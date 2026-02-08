@@ -38,7 +38,7 @@ const vendorSlice = createSlice({
   name: 'vendor',
   initialState,
   reducers: {
-    resetWeddings: state => {
+    resetVendors: state => {
       state.error = null;
       state.isLoading = true;
       state.vendors = [];
@@ -71,6 +71,6 @@ const persistedVendorReducer = persistReducer(
   vendorReducer,
 );
 
-export const {resetWeddings} = vendorSlice.actions;
+export const {resetVendors} = vendorSlice.actions;
 
 export default persistedVendorReducer;

@@ -6,16 +6,16 @@ import {
   ViewStyle,
   TextStyle,
   StyleProp,
-  Image,
 } from 'react-native';
 import { useTheme } from './AppProvider';
-import { RADIUS, SPACING } from '../../constants';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
 import Typography from './Typography';
 import Button, { ButtonAppearance } from './Button';
 import { useEffect, useState } from 'react';
 import EModal from './EModal';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-export const illustration = (appearance?: ButtonAppearance) => {
+export const illustrationImage = (appearance?: ButtonAppearance) => {
   switch (appearance) {
     case 'warning':
       return require('../../assets/images/warning-illustration.webp');
@@ -27,6 +27,76 @@ export const illustration = (appearance?: ButtonAppearance) => {
       return require('../../assets/images/info-illustration.webp');
     default:
       return require('../../assets/images/neutral-illustration.webp');
+  }
+};
+
+export const IconState = ({
+  appearance,
+  size,
+  style,
+}: {
+  appearance?: ButtonAppearance;
+  size?: number;
+  style?: StyleProp<TextStyle>;
+}) => {
+  const theme = useTheme();
+
+  const color = (type?: ButtonAppearance) => {
+    switch (type) {
+      case 'primary':
+        return theme['primary-bg'];
+      case 'info':
+        return theme['info-text'];
+      case 'warning':
+        return theme['warning-text'];
+      case 'danger':
+        return theme['error-text'];
+      case 'success':
+        return theme['success-text'];
+      case 'secondary':
+        return theme['text-secondary'];
+      default:
+        return theme['text-primary'];
+    }
+  };
+
+  switch (appearance) {
+    case 'warning':
+      return (
+        <MaterialIcons
+          size={size ?? TYPOGRAPHY.textStyle.h1.lineHeight * 2}
+          name="warning"
+          color={color(appearance)}
+          style={style}
+        />
+      );
+    case 'success':
+      return (
+        <MaterialIcons
+          size={size ?? TYPOGRAPHY.textStyle.h1.lineHeight * 2}
+          name="check-circle"
+          color={color(appearance)}
+          style={style}
+        />
+      );
+    case 'danger':
+      return (
+        <MaterialIcons
+          size={size ?? TYPOGRAPHY.textStyle.h1.lineHeight * 2}
+          name="error"
+          color={color(appearance)}
+          style={style}
+        />
+      );
+    default:
+      return (
+        <MaterialIcons
+          size={size ?? TYPOGRAPHY.textStyle.h1.lineHeight * 2}
+          name="info"
+          color={color(appearance)}
+          style={style}
+        />
+      );
   }
 };
 
@@ -45,6 +115,7 @@ export default function Confirmation({
   buttonStyle,
   isLoading,
   disabled,
+  confirmationDialogAppearance,
 }: {
   children?: string | React.ReactNode;
   onCancel?: () => void;
@@ -60,6 +131,7 @@ export default function Confirmation({
   textStyle?: StyleProp<TextStyle>;
   isLoading?: boolean;
   disabled?: boolean;
+  confirmationDialogAppearance?: ButtonAppearance;
 }) {
   const theme = useTheme();
   const {width, height} = useWindowDimensions();
@@ -93,7 +165,7 @@ export default function Confirmation({
     <>
       {mode === 'button' && (
         <Button
-          appearance={appearance}
+          appearance={appearance ?? 'basic'}
           onPress={handleOpen}
           style={buttonStyle}
           textStyle={textStyle}
@@ -115,14 +187,12 @@ export default function Confirmation({
             marginBottom:
               Platform.OS === 'ios' ? SPACING.md * 3 : StatusBar.currentHeight,
           }}>
-          <Image
-            width={180}
-            height={180}
-            resizeMode="contain"
-            resizeMethod="resize"
-            style={{width: 180, height: 180, alignSelf: 'center'}}
-            source={illustration(appearance)}
-          />
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <IconState
+              appearance={confirmationDialogAppearance ?? appearance ?? 'basic'}
+              style={{marginBottom: SPACING.md}}
+            />
+          </View>
           <Typography
             category="large"
             style={{fontWeight: '700', textAlign: 'center'}}>
@@ -133,7 +203,7 @@ export default function Confirmation({
           </Typography>
           <View style={{paddingTop: SPACING.lg, gap: 5}}>
             <Button
-              appearance={appearance}
+              appearance={confirmationDialogAppearance ?? appearance ?? 'basic'}
               onPress={handleConfirm}
               isLoading={isLoading}>
               {confirmText || 'Ya, lanjutkan'}

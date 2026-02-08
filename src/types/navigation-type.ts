@@ -38,6 +38,10 @@ export type AppStackParamList = {
     invitationId: string;
     event?: EventDataType;
   };
+  GiftInfoForm?: {
+    invitationId: string;
+    giftInfoId?: string;
+  };
 };
 
 export type AppStackNavigationProp =

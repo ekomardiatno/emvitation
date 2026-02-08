@@ -6,4 +6,5 @@ export type TemplateDataType = BaseCommonDataProp & {
   description: string | null;
   previewImagePath: string;
   previewImageMime: string;
+  templateCode: string | null;
 };

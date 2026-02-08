@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>EMvitation</string>
+	<string>EMVITE</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -108,6 +108,21 @@
 		<string>Rubik-ExtraBold.ttf</string>
 		<string>Rubik-Regular.ttf</string>
 		<string>Rubik-BoldItalic.ttf</string>
+		<string>IBMPlexMono-Thin.ttf</string>
+		<string>IBMPlexMono-Bold.ttf</string>
+		<string>IBMPlexMono-MediumItalic.ttf</string>
+		<string>IBMPlexMono-BoldItalic.ttf</string>
+		<string>IBMPlexMono-Medium.ttf</string>
+		<string>IBMPlexMono-ExtraLight.ttf</string>
+		<string>IBMPlexMono-ExtraLightItalic.ttf</string>
+		<string>IBMPlexMono-ThinItalic.ttf</string>
+		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono-Light.ttf</string>
+		<string>IBMPlexMono-Italic.ttf</string>
+		<string>IBMPlexMono-SemiBold.ttf</string>
+		<string>IBMPlexMono-SemiBoldItalic.ttf</string>
+		<string>IBMPlexMono-LightItalic.ttf</string>
+		<string>Lobster-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

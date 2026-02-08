@@ -1,9 +1,16 @@
-import { DimensionValue, View } from 'react-native';
+import {
+  ColorValue,
+  DimensionValue,
+  StyleProp,
+  TextStyle,
+  View,
+} from 'react-native';
 import Typography from './core/Typography';
 import { useTheme } from './core/AppProvider';
 import { MaterialIconsType } from '../types/material-icons';
 import Icon from '@react-native-vector-icons/material-icons';
 import { TYPOGRAPHY } from '../constants';
+import { TypographyCategoryType } from '../types/typography-type';
 
 export default function Divider({
   marginTop,
@@ -14,6 +21,10 @@ export default function Divider({
   marginHorizontal,
   text,
   icon,
+  backgroundColor,
+  textStyle = {},
+  textCategory = 'small',
+  dividerColor,
 }: {
   marginTop?: DimensionValue;
   marginBottom?: DimensionValue;
@@ -23,6 +34,10 @@ export default function Divider({
   marginHorizontal?: DimensionValue;
   text?: string;
   icon?: MaterialIconsType;
+  backgroundColor?: ColorValue;
+  textStyle?: StyleProp<TextStyle>;
+  textCategory?: TypographyCategoryType;
+  dividerColor?: string;
 }) {
   const theme = useTheme();
   return (
@@ -36,7 +51,7 @@ export default function Divider({
       }}>
       <View
         style={{
-          borderTopColor: theme.divider,
+          borderTopColor: dividerColor || theme.divider,
           borderTopWidth: 1,
           position: 'absolute',
           top: '50%',
@@ -47,15 +62,25 @@ export default function Divider({
       />
       {text && (
         <Typography
-          style={{paddingHorizontal: 8, backgroundColor: theme['bg-app']}}
-          color={theme['text-secondary']}
-          category="small">
+          style={[
+            {
+              paddingHorizontal: 8,
+              backgroundColor: backgroundColor ?? theme['bg-app'],
+            },
+            textStyle,
+          ]}
+          color={dividerColor || theme.divider}
+          category={textCategory}>
           {text}
         </Typography>
       )}
       {icon && (
         <View style={{backgroundColor: theme['bg-app'], paddingHorizontal: 10}}>
-          <Icon size={TYPOGRAPHY.textStyle.small.fontSize} name={icon} color={theme.divider} />
+          <Icon
+            size={TYPOGRAPHY.textStyle.small.fontSize}
+            name={icon}
+            color={dividerColor || theme.divider}
+          />
         </View>
       )}
     </View>

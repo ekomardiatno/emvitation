@@ -619,7 +619,8 @@ export const FONT_WEIGHT: FontWeightType = {
 
 export const FONT_FAMILY = {
   base: 'Rubik',
-  brand: 'HomemadeApple',
+  handwrite: 'Lobster',
+  mono: 'IBMPlexMono',
 };
 
 export const TYPOGRAPHY = {
@@ -627,28 +628,28 @@ export const TYPOGRAPHY = {
   fontWeight: FONT_WEIGHT,
   textStyle: {
     h1: {
-      fontSize: 24,
-      lineHeight: 32,
+      fontSize: 26,
+      lineHeight: 34,
       fontWeight: FONT_WEIGHT.bold,
     },
     h2: {
+      fontSize: 22,
+      lineHeight: 30,
+      fontWeight: FONT_WEIGHT.semibold,
+    },
+    h3: {
       fontSize: 20,
       lineHeight: 28,
       fontWeight: FONT_WEIGHT.semibold,
     },
-    h3: {
+    h4: {
       fontSize: 18,
       lineHeight: 26,
-      fontWeight: FONT_WEIGHT.semibold,
-    },
-    h4: {
-      fontSize: 16,
-      lineHeight: 24,
       fontWeight: FONT_WEIGHT.medium,
     },
     large: {
       fontSize: 15,
-      lineHeight: 24,
+      lineHeight: 23,
       fontWeight: FONT_WEIGHT.regular,
     },
     regular: {
@@ -668,3 +669,103 @@ export const TYPOGRAPHY = {
     },
   },
 };
+
+export const PROVIDERS: {
+  type: 'bank' | 'e-wallet';
+  name:
+    | 'BCA'
+    | 'BNI'
+    | 'BRI'
+    | 'Mandiri'
+    | 'BTN'
+    | 'BSI'
+    | 'BRK Syariah'
+    | 'GoPay'
+    | 'ShopeePay'
+    | 'Dana';
+  logo: {
+    regular: any;
+    white: any;
+  };
+}[] = [
+  {
+    type: 'bank',
+    name: 'BCA',
+    logo: {
+      regular: require('../assets/images/providers/bca.webp'),
+      white: require('../assets/images/providers/bca-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'BNI',
+    logo: {
+      regular: require('../assets/images/providers/bni.webp'),
+      white: require('../assets/images/providers/bni-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'BRI',
+    logo: {
+      regular: require('../assets/images/providers/bri.webp'),
+      white: require('../assets/images/providers/bri-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'Mandiri',
+    logo: {
+      regular: require('../assets/images/providers/mandiri.webp'),
+      white: require('../assets/images/providers/mandiri-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'BTN',
+    logo: {
+      regular: require('../assets/images/providers/btn.webp'),
+      white: require('../assets/images/providers/btn-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'BSI',
+    logo: {
+      regular: require('../assets/images/providers/bsi.webp'),
+      white: require('../assets/images/providers/bsi-white.webp'),
+    },
+  },
+  {
+    type: 'bank',
+    name: 'BRK Syariah',
+    logo: {
+      regular: require('../assets/images/providers/brk-syariah.webp'),
+      white: require('../assets/images/providers/brk-syariah-white.webp'),
+    },
+  },
+  {
+    type: 'e-wallet',
+    name: 'GoPay',
+    logo: {
+      regular: require('../assets/images/providers/gopay.webp'),
+      white: require('../assets/images/providers/gopay-white.webp'),
+    },
+  },
+  {
+    type: 'e-wallet',
+    name: 'ShopeePay',
+    logo: {
+      regular: require('../assets/images/providers/shopeepay.webp'),
+      white: require('../assets/images/providers/shopeepay-white.webp'),
+    },
+  },
+  {
+    type: 'e-wallet',
+    name: 'Dana',
+    logo: {
+      regular: require('../assets/images/providers/dana.webp'),
+      white: require('../assets/images/providers/dana-white.webp'),
+    },
+  },
+];

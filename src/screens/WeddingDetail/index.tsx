@@ -17,6 +17,10 @@ import Button from '../../components/core/Button';
 import useAppSelector from '../../hooks/useAppSelector';
 import EventList from './EventList';
 import Card from '../../components/core/Card';
+import GiftInfoList from './GiftInfoList';
+import openSpa from '../../helpers/openSpa';
+import Typography from '../../components/core/Typography';
+import PublicationAction from './PublicationAction';
 
 type WeddingDetailRouteProp = RouteProp<AppStackParamList, 'WeddingDetail'>;
 
@@ -30,6 +34,7 @@ export default function WeddingDetail({
   const {weddings} = useAppSelector(state => state.wedding);
   const toast = useToast();
   const {templates} = useAppSelector(state => state.template);
+  const {guests} = useAppSelector(state => state.guest);
 
   const wedding = useMemo(() => {
     return weddings.find(w => w.id === route?.params.wedding?.id);
@@ -49,35 +54,94 @@ export default function WeddingDetail({
     return templates.find(t => t.id === wedding.templateId);
   }, [templates, wedding]);
 
+  const weddingGuests = useMemo(() => {
+    if (!wedding) {
+      return [];
+    }
+    return guests.filter(g => g.invitationId === wedding.invitationId);
+  }, [wedding, guests]);
+
   return (
-    <ScreenLayout title="Detail Undangan">
+    <ScreenLayout
+      title="Detail Undangan"
+      rightControl={
+        <>
+          {wedding && (
+            <Button
+              appearance="basic"
+              textStyle={{fontSize: 13}}
+              style={{paddingHorizontal: 12, paddingVertical: 6}}
+              onPress={() => {
+                navigation.navigate('ManageGuest', {
+                  invitationId: wedding?.invitationId,
+                });
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: SPACING.xs,
+                }}>
+                <Icon
+                  name="people"
+                  color={theme['secondary-text']}
+                  size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
+                />
+                <Typography
+                  category="xsmall"
+                  color={theme['secondary-text']}
+                  fontWeight={500}>
+                  {weddingGuests.length} Tamu
+                </Typography>
+              </View>
+            </Button>
+          )}
+        </>
+      }
+      footer={
+        <View style={{gap: SPACING.sm}}>
+          <Button
+            appearance="basic"
+            onPress={() => {
+              openSpa(`/wedding/preview/${wedding?.id}`);
+            }}
+            style={{flexGrow: 1}}>
+            Pratinjau
+          </Button>
+          <PublicationAction wedding={wedding} />
+        </View>
+      }>
       <View style={{gap: SPACING.md}}>
         <Card
           title="Template & Detail Pasangan"
           rightControl={
-            <Button
-              style={{
-                paddingHorizontal: 0,
-                paddingVertical: 0,
-                width: SPACING['2xl'],
-                height: SPACING['2xl'],
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onPress={() => {
-                if (wedding) {
-                  navigation.navigate('WeddingForm', {
-                    wedding: wedding,
-                  });
-                }
-              }}
-              appearance="basic">
-              <Icon
-                color={theme['text-primary']}
-                size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
-                name="edit"
-              />
-            </Button>
+            <>
+              {wedding?.status !== 'published' && (
+                <Button
+                  style={{
+                    paddingHorizontal: 0,
+                    paddingVertical: 0,
+                    width: SPACING['2xl'],
+                    height: SPACING['2xl'],
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onPress={() => {
+                    if (wedding) {
+                      navigation.navigate('WeddingForm', {
+                        wedding: wedding,
+                      });
+                    }
+                  }}
+                  appearance="basic">
+                  <Icon
+                    color={theme['text-primary']}
+                    size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
+                    name="edit"
+                  />
+                </Button>
+              )}
+            </>
           }>
           <View style={{gap: SPACING.md}}>
             <View
@@ -113,6 +177,7 @@ export default function WeddingDetail({
             <View style={{flexGrow: 1, gap: SPACING.md}}>
               <CoupleCard
                 name={wedding?.groomName}
+                nickname={wedding?.groomNickname || undefined}
                 fatherName={wedding?.groomFatherName}
                 hometown={wedding?.groomHometown}
                 motherName={wedding?.groomMotherName}
@@ -125,6 +190,7 @@ export default function WeddingDetail({
               <CoupleCard
                 gender="female"
                 name={wedding?.brideName}
+                nickname={wedding?.brideNickname || undefined}
                 fatherName={wedding?.brideFatherName}
                 hometown={wedding?.brideHometown}
                 motherName={wedding?.brideMotherName}
@@ -139,6 +205,8 @@ export default function WeddingDetail({
         </Card>
 
         <EventList invitationId={wedding?.invitationId || ''} />
+
+        <GiftInfoList invitationId={wedding?.invitationId || ''} />
       </View>
     </ScreenLayout>
   );

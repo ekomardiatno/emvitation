@@ -5,9 +5,9 @@ import Icon from '@react-native-vector-icons/material-icons';
 import { AppStackNavigationProp } from '../../types/navigation-type';
 import Button from '../../components/core/Button';
 import Confirmation from '../../components/core/Confirmation';
-import { RADIUS, SPACING } from '../../constants';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
 import useAppNavigation from '../../hooks/useAppNavigation';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { WeddingDataType } from '../../types/wedding-type';
 import useAppSelector from '../../hooks/useAppSelector';
 import { APP_API_URL } from '../../config';
@@ -15,6 +15,10 @@ import moment from 'moment';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { loadingEvents } from '../../redux/reducers/event.reducer';
 import { loadingTemplates } from '../../redux/reducers/template.reducer';
+import { updateWedding } from '../../services/wedding';
+import useToast from '../../hooks/useToast';
+import { patchWedding } from '../../redux/reducers/wedding.reducer';
+import { ApiError } from '../../services/common';
 
 export function WeddingCard({
   data,
@@ -33,6 +37,7 @@ export function WeddingCard({
     state => state.event,
   );
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   useEffect(() => {
     if (areTemplatesLoading) {
@@ -67,6 +72,58 @@ export function WeddingCard({
     }
     return weddingEvents[0];
   }, [data.invitationId, events]);
+
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const fetchPublish = useCallback(
+    async (signal?: AbortSignal) => {
+      try {
+        const res = await updateWedding(
+          data.id,
+          {
+            status: 'published',
+          },
+          signal,
+        );
+        if (res.status >= 200 && res.status < 300) {
+          dispatch(patchWedding(res.data));
+          toast.show('success', 'Berhasil menerbitkan undangan');
+          setIsPublishing(false);
+        } else {
+          throw new Error(res.message || 'Unable to publish invitation');
+        }
+      } catch (e) {
+        if (
+          (e instanceof Error && e.message !== 'canceled') ||
+          (e as ApiError).message
+        ) {
+          toast.show('error', (e as Error | ApiError).message);
+        }
+        setIsPublishing(false);
+      }
+    },
+    [data.id, dispatch, toast],
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (isPublishing) {
+      fetchPublish(controller.signal);
+    } else {
+      controller.abort();
+    }
+  }, [isPublishing, fetchPublish]);
+
+  const onPublish = () => {
+    const weddingEvents = events.filter(
+      ev => ev.invitationId === data.invitationId,
+    );
+    if (weddingEvents.length < 1) {
+      toast.show('warning', 'Daftar acara masih kosong');
+      return;
+    }
+    setIsPublishing(true);
+  };
 
   return (
     <>
@@ -166,7 +223,7 @@ export function WeddingCard({
                   justifyContent: 'flex-end',
                 }}>
                 <Button
-                  appearance="secondary"
+                  appearance="basic"
                   textStyle={{fontSize: 13}}
                   style={{paddingHorizontal: 12, paddingVertical: 6}}
                   onPress={() => {
@@ -183,7 +240,7 @@ export function WeddingCard({
                     <Icon
                       name="people"
                       color={theme['secondary-text']}
-                      size={14}
+                      size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
                     />
                     <Typography
                       category="xsmall"
@@ -193,42 +250,47 @@ export function WeddingCard({
                     </Typography>
                   </View>
                 </Button>
-                <Confirmation
-                  mode="button"
-                  appearance={
-                    data.status !== 'draft' ? 'transparent' : 'primary'
-                  }
-                  buttonStyle={{paddingHorizontal: 12, paddingVertical: 6}}
-                  disabled={data.status === 'published'}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: SPACING.xs,
-                    }}>
-                    <Icon
-                      name="send"
-                      color={
-                        data.status !== 'draft'
-                          ? theme['text-primary']
-                          : theme['primary-text']
-                      }
-                      size={14}
-                    />
-                    <Typography
-                      category="xsmall"
-                      color={
-                        data.status !== 'draft'
-                          ? theme['text-primary']
-                          : theme['primary-text']
-                      }
-                      fontWeight={500}>
-                      {data.status === 'published'
-                        ? 'Sudah Diterbitkan'
-                        : 'Terbitkan'}
-                    </Typography>
-                  </View>
-                </Confirmation>
+                {data.status !== 'published' && (
+                  <Confirmation
+                    mode="button"
+                    appearance={
+                      data.status !== 'draft' ? 'transparent' : 'primary'
+                    }
+                    buttonStyle={{paddingHorizontal: 12, paddingVertical: 6}}
+                    confirmationDialogAppearance="danger"
+                    cautionTitle="Terbitkan Undangan"
+                    cautionText="Kamu tidak bisa mengedit undangan atau menambahkan daftar tamu setelah undangan diterbitkan!"
+                    confirmText="Terbitkan"
+                    cancelText="Batal"
+                    onConfirmed={onPublish}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: SPACING.xs,
+                      }}>
+                      <Icon
+                        name="send"
+                        color={
+                          data.status !== 'draft'
+                            ? theme['text-primary']
+                            : theme['primary-text']
+                        }
+                        size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
+                      />
+                      <Typography
+                        category="xsmall"
+                        color={
+                          data.status !== 'draft'
+                            ? theme['text-primary']
+                            : theme['primary-text']
+                        }
+                        fontWeight={500}>
+                        {'Terbitkan'}
+                      </Typography>
+                    </View>
+                  </Confirmation>
+                )}
               </View>
             )}
           </View>

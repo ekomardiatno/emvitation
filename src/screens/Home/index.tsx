@@ -1,5 +1,5 @@
 /* eslint-disable react/self-closing-comp */
-import { SPACING } from '../../constants';
+import { SPACING, TYPOGRAPHY } from '../../constants';
 import {
   ActivityIndicator,
   Image,
@@ -23,12 +23,15 @@ import { loadingWeddings } from '../../redux/reducers/wedding.reducer';
 import Button from '../../components/core/Button';
 import { WeddingCard } from '../MyWedding/WeddingCard';
 import VendorSection from './VendorSection';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { gettingProfile } from '../../redux/reducers/profile.reducer';
+import LoadingState from '../../components/LoadingState';
 
 export default function Home() {
   const navigation = useAppNavigation<AppStackNavigationProp>();
   const {width} = useWindowDimensions();
   const theme = useTheme();
-  const {isLoading, data} = useAppSelector(state => state.profile);
+  const {isLoading, data, error} = useAppSelector(state => state.profile);
   const {isLoading: isWeddingLoading, weddings} = useAppSelector(
     state => state.wedding,
   );
@@ -72,7 +75,11 @@ export default function Home() {
               gap: SPACING.md,
             }}>
             <Image
-              source={require('../../assets/images/logo.webp')}
+              source={
+                theme.schema === 'dark'
+                  ? require('../../assets/images/logo-white-50px.webp')
+                  : require('../../assets/images/logo-50px.webp')
+              }
               resizeMode="contain"
               style={{width: 30, height: 30}}
             />
@@ -86,19 +93,21 @@ export default function Home() {
           <View style={{position: 'relative', paddingLeft: 22}}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Profile');
+                if (error) {
+                  dispatch(gettingProfile());
+                } else {
+                  navigation.navigate('Profile');
+                }
               }}>
               <View
                 style={{
                   width: 38,
                   height: 38,
                   borderRadius: 38,
-                  borderWidth: SPACING.xxs,
-                  borderColor: isLoading
-                    ? theme['border-default']
-                    : theme['info-text'],
                   backgroundColor: isLoading
                     ? theme['secondary-bg']
+                    : error
+                    ? theme['error-bg']
                     : theme['info-bg'],
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -107,6 +116,12 @@ export default function Home() {
                   <ActivityIndicator
                     color={theme['secondary-text']}
                     size={20}
+                  />
+                ) : error ? (
+                  <MaterialIcons
+                    size={TYPOGRAPHY.textStyle.regular.lineHeight}
+                    name="error"
+                    color={theme['error-text']}
                   />
                 ) : (
                   <Typography
@@ -146,11 +161,11 @@ export default function Home() {
             title={latestUnpublishedWedding ? 'Undangan terakhir' : undefined}
             rightControl={
               latestUnpublishedWedding ? (
-                <View style={{marginRight: SPACING.xxs * -1}}>
+                <View style={{marginRight: SPACING.xs * -1}}>
                   <Button
                     style={{
                       paddingVertical: 0,
-                      paddingHorizontal: SPACING.xxs,
+                      paddingHorizontal: SPACING.xs,
                     }}
                     category="xsmall"
                     textStyle={{color: theme['primary-bg']}}
@@ -163,7 +178,9 @@ export default function Home() {
                 </View>
               ) : undefined
             }>
-            {latestUnpublishedWedding ? (
+            {isWeddingLoading ? (
+              <LoadingState />
+            ) : latestUnpublishedWedding ? (
               <WeddingCard
                 data={latestUnpublishedWedding}
                 controls={

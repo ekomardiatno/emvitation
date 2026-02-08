@@ -9,10 +9,12 @@ const initialState: {
   guests: GuestDataType[];
   isLoading: boolean;
   error: string | null;
+  sharedGuestIds: string[];
 } = {
   guests: [],
   isLoading: true,
   error: null,
+  sharedGuestIds: [],
 };
 
 // Define the async thunk
@@ -57,6 +59,11 @@ const guestSlice = createSlice({
       state.guests = [];
       state.isLoading = true;
     },
+    pushSharedGuestId: (state, action: PayloadAction<string>) => {
+      if (!state.sharedGuestIds.includes(action.payload)) {
+        state.sharedGuestIds.push(action.payload);
+      }
+    },
   },
   extraReducers: builder => {
     builder
@@ -85,6 +92,7 @@ const persistedGuestReducer = persistReducer(
   guestReducer,
 );
 
-export const {patchGuest, pushGuest, resetGuests} = guestSlice.actions;
+export const {patchGuest, pushGuest, resetGuests, pushSharedGuestId} =
+  guestSlice.actions;
 
 export default persistedGuestReducer;

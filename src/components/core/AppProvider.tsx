@@ -11,6 +11,8 @@ import { resetGuests } from '../../redux/reducers/guest.reducer';
 import { resetProfile } from '../../redux/reducers/profile.reducer';
 import { resetTemplates } from '../../redux/reducers/template.reducer';
 import { resetWeddings } from '../../redux/reducers/wedding.reducer';
+import { resetVendors } from '../../redux/reducers/vendor.reducer';
+import { resetGiftInfos } from '../../redux/reducers/gift-info.reducer';
 
 type AppContextType = {theme: ThemeType; appLogout: () => void};
 
@@ -35,9 +37,11 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
   const appLogout = () => {
     dispatch(logout());
     dispatch(resetEvents());
+    dispatch(resetGiftInfos());
     dispatch(resetGuests());
     dispatch(resetProfile());
     dispatch(resetTemplates());
+    dispatch(resetVendors());
     dispatch(resetWeddings());
   };
 

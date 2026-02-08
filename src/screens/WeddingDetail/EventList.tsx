@@ -2,15 +2,19 @@ import { ActivityIndicator, View } from 'react-native';
 import EventCard from './EventCard';
 import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
 import useAppSelector from '../../hooks/useAppSelector';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import LoadingState from '../../components/LoadingState';
 import { ErrorState } from '../../components/ErrorState';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { loadingEvents, patchEvent } from '../../redux/reducers/event.reducer';
+import {
+  loadingEvents,
+  patchEvent,
+  removeEvent,
+} from '../../redux/reducers/event.reducer';
 import { EmptyState } from '../../components/EmptyState';
 import moment from 'moment';
 import useAppNavigation from '../../hooks/useAppNavigation';
-import { updateEvent } from '../../services/event';
+import { deleteEvent, updateEvent } from '../../services/event';
 import errorHandler from '../../helpers/errorHandler';
 import useToast from '../../hooks/useToast';
 import { useTheme } from '../../components/core/AppProvider';
@@ -19,6 +23,7 @@ import Button from '../../components/core/Button';
 import Typography from '../../components/core/Typography';
 import EModal from '../../components/core/EModal';
 import Card from '../../components/core/Card';
+import { ApiError } from '../../services/common';
 
 export default function EventList({invitationId}: {invitationId: string}) {
   const {isLoading, error, events} = useAppSelector(state => state.event);
@@ -27,6 +32,11 @@ export default function EventList({invitationId}: {invitationId: string}) {
   const toast = useToast();
   const [isChangingMainEvent, setIsChangingMainEvent] = useState(false);
   const theme = useTheme();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [highlightedEventId, setHighlightedEventId] = useState<string | null>(
+    null,
+  );
+  const {weddings} = useAppSelector(state => state.wedding);
 
   const weddingEvents = useMemo(() => {
     return events.filter(e => e.invitationId === invitationId);
@@ -68,34 +78,85 @@ export default function EventList({invitationId}: {invitationId: string}) {
     }
   };
 
+  const fetchDelete = useCallback(
+    async (signal?: AbortSignal) => {
+      console.log('triggered');
+      if (!highlightedEventId) {
+        setIsDeleting(false);
+        return;
+      }
+      try {
+        const res = await deleteEvent(highlightedEventId, signal);
+        if (res.status >= 200 && res.status < 300) {
+          setIsDeleting(false);
+          dispatch(removeEvent(highlightedEventId));
+        } else {
+          throw new Error(res.message || 'Failed to delete event');
+        }
+      } catch (e) {
+        if (
+          (e instanceof Error && e.message !== 'canceled') ||
+          (e as ApiError).message
+        ) {
+          toast.show(
+            'error',
+            (e as Error | ApiError)?.message || 'Unknown error',
+          );
+        }
+      } finally {
+        setHighlightedEventId(null);
+      }
+    },
+    [dispatch, highlightedEventId, toast],
+  );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (isDeleting) {
+      fetchDelete(controller.signal);
+    } else {
+      controller.abort();
+    }
+  }, [isDeleting, fetchDelete]);
+
+  const hasWeddingPublished = useMemo(() => {
+    const wedding = weddings.find(w => w.invitationId === invitationId);
+    if (wedding?.status === 'published') return true;
+    return false;
+  }, [invitationId, weddings]);
+
   return (
     <>
       <Card
         title="Daftar Acara"
         rightControl={
-          <Button
-            style={{
-              paddingHorizontal: 0,
-              paddingVertical: 0,
-              width: SPACING['2xl'],
-              height: SPACING['2xl'],
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onPress={() => {
-              if (invitationId) {
-                navigation.navigate('EventForm', {
-                  invitationId: invitationId,
-                });
-              }
-            }}
-            disabled={!invitationId}>
-            <MaterialIcons
-              name="add"
-              size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
-              color={theme['primary-text']}
-            />
-          </Button>
+          <>
+            {!hasWeddingPublished && (
+              <Button
+                style={{
+                  paddingHorizontal: 0,
+                  paddingVertical: 0,
+                  width: SPACING['2xl'],
+                  height: SPACING['2xl'],
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() => {
+                  if (invitationId) {
+                    navigation.navigate('EventForm', {
+                      invitationId: invitationId,
+                    });
+                  }
+                }}
+                disabled={!invitationId}>
+                <MaterialIcons
+                  name="add"
+                  size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
+                  color={theme['primary-text']}
+                />
+              </Button>
+            )}
+          </>
         }>
         <View style={{gap: SPACING.md}}>
           {isLoading ? (
@@ -107,8 +168,8 @@ export default function EventList({invitationId}: {invitationId: string}) {
             />
           ) : weddingEvents.length < 1 ? (
             <EmptyState
-              title="Belum Ada Acara"
-              message="Tambahkan acara pertama"
+              title="Belum Ada Data Acara"
+              message="Mulai menambahkan data acara"
             />
           ) : (
             weddingEvents.map(event => {
@@ -127,13 +188,20 @@ export default function EventList({invitationId}: {invitationId: string}) {
                     .join(':')}`}
                   location={event.address}
                   isMainEvent={event.isMainEvent}
+                  isDeleting={isDeleting}
                   onEdit={() => {
                     navigation.navigate('EventForm', {
                       invitationId,
                       event,
                     });
                   }}
+                  disabledControls={hasWeddingPublished}
                   onChangeMainEvent={() => onChangeMainEvent(event.id)}
+                  onDelete={() => {
+                    console.log('onConfirmed');
+                    setHighlightedEventId(event.id);
+                    setIsDeleting(true);
+                  }}
                 />
               );
             })

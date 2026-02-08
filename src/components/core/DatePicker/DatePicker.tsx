@@ -78,6 +78,14 @@ const DatePicker = ({
   );
   const [selectedDate, setSelectedDate] = useState<Date | null>(currentDate);
 
+  useEffect(() => {
+    if (dateOnly && field.value) {
+      setSelectedDate(new Date(field.value));
+    } else if (!timeOnly && field.value) {
+      setSelectedDate(field.value);
+    }
+  }, [field.value, dateOnly, timeOnly]);
+
   const onViewCalendar = () => {
     setIsCalendarPanelVisible(state => !state);
   };

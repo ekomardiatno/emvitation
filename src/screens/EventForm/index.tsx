@@ -191,6 +191,7 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
           <Confirmation
             isLoading={isSubmitting}
             mode="button"
+            appearance="primary"
             onConfirmed={onSubmit}>
             Simpan
           </Confirmation>

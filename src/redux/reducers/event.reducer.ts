@@ -52,6 +52,9 @@ const eventSlice = createSlice({
     pushEvent: (state, action: PayloadAction<EventDataType>) => {
       state.events.push(action.payload);
     },
+    removeEvent: (state, action: PayloadAction<string>) => {
+      state.events = state.events.filter(g => g.id !== action.payload);
+    },
     resetEvents: state => {
       state.error = null;
       state.events = [];
@@ -85,6 +88,7 @@ const persistedEventReducer = persistReducer(
   eventReducer,
 );
 
-export const {patchEvent, pushEvent, resetEvents} = eventSlice.actions;
+export const {patchEvent, pushEvent, resetEvents, removeEvent} =
+  eventSlice.actions;
 
 export default persistedEventReducer;

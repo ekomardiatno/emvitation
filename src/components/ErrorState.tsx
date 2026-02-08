@@ -1,8 +1,8 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Typography from './core/Typography';
 import Button from './core/Button';
 import { SPACING } from '../constants';
-import { illustration } from './core/Confirmation';
+import { IconState } from './core/Confirmation';
 import { useTheme } from './core/AppProvider';
 
 type Props = {
@@ -21,18 +21,11 @@ export function ErrorState({
   const theme = useTheme();
   return (
     <View style={styles.container}>
-      <Image
-        width={120}
-        height={120}
-        resizeMode="contain"
-        resizeMethod="resize"
-        style={{width: 120, height: 120, alignSelf: 'center'}}
-        source={illustration('danger')}
-      />
+      <IconState appearance="danger" style={{marginBottom: SPACING.sm}} />
       <Typography
         color={theme['error-text']}
-        style={{marginTop: -10, marginBottom: SPACING.xxs, textAlign: 'center'}}
-        category="h2">
+        style={{marginBottom: SPACING.xxs, textAlign: 'center'}}
+        category="h3">
         {title}
       </Typography>
       <Typography

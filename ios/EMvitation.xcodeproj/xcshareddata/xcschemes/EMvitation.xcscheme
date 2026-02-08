@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "EMvitation.app"
-               BlueprintName = "EMvitation"
-               ReferencedContainer = "container:EMvitation.xcodeproj">
+               BuildableName = "EMVITE.app"
+               BlueprintName = "EMVITE"
+               ReferencedContainer = "container:EMVITE.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "EMvitationTests.xctest"
-               BlueprintName = "EMvitationTests"
-               ReferencedContainer = "container:EMvitation.xcodeproj">
+               BuildableName = "EMVITETests.xctest"
+               BlueprintName = "EMVITETests"
+               ReferencedContainer = "container:EMVITE.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "EMvitation.app"
-            BlueprintName = "EMvitation"
-            ReferencedContainer = "container:EMvitation.xcodeproj">
+            BuildableName = "EMVITE.app"
+            BlueprintName = "EMVITE"
+            ReferencedContainer = "container:EMVITE.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "EMvitation.app"
-            BlueprintName = "EMvitation"
-            ReferencedContainer = "container:EMvitation.xcodeproj">
+            BuildableName = "EMVITE.app"
+            BlueprintName = "EMVITE"
+            ReferencedContainer = "container:EMVITE.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

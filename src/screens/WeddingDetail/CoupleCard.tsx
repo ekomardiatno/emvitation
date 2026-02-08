@@ -6,6 +6,7 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 export default function CoupleCard({
   name,
+  nickname,
   fatherName,
   motherName,
   hometown,
@@ -13,6 +14,7 @@ export default function CoupleCard({
   gender = 'male',
 }: {
   name?: string;
+  nickname?: string;
   fatherName?: string | null;
   motherName?: string | null;
   hometown?: string | null;
@@ -58,7 +60,21 @@ export default function CoupleCard({
         )}
       </View>
       <View style={{flexGrow: 1}}>
-        <Typography fontWeight={600}>{name}</Typography>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}>
+          <Typography fontWeight={600}>{name}</Typography>
+          {nickname && (
+            <Typography category="small" color={theme['text-secondary']}>
+              {' — '}
+              {nickname}
+              {''}
+            </Typography>
+          )}
+        </View>
         {(fatherName || motherName) && (
           <Typography
             category="xsmall"

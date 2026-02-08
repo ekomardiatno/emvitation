@@ -85,6 +85,7 @@ export default function Profile() {
       <View style={{marginTop: SPACING.lg, gap: 20}}>
         <Confirmation
           mode="button"
+          appearance="danger"
           onConfirmed={onConfirmed}
           cautionTitle="Keluar dari akun?"
           cautionText="Tenang, kamu bisa masuk lagi kapan saya."

@@ -77,3 +77,15 @@ export async function updateEvent(
     message: result.message,
   };
 }
+
+export async function deleteEvent(eventId: string, signal?: AbortSignal) {
+  const result = (await api.delete(`/event/${eventId}`, {
+    signal,
+  })) as ApiResponse<null>;
+
+  return {
+    status: result.status,
+    data: result.data,
+    message: result.message,
+  };
+}
