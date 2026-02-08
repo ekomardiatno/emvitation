@@ -106,8 +106,8 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
         endTime: values.end_time,
         title: values.event_name,
         invitationId: invitationId,
-        address: values.location_address,
-        location: values.location_lat_lng,
+        address: values.location_address || null,
+        location: values.location_lat_lng || null,
         isMainEvent: values.is_main_event,
       };
       try {
