@@ -7,6 +7,7 @@ export type EventDataType = BaseCommonDataType & {
   date: Date | string;
   startTime: string;
   endTime: string;
+  venue: string | null;
   address: string | null;
   location: string | null;
   isMainEvent: boolean;

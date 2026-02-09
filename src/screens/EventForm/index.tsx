@@ -45,6 +45,7 @@ const createEventSchema = yup.object({
     .string()
     .matches(/^\d{2}:\d{2}:\d{2}$/, 'Invalid time format (HH:mm:ss)')
     .required('Jam selesai acara harus diisi'),
+  location_venue: yup.string(),
   location_address: yup.string(),
   location_lat_lng: yup.string(),
   is_main_event: yup.boolean(),
@@ -90,6 +91,7 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
       setValue('is_main_event', event.isMainEvent);
       setValue('location_address', event.address || '');
       setValue('location_lat_lng', event.location || '');
+      setValue('location_venue', event.venue || '');
     }
   }, [event, setValue]);
 
@@ -106,6 +108,7 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
         endTime: values.end_time,
         title: values.event_name,
         invitationId: invitationId,
+        venue: values.location_venue || null,
         address: values.location_address || null,
         location: values.location_lat_lng || null,
         isMainEvent: values.is_main_event,
@@ -261,6 +264,13 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
                   </FieldErrorText>
                 )}
             </View>
+            <Input
+              name="location_venue"
+              control={control}
+              placeholder="Contoh: Gedung Hotel A / Rumah A"
+              label="Nama Lokasi"
+              editable={!isSubmitting}
+            />
             <Input
               name="location_address"
               control={control}

@@ -186,7 +186,7 @@ export default function EventList({invitationId}: {invitationId: string}) {
                     .split(':')
                     .slice(0, 2)
                     .join(':')}`}
-                  location={event.address}
+                  location={event.venue}
                   isMainEvent={event.isMainEvent}
                   isDeleting={isDeleting}
                   onEdit={() => {
