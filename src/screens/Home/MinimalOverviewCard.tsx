@@ -94,7 +94,7 @@ export default function MinimalOverviewCard() {
           </View>
           <View>
             <Typography category="xsmall" fontWeight={600} numberOfLines={1}>
-              Pesan Masuk
+              Ucapan
             </Typography>
             <Typography category="small">{wishes.length}</Typography>
           </View>

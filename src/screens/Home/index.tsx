@@ -183,7 +183,14 @@ export default function Home() {
               ) : undefined
             }>
             {isWeddingLoading ? (
-              <LoadingState />
+              <View
+                style={{
+                  height: 208,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <LoadingState />
+              </View>
             ) : latestUnpublishedWedding ? (
               <WeddingCard
                 data={latestUnpublishedWedding}
@@ -214,9 +221,7 @@ export default function Home() {
             ) : (
               <EmptyState
                 title={
-                  weddings.length > 1
-                    ? 'Undangan selesai'
-                    : 'Belum ada undangan'
+                  weddings.length > 1 ? 'Draf Kosong' : 'Belum Ada Undangan'
                 }
                 message={
                   weddings.length > 1

@@ -13,7 +13,7 @@ export default function WishList() {
   const {wishes, isLoading, error} = useAppSelector(state => state.wish);
   const dispatch = useAppDispatch();
   return (
-    <ScreenLayout title="Pesan Masuk">
+    <ScreenLayout title="Ucapan">
       {isLoading ? (
         <LoadingState />
       ) : error ? (
@@ -24,7 +24,10 @@ export default function WishList() {
           }}
         />
       ) : wishes.length < 1 ? (
-        <EmptyState title="Pesan Kosong" message="Belum ada pesan yang masuk" />
+        <EmptyState
+          title="Ucapan Kosong"
+          message="Belum ada ucapan yang masuk"
+        />
       ) : (
         <View style={{gap: SPACING.md}}>
           {wishes.map(w => {
