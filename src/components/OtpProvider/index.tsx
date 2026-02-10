@@ -153,6 +153,7 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
             width: window.width,
             height: window.height,
             transform: [{translateY: translatYOtpWindow}],
+            backgroundColor: theme['bg-app'],
           }}>
           <ScreenLayout
             onBackPress={isOtpWindowOpened ? onBackPress : undefined}>
