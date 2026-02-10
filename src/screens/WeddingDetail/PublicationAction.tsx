@@ -103,7 +103,7 @@ export default function PublicationAction({
       0,
     );
 
-    if (earliestEventTime < Date.now()) {
+    if (wedding.status !== 'published' && earliestEventTime < Date.now()) {
       toast.show('error', 'Acara pernikahan sudah kedaluwarsa');
       return;
     }

@@ -18,6 +18,7 @@ import useToast from '../hooks/useToast';
 import getHiddenText from '../utils/getHiddenText';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/reducers/auth.reducer';
+import { AuthStackNavigationProp } from '../types/navigation-type';
 
 const loginSchema = yup.object({
   phoneNumber: yup
@@ -36,7 +37,7 @@ export default function Login() {
   const {control, handleSubmit, getValues} = useForm({
     resolver: yupResolver(loginSchema),
   });
-  const navigation = useAppNavigation();
+  const navigation = useAppNavigation<AuthStackNavigationProp>();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const dispatch = useDispatch();
 
