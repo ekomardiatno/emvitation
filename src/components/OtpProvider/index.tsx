@@ -58,16 +58,12 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
 
   const requestOtp = (onVerifiedCallback: () => void, phone: string) => {
     onVerifiedAction.current = onVerifiedCallback;
-    setPhoneNumber(phone);
-    setIsRequestingOtp(true);
     if (!phone) {
       cancel();
       return;
     }
-    setTimeout(() => {
-      setIsRequestingOtp(false);
-      openWindowOtp();
-    }, 1000);
+    setPhoneNumber(phone);
+    setIsRequestingOtp(true);
   };
 
   const cancel = () => {
@@ -107,6 +103,7 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
           setRequestedOtp(res.data);
           setIsRequestingOtp(false);
           setNextRequestOtpIn(Date.now() + 30 * 1000);
+          openWindowOtp();
           inputRef.current?.focus();
         } else {
           throw new Error('Unable to send OTP');
@@ -117,11 +114,12 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
           (e as ApiError).status
         ) {
           setRequestOtpError(new Error((e as Error | ApiError).message));
+          toast.show('error', (e as ApiError | Error).message || 'Failed to retrieve OTP')
         }
         setIsRequestingOtp(false);
       }
     },
-    [phoneNumber],
+    [phoneNumber, toast],
   );
 
   useEffect(() => {
