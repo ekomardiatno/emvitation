@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Image,
   PermissionsAndroid,
   PermissionStatus,
   ScrollView,
@@ -9,7 +8,7 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '../AppProvider';
-import { RADIUS, SPACING } from '../../../constants';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../../constants';
 import Geolocation from '@react-native-community/geolocation';
 import Icon from '@react-native-vector-icons/material-icons';
 import Button from '../Button';
@@ -31,11 +30,14 @@ import ControlProps from '../ControlProps';
 import capitalizeFirstText from '../../../utils/capitalizeFirstText';
 import {
   PlacesSearchStatusType,
-  PlacesTextSearchResponseType,
-  PlaceType,
+  SearchTextPlacesProps,
 } from '../../../types/google-place-type';
 import useWindowHeightOnKeyboard from '../../../hooks/useWindowHeightOnKeyboard';
 import FieldErrorText from '../FieldErrorText';
+import { IconState } from '../Confirmation';
+import { searchPlaces } from '../../../services/google';
+import { ApiError } from '../../../services/common';
+import LoadingState from '../../LoadingState';
 
 const searchSchema = yup.object({
   search_input: yup.string(),
@@ -52,10 +54,12 @@ export default function SelectPlace({
   control,
   placeholderSearch,
   editable,
+  onSelectPlace,
 }: Omit<ControlProps, 'control' | 'name'> & {
   control?: Control<FieldValue<any>, any, FieldValue<any>>;
   name?: string;
   placeholderSearch?: string;
+  onSelectPlace?: (place: SearchTextPlacesProps) => void;
 }) {
   const {control: searchControl} = useForm({
     resolver: yupResolver(searchSchema),
@@ -87,15 +91,24 @@ export default function SelectPlace({
   const [isSearchModalOpened, setIsSearchModalOpened] =
     useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [searchResult, setSearchResult] = useState<null | PlaceType[]>(null);
+  const [searchResult, setSearchResult] = useState<SearchTextPlacesProps[]>([]);
   const [searchStatus, setSearchStatus] =
     useState<PlacesSearchStatusType | null>(null);
-  const [searchError, setSearchError] = useState<TypeError | Error | null>(
-    null,
-  );
+  const [searchError, setSearchError] = useState<string | null>(null);
   const [isLoadingMap, setIsLoadingMap] = useState<boolean>(false);
   const frame = useSafeAreaFrame();
   // const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    if (selectedLocation) {
+      mapRef.current?.animateToRegion({
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+    }
+  }, [selectedLocation]);
 
   useEffect(() => {
     if (controller?.field.value) {
@@ -105,12 +118,6 @@ export default function SelectPlace({
       setSelectedLocation({
         latitude: location[0],
         longitude: location[1],
-      });
-      mapRef.current?.animateToRegion({
-        latitude: location[0],
-        longitude: location[1],
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
       });
     }
   }, [controller?.field.value]);
@@ -128,6 +135,7 @@ export default function SelectPlace({
   let timeoutSearch = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   ).current;
+
   const handleChangeSearchText = (str: string) => {
     if (timeoutSearch) {
       clearTimeout(timeoutSearch);
@@ -137,78 +145,79 @@ export default function SelectPlace({
     }, 800);
   };
 
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout> | null = null;
-    const fetchApi = async (pageToken?: string) => {
+  const timeoutReFetchApi = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fetchSearchPlaces = useCallback(
+    async (signal?: AbortSignal, pageToken?: string) => {
       if (!pageToken) {
-        setIsSearching(true);
-        setSearchResult(null);
+        setIsSearching(false);
+        setSearchResult([]);
       }
       setSearchError(null);
+      setIsSearching(true);
+      setSearchStatus(null);
       try {
-        const search = new URLSearchParams();
-        if (pageToken) {
-          search.append('pagetoken', pageToken);
-        } else {
-          search.append('query', searchInput);
-          if (initialLocation) {
-            search.append(
-              'location',
-              `${initialLocation.latitude},${initialLocation.longitude}`,
-            );
-          }
-        }
-        const result = await fetch(
-          `https://maps.googleapis.com/maps/api/place/textsearch/json?${search}`,
+        const res = await searchPlaces(
+          {
+            textQuery: searchInput,
+            location: initialLocation
+              ? {
+                  latitude: initialLocation.latitude,
+                  longitude: initialLocation.longitude,
+                  radius: 50000,
+                }
+              : undefined,
+            pageToken,
+          },
+          signal,
         );
-        if (result.status === 200) {
-          const json = (await result.json()) as PlacesTextSearchResponseType;
-          setSearchStatus(json.status);
-          if (json.status === 'OK' || json.status === 'ZERO_RESULTS') {
-            if (pageToken) {
-              setSearchResult(state => {
-                if (state) return [...state, ...json.results];
-                return json.results;
-              });
-            } else {
-              setSearchResult(json.results);
-            }
-            if (json.next_page_token) {
-              timeout = setTimeout(() => {
-                fetchApi(json.next_page_token);
-                console.log('triggered');
-              }, 2000);
-            }
-          } else if (json.status === 'INVALID_REQUEST' && pageToken) {
-            timeout = setTimeout(() => {
-              fetchApi(pageToken);
-            }, 2000);
+        if (
+          res.status >= 200 &&
+          res.status < 300 &&
+          Array.isArray(res.data.places)
+        ) {
+          if (pageToken) {
+            setSearchResult(state => {
+              return [
+                ...state,
+                ...(res.data.places as SearchTextPlacesProps[]),
+              ];
+            });
           } else {
-            throw new Error(json.status);
+            setSearchResult(res.data.places);
+            setSearchStatus(!res.data.places ? 'ZERO_RESULTS' : 'OK');
           }
+          if (res.data.nextPageToken) {
+            timeoutReFetchApi.current = setTimeout(() => {
+              fetchSearchPlaces(signal, res.data.nextPageToken);
+            }, 2000);
+          }
+          setIsSearching(false);
         } else {
-          throw new Error(result.statusText);
+          throw new Error('Failed to retrieve places');
         }
       } catch (e) {
-        console.log(e, '<<<');
-        if (e instanceof TypeError) {
-          setSearchError(e);
-        } else if (e instanceof Error) {
-          setSearchError(e);
+        if (
+          (e instanceof Error && e.message !== 'canceled') ||
+          (e as ApiError).message
+        ) {
+          setSearchError((e as ApiError | Error).message);
         }
-      } finally {
         setIsSearching(false);
       }
-    };
+    },
+    [initialLocation, searchInput],
+  );
+
+  useEffect(() => {
     if (searchInput) {
-      fetchApi();
+      fetchSearchPlaces();
       return () => {
-        if (timeout) {
-          clearTimeout(timeout);
+        if (timeoutReFetchApi.current) {
+          clearTimeout(timeoutReFetchApi.current);
         }
       };
     }
-  }, [searchInput, initialLocation]);
+  }, [fetchSearchPlaces, searchInput]);
 
   useEffect(() => {
     if (
@@ -222,41 +231,32 @@ export default function SelectPlace({
         .map(s => Number(s.trim()));
       setInitialLocation({latitude, longitude});
       setSelectedLocation({latitude, longitude});
-      mapRef.current?.animateToRegion({
-        latitude,
-        longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      });
+    } else if (controller?.field.value) {
+      const [latitude, longitude] = (controller?.field.value as string)
+        .split(',')
+        .map(s => Number(s.trim()));
+      setInitialLocation({latitude, longitude});
+      setSelectedLocation({latitude, longitude});
     } else {
       if (permissionAndroid === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(pos => {
           const {latitude, longitude} = pos.coords;
           setInitialLocation({latitude, longitude});
-          mapRef.current?.animateToRegion({
-            latitude,
-            longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          });
         });
       }
     }
-  }, [permissionAndroid, defaultValue]);
+  }, [permissionAndroid, defaultValue, controller?.field.value]);
 
-  const handleSelectPlace = (place: PlaceType) => {
-    if (place.geometry?.location) {
-      const {lat, lng} = place.geometry?.location;
-      mapRef.current?.animateToRegion({
-        latitude: lat,
-        longitude: lng,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      });
-      setInitialLocation({latitude: lat, longitude: lng});
-      if (!selectedLocation)
-        setSelectedLocation({latitude: lat, longitude: lng});
+  const handleSelectPlace = (place: SearchTextPlacesProps) => {
+    if (place.location) {
+      console.log(place.location);
+      const {latitude, longitude} = place.location;
+      setInitialLocation({latitude, longitude});
+      setSelectedLocation({latitude, longitude});
       setIsSearchModalOpened(false);
+      if (onSelectPlace) {
+        onSelectPlace(place);
+      }
     }
   };
 
@@ -507,25 +507,15 @@ export default function SelectPlace({
               borderRadius: 16,
               paddingTop: SPACING.md,
             }}>
-            {isSearching ? (
+            {isSearching && searchResult.length < 1 ? (
               <View
                 style={{
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 8,
+                  gap: SPACING.sm,
                 }}>
-                <Image
-                  source={require('../../../assets/images/neutral-illustration.webp')}
-                  style={{width: 80, height: 80}}
-                />
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Typography category="large">Mencari...</Typography>
-                </View>
+                <LoadingState />
               </View>
             ) : searchError ? (
               <View
@@ -533,35 +523,27 @@ export default function SelectPlace({
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 8,
+                  gap: SPACING.sm,
                 }}>
-                <Image
-                  source={require('../../../assets/images/error-illustration.webp')}
-                  style={{width: 80, height: 80}}
-                />
+                <IconState appearance="danger" />
                 <View
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Typography category="large">Ada kesalahan</Typography>
-                  <Typography category="small">
-                    Silakan coba lagi nanti
-                  </Typography>
+                  <Typography category="large">Oops!!</Typography>
+                  <Typography category="small">{searchError}</Typography>
                 </View>
               </View>
-            ) : !searchResult ? (
+            ) : searchResult.length < 1 ? (
               <View
                 style={{
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 8,
+                  gap: SPACING.sm,
                 }}>
-                <Image
-                  source={require('../../../assets/images/info-illustration.webp')}
-                  style={{width: 80, height: 80}}
-                />
+                <IconState appearance="info" />
 
                 <View
                   style={{
@@ -580,12 +562,9 @@ export default function SelectPlace({
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: 8,
+                  gap: SPACING.sm,
                 }}>
-                <Image
-                  source={require('../../../assets/images/warning-illustration.webp')}
-                  style={{width: 80, height: 80}}
-                />
+                <IconState appearance="warning" />
 
                 <View
                   style={{
@@ -626,14 +605,17 @@ export default function SelectPlace({
                           <Icon
                             name="place"
                             color={theme['secondary-text']}
-                            size={26}
+                            size={TYPOGRAPHY.textStyle.large.lineHeight}
                           />
-                          <View style={{flex: 1}}>
-                            <Typography category="h4">{place.name}</Typography>
+                          <View style={{flexGrow: 1}}>
+                            <Typography category="large">
+                              {place.displayName.text}
+                            </Typography>
                             <Typography
+                              category="small"
                               color={theme['secondary-text']}
                               numberOfLines={1}>
-                              {place.formatted_address}
+                              {place.formattedAddress}
                             </Typography>
                           </View>
                         </View>

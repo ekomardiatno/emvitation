@@ -283,6 +283,10 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
               name="location_lat_lng"
               control={control}
               editable={!isSubmitting}
+              onSelectPlace={place => {
+                setValue('location_venue', place.displayName.text);
+                setValue('location_address', place.formattedAddress);
+              }}
             />
           </View>
         </View>
