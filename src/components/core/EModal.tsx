@@ -1,54 +1,14 @@
 import { useEffect, useState } from 'react';
 import {
-  ColorValue, Keyboard,
-  KeyboardEvent,
+  ColorValue,
   Modal,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
 } from 'react-native';
 import { useTheme } from './AppProvider';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
-
-function KeyboardHeightView() {
-  const keyboardHeight = useSharedValue(0);
-  const [keyboardOpen, setKeyboardOpen] = useState(false);
-
-  useEffect(() => {
-    if (!keyboardOpen) {
-      const handleKeyboardShow = (e: KeyboardEvent) => {
-        setKeyboardOpen(true);
-        keyboardHeight.value = withTiming(e.endCoordinates.height);
-      };
-      const showSub = Keyboard.addListener(
-        'keyboardDidShow',
-        handleKeyboardShow,
-      );
-      return () => {
-        showSub.remove();
-      };
-    }
-  }, [keyboardHeight, keyboardOpen]);
-
-  useEffect(() => {
-    if (keyboardOpen) {
-      const handleKeyboardHide = () => {
-        setKeyboardOpen(false);
-        keyboardHeight.value = withTiming(0);
-      };
-      const hideSub = Keyboard.addListener(
-        'keyboardDidHide',
-        handleKeyboardHide,
-      );
-      return () => {
-        hideSub.remove();
-      };
-    }
-  }, [keyboardHeight, keyboardOpen]);
-
-  return <Animated.View style={{height: keyboardHeight, overflow: 'hidden'}} />;
-}
 
 export default function EModal({
   children,
@@ -109,7 +69,6 @@ export default function EModal({
           flex: 1,
           justifyContent: contentAlign || 'flex-end',
           backgroundColor: backdropColor || theme.overlay,
-          paddingBottom: insets.bottom,
           paddingTop: insets.top,
         }}>
         <TouchableOpacity
@@ -119,11 +78,15 @@ export default function EModal({
         />
         <Animated.View
           style={[
-            {width: '100%', transform: [{translateY}]},
+            {
+              width: '100%',
+              transform: [{translateY}],
+              backgroundColor: theme['bg-surface'],
+              paddingBottom: insets.bottom,
+            },
           ]}>
           {children}
         </Animated.View>
-        <KeyboardHeightView />
       </View>
     </Modal>
   );
