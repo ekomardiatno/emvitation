@@ -43,16 +43,14 @@ api.interceptors.response.use(
     const status = error.response?.status || error.status || 500;
     const errorData = error.response?.data as
       | {
-          error?: {
-            code: number;
-            message: string;
-          };
+          message: string,
+          errors?: any[]
         }
       | undefined;
     if (error.response?.status !== 401 || originalRequest._retry) {
       return Promise.reject({
         status,
-        message: errorData?.error?.message || error.message,
+        message: errorData?.message || error.message,
       });
     }
 
