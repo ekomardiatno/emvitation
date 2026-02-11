@@ -4,7 +4,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { CARD_SPACING, Vendor, VendorSectionContext } from '.';
+import { Vendor, VendorSectionContext } from '.';
 import Button from '../../../components/core/Button';
 import { Image, useWindowDimensions, View } from 'react-native';
 import { useTheme } from '../../../components/core/AppProvider';
@@ -26,17 +26,17 @@ export default function VendorItem({
   const {cardWidthScale, items} = useContext(VendorSectionContext);
   const {width} = useWindowDimensions();
   const cardWidth = useMemo(
-    () => width * cardWidthScale - (items.length > 1 ? 0 : SPACING.md * 2),
-    [width, cardWidthScale, items.length],
+    () => (width - SPACING.md * 2) * cardWidthScale,
+    [width, cardWidthScale],
   );
   const theme = useTheme();
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
       scrollX.value,
       [
-        (index - 1) * (cardWidth + CARD_SPACING),
-        index * (cardWidth + CARD_SPACING),
-        (index + 1) * (cardWidth + CARD_SPACING),
+        (index - 1) * (cardWidth + SPACING.md),
+        items.length - 1 === index ? (index * (cardWidth + SPACING.md) - (width - (width - SPACING.md * 2) * cardWidthScale)) : index * (cardWidth + SPACING.md),
+        (index + 1) * (cardWidth + SPACING.md),
       ],
       [0.92, 1, 0.92],
       Extrapolation.CLAMP,

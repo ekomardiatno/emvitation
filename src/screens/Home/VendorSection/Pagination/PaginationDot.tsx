@@ -5,9 +5,10 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import { CARD_SPACING, VendorSectionContext } from '..';
+import { VendorSectionContext } from '..';
 import { useTheme } from '../../../../components/core/AppProvider';
 import { useContext, useMemo } from 'react';
+import { SPACING } from '../../../../constants';
 
 export default function PaginationDot({
   index,
@@ -17,9 +18,9 @@ export default function PaginationDot({
   scrollX: SharedValue<number>;
 }) {
   const {width} = useWindowDimensions();
-  const {cardWidthScale} = useContext(VendorSectionContext);
+  const {cardWidthScale, items} = useContext(VendorSectionContext);
   const cardWidth = useMemo(
-    () => width * cardWidthScale,
+    () => (width - SPACING.md * 2) * cardWidthScale,
     [width, cardWidthScale],
   );
   const theme = useTheme();
@@ -27,9 +28,12 @@ export default function PaginationDot({
     const widthInterpolation = interpolate(
       scrollX.value,
       [
-        (index - 1) * (cardWidth + CARD_SPACING),
-        index * (cardWidth + CARD_SPACING),
-        (index + 1) * (cardWidth + CARD_SPACING),
+        (index - 1) * (cardWidth - SPACING.md * 2),
+        items.length - 1 === index
+          ? index * (cardWidth + SPACING.md) -
+            (width - (width - SPACING.md * 2) * cardWidthScale)
+          : index * (cardWidth + SPACING.md),
+        (index + 1) * (cardWidth - SPACING.md * 2),
       ],
       [6, 10, 6],
       Extrapolation.CLAMP,

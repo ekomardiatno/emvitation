@@ -19,7 +19,7 @@ import { loadingVendors } from '../../../redux/reducers/vendor.reducer';
 import getImageFullPath from '../../../helpers/getImageFullPath';
 import { ErrorState } from '../../../components/ErrorState';
 
-export const CARD_SPACING = SPACING.lg;
+export const CARD_SPACING = SPACING.md;
 export const CARD_SCALE = 0.8;
 
 export type Vendor = {
@@ -54,7 +54,7 @@ function VendorSection({
   const [cardWidthScale, setCardWidthScale] = useState(CARD_SCALE);
 
   useEffect(() => {
-    if (vendors.length <= 2) {
+    if (vendors.length < 2) {
       setCardWidthScale(1);
     } else {
       setCardWidthScale(CARD_SCALE);
@@ -62,7 +62,7 @@ function VendorSection({
   }, [vendors.length]);
 
   const cardWidth = useMemo(() => {
-    return width * cardWidthScale;
+    return (width - (SPACING.md * 2)) * cardWidthScale;
   }, [cardWidthScale, width]);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ function VendorSection({
           keyExtractor={item => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
-          snapToInterval={cardWidth + CARD_SPACING}
+          snapToInterval={cardWidth + SPACING.md}
           decelerationRate="fast"
           contentContainerStyle={{
             paddingHorizontal: SPACING.md,
