@@ -10,7 +10,7 @@ import Share from 'react-native-share';
 import { getSpaUrl } from '../../helpers/openSpa';
 import { GuestDataType } from '../../types/guest-type';
 import useAppSelector from '../../hooks/useAppSelector';
-import { SPACING } from '../../constants';
+import { CONTAINER_GUTTER, SPACING } from '../../constants';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { pushSharedGuestId } from '../../redux/reducers/guest.reducer';
 
@@ -112,7 +112,7 @@ export default function GuestCard({
       <View
         style={{
           position: 'absolute',
-          left: (SPACING.md + width) * -1,
+          left: (CONTAINER_GUTTER + width) * -1,
           width: width < height ? width : height,
         }}>
         <ViewShot ref={viewRef} options={{format: 'png', quality: 1}}>

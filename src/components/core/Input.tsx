@@ -122,7 +122,7 @@ const Input = ({
             if (keyboardType === 'numeric') {
               val = val.replace(/\D/g, '');
             }
-            field.onChange(val || undefined);
+            field.onChange(val ?? undefined);
             if (onChangeText) {
               onChangeText(val);
             }

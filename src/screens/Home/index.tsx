@@ -1,5 +1,5 @@
 /* eslint-disable react/self-closing-comp */
-import { SPACING, TYPOGRAPHY } from '../../constants';
+import { CONTAINER_GUTTER, SPACING, TYPOGRAPHY } from '../../constants';
 import {
   ActivityIndicator,
   Image,
@@ -138,13 +138,13 @@ export default function Home() {
           </View>
         </View>
       </View>
-      <View>
+      <View style={{ paddingBottom: SPACING.lg }}>
         <View style={{gap: SPACING.md, flexDirection: 'row'}}>
           <PressableCard
             title="Buat Undangan"
             shortDescription="Buat undangan baru"
             iconName="add"
-            width={(width - SPACING.md * 2 - SPACING.md) / 2}
+            width={(width - CONTAINER_GUTTER * 2 - CONTAINER_GUTTER) / 2}
             onPress={() => navigation.navigate('WeddingForm')}
             variant="info"
           />
@@ -152,7 +152,7 @@ export default function Home() {
             title="Undangan Saya"
             iconName="description"
             shortDescription="Lihat dan kelola undangan"
-            width={(width - SPACING.md * 2 - SPACING.md) / 2}
+            width={(width - CONTAINER_GUTTER * 2 - CONTAINER_GUTTER) / 2}
             onPress={() => navigation.navigate('MyWedding')}
             variant="success"
           />
@@ -237,7 +237,7 @@ export default function Home() {
           </Card>
         </View>
         <View
-          style={{marginTop: SPACING.lg, marginHorizontal: SPACING.md * -1}}>
+          style={{marginTop: SPACING.lg, marginHorizontal: CONTAINER_GUTTER * -1}}>
           <VendorSection
             title="Vendor Pilihan"
             description="Vendor terpercaya untuk melengkapi hari spesial Kamu"

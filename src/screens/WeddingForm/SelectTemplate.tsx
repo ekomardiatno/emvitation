@@ -5,7 +5,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native';
 import { useTheme } from '../../components/core/AppProvider';
 import Icon from '@react-native-vector-icons/material-icons';

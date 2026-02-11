@@ -32,12 +32,12 @@ import {
   PlacesSearchStatusType,
   SearchTextPlacesProps,
 } from '../../../types/google-place-type';
-import useWindowHeightOnKeyboard from '../../../hooks/useWindowHeightOnKeyboard';
 import FieldErrorText from '../FieldErrorText';
 import { IconState } from '../Confirmation';
 import { searchPlaces } from '../../../services/google';
 import { ApiError } from '../../../services/common';
 import LoadingState from '../../LoadingState';
+import KeyboardHeightView from '../KeyboardHeightView';
 
 const searchSchema = yup.object({
   search_input: yup.string(),
@@ -74,7 +74,6 @@ export default function SelectPlace({
   }
   // let prevDefaultValue = useRef<string | null | undefined>(defaultValue).current
   const mapRef = useRef<MapView>(null);
-  const {keyboardHeight} = useWindowHeightOnKeyboard();
 
   const theme = useTheme();
   const [initialLocation, setInitialLocation] = useState<{
@@ -462,11 +461,6 @@ export default function SelectPlace({
         <View
           style={{
             backgroundColor: theme['bg-surface'],
-            width: '100%',
-            height:
-              frame.width < frame.height
-                ? 500 - keyboardHeight / 2
-                : frame.width - 100,
             paddingHorizontal: SPACING.md,
             paddingVertical: SPACING.md,
             borderTopLeftRadius: RADIUS.md,
@@ -503,7 +497,10 @@ export default function SelectPlace({
           <View
             style={{
               overflow: 'hidden',
-              flex: 1,
+              height:
+                frame.width < frame.height
+                  ? frame.height - 500
+                  : frame.width - 100,
               borderRadius: 16,
               paddingTop: SPACING.md,
             }}>
@@ -626,6 +623,7 @@ export default function SelectPlace({
               </ScrollView>
             )}
           </View>
+          <KeyboardHeightView />
         </View>
       </EModal>
     </View>

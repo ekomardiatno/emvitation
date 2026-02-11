@@ -8,7 +8,7 @@ import { Vendor, VendorSectionContext } from '.';
 import Button from '../../../components/core/Button';
 import { Image, useWindowDimensions, View } from 'react-native';
 import { useTheme } from '../../../components/core/AppProvider';
-import { RADIUS, SPACING } from '../../../constants';
+import { CONTAINER_GUTTER, RADIUS, SPACING } from '../../../constants';
 import Typography from '../../../components/core/Typography';
 import { useContext, useMemo } from 'react';
 
@@ -26,7 +26,7 @@ export default function VendorItem({
   const {cardWidthScale, items} = useContext(VendorSectionContext);
   const {width} = useWindowDimensions();
   const cardWidth = useMemo(
-    () => (width - SPACING.md * 2) * cardWidthScale,
+    () => (width - CONTAINER_GUTTER * 2) * cardWidthScale,
     [width, cardWidthScale],
   );
   const theme = useTheme();
@@ -34,9 +34,9 @@ export default function VendorItem({
     const scale = interpolate(
       scrollX.value,
       [
-        (index - 1) * (cardWidth + SPACING.md),
-        items.length - 1 === index ? (index * (cardWidth + SPACING.md) - (width - (width - SPACING.md * 2) * cardWidthScale)) : index * (cardWidth + SPACING.md),
-        (index + 1) * (cardWidth + SPACING.md),
+        (index - 1) * (cardWidth + CONTAINER_GUTTER),
+        items.length - 1 === index ? (index * (cardWidth + CONTAINER_GUTTER) - (width - (width - CONTAINER_GUTTER * 2) * cardWidthScale)) : index * (cardWidth + CONTAINER_GUTTER),
+        (index + 1) * (cardWidth + CONTAINER_GUTTER),
       ],
       [0.92, 1, 0.92],
       Extrapolation.CLAMP,

@@ -1,4 +1,4 @@
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import ScreenLayout from '../../components/core/ScreenLayout';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RADIUS, SPACING } from '../../constants';
@@ -6,7 +6,6 @@ import { useTheme } from '../../components/core/AppProvider';
 import Button from '../../components/core/Button';
 import Icon from '@react-native-vector-icons/material-icons';
 import EModal from '../../components/core/EModal';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Input from '../../components/core/Input';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -18,11 +17,19 @@ import { AppStackParamList } from '../../types/navigation-type';
 import GuestCard from './GuestCard';
 import { createGuest, updateGuest } from '../../services/guest';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { patchGuest, pushGuest } from '../../redux/reducers/guest.reducer';
+import {
+  loadingGuests,
+  patchGuest,
+  pushGuest,
+} from '../../redux/reducers/guest.reducer';
 import errorHandler from '../../helpers/errorHandler';
 import useToast from '../../hooks/useToast';
 import { EmptyState } from '../../components/EmptyState';
 import Typography from '../../components/core/Typography';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import KeyboardHeightView from '../../components/core/KeyboardHeightView';
+import LoadingState from '../../components/LoadingState';
+import { ErrorState } from '../../components/ErrorState';
 
 export const addGuestSchema = yup.object({
   guest_name: yup.string().required('Nama tamu harus diisi'),
@@ -32,17 +39,17 @@ type ManageGuestRouteProp = RouteProp<AppStackParamList, 'ManageGuest'>;
 export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
   const theme = useTheme();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const {top} = useSafeAreaInsets();
   const {control, handleSubmit, getValues, setValue} = useForm({
     resolver: yupResolver(addGuestSchema),
   });
   const invitationId = route?.params.invitationId;
-  const {guests} = useAppSelector(state => state.guest);
+  const {guests, isLoading, error} = useAppSelector(state => state.guest);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useAppDispatch();
   const toast = useToast();
   const [selectedGuestId, setSelectedGuestId] = useState<string | null>(null);
   const {weddings} = useAppSelector(state => state.wedding);
+  const insets = useSafeAreaInsets();
 
   const invitationGuests = useMemo(() => {
     return guests.filter(g => g.invitationId === invitationId);
@@ -115,6 +122,12 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
     }
   }, [isSubmitting, fetchSubmitting]);
 
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(loadingGuests());
+    }
+  }, [isLoading, dispatch]);
+
   return (
     <ScreenLayout
       title="Kelola Tamu"
@@ -134,85 +147,98 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
           )}
         </>
       }>
-      <>
-        {invitationGuests.length < 1 ? (
-          <EmptyState
-            title="Belum ada tamu"
-            message="Daftar tambah masih kosong, Tambahkan tamu pertama."
-          />
-        ) : (
-          <View style={{gap: 10}}>
-            {invitationGuests.map(g => {
-              return (
-                <GuestCard
-                  key={g.id}
-                  guest={g}
-                  invitationId={invitationId}
-                  onEdit={() => {
-                    setSelectedGuestId(g.id);
-                    setIsModalVisible(true);
-                    setValue('guest_name', g.name);
-                  }}
-                  disableEdit={wedding?.status === 'published'}
-                />
-              );
-            })}
-          </View>
-        )}
-        <EModal
-          visible={isModalVisible}
-          onClose={() => {
-            setIsModalVisible(false);
-          }}>
-          <View
-            style={{
-              backgroundColor: theme['bg-surface'],
-              padding: SPACING.lg,
-              borderRadius: RADIUS.md,
-              marginHorizontal: SPACING.lg,
-              marginBottom: Platform.OS === 'ios' ? SPACING.md * 3 : top,
-            }}>
-            <View style={{marginBottom: SPACING.lg}}>
-              <Typography category="h4">
-                {selectedGuestId ? 'Edit' : 'Tambah'} Tamu
-              </Typography>
-              <Typography category="xsmall" fontWeight={300}>
-                {selectedGuestId
-                  ? 'Ubah nama tamu yang sudah terdaftar.'
-                  : 'Silakan masukkan nama yang ingin ditambahkan'}
-              </Typography>
-            </View>
-            <Input
-              control={control}
-              name="guest_name"
-              placeholder="Nama Tamu"
-              label="Nama Tamu"
-              required={true}
+      {isLoading ? (
+        <LoadingState />
+      ) : error ? (
+        <ErrorState
+          title="Oops!!"
+          message={error}
+          onRetry={() => dispatch(loadingGuests())}
+          retryLabel="Muat Ulang"
+        />
+      ) : (
+        <>
+          {invitationGuests.length < 1 ? (
+            <EmptyState
+              title="Belum ada tamu"
+              message="Daftar tambah masih kosong, Tambahkan tamu pertama."
             />
+          ) : (
+            <View style={{gap: SPACING.sm}}>
+              {invitationGuests.map(g => {
+                return (
+                  <GuestCard
+                    key={g.id}
+                    guest={g}
+                    invitationId={invitationId}
+                    onEdit={() => {
+                      setSelectedGuestId(g.id);
+                      setIsModalVisible(true);
+                      setValue('guest_name', g.name);
+                    }}
+                    disableEdit={wedding?.status === 'published'}
+                  />
+                );
+              })}
+            </View>
+          )}
+          <EModal
+            visible={isModalVisible}
+            onClose={() => {
+              setIsModalVisible(false);
+            }}>
             <View
               style={{
-                marginTop: SPACING.xl,
-                gap: SPACING.sm,
+                backgroundColor: theme['bg-surface'],
+                padding: SPACING.lg,
+                borderTopLeftRadius: RADIUS.md,
+                borderTopRightRadius: RADIUS.md,
+                paddingBottom: insets.bottom,
               }}>
-              <Confirmation
-                buttonStyle={{flexGrow: 1}}
-                mode="button"
-                onConfirmed={onSubmit}
-                appearance="primary"
-                onCancel={() => {}}>
-                {`${selectedGuestId ? 'Edit' : 'Tambah'}`}
-              </Confirmation>
+              <View style={{marginBottom: SPACING.lg}}>
+                <Typography category="h4">
+                  {selectedGuestId ? 'Edit' : 'Tambah'} Tamu
+                </Typography>
+                <Typography category="xsmall" fontWeight={300}>
+                  {selectedGuestId
+                    ? 'Ubah nama tamu yang sudah terdaftar.'
+                    : 'Silakan masukkan nama yang ingin ditambahkan'}
+                </Typography>
+              </View>
+              <Input
+                control={control}
+                name="guest_name"
+                placeholder="Nama Tamu"
+                label="Nama Tamu"
+                required={true}
+              />
+              <View
+                style={{
+                  marginTop: SPACING.xl,
+                  gap: SPACING.sm,
+                }}>
+                <Confirmation
+                  buttonStyle={{flexGrow: 1}}
+                  mode="button"
+                  onConfirmed={onSubmit}
+                  appearance="primary"
+                  onCancel={() => {}}>
+                  {`${selectedGuestId ? 'Edit' : 'Tambah'}`}
+                </Confirmation>
 
-              <Button
-                appearance="transparent"
-                style={{flexGrow: 1}}
-                onPress={() => setIsModalVisible(false)}>
-                Batal
-              </Button>
+                <Button
+                  appearance="transparent"
+                  style={{flexGrow: 1}}
+                  onPress={() => setIsModalVisible(false)}>
+                  Batal
+                </Button>
+              </View>
+
+              <KeyboardHeightView />
             </View>
-          </View>
-        </EModal>
-      </>
+          </EModal>
+        </>
+      )}
     </ScreenLayout>
   );
 }

@@ -27,13 +27,9 @@ export default function Profile() {
 
     const uri = `whatsapp://send?phone=${phone}`;
 
-    const supported = await Linking.canOpenURL(uri);
-    if (!supported) {
+    await Linking.openURL(uri).catch(() => {
       toast.show('error', 'WhatsApp not installed');
-      return;
-    }
-
-    await Linking.openURL(uri);
+    });
   };
 
   return (

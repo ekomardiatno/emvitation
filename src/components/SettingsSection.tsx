@@ -59,7 +59,7 @@ const SettingsItemTextComponent = ({
 }) => {
   const theme = useTheme();
   return (
-    <View style={{position: 'relative', flexGrow: 1}}>
+    <View style={{position: 'relative', flex: 1}}>
       <Typography
         style={{opacity: hidden ? 0 : 1}}
         fontWeight={700}

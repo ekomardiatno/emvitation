@@ -8,7 +8,7 @@ import Animated, {
 import { VendorSectionContext } from '..';
 import { useTheme } from '../../../../components/core/AppProvider';
 import { useContext, useMemo } from 'react';
-import { SPACING } from '../../../../constants';
+import { CONTAINER_GUTTER } from '../../../../constants';
 
 export default function PaginationDot({
   index,
@@ -20,7 +20,7 @@ export default function PaginationDot({
   const {width} = useWindowDimensions();
   const {cardWidthScale, items} = useContext(VendorSectionContext);
   const cardWidth = useMemo(
-    () => (width - SPACING.md * 2) * cardWidthScale,
+    () => (width - CONTAINER_GUTTER * 2) * cardWidthScale,
     [width, cardWidthScale],
   );
   const theme = useTheme();
@@ -28,12 +28,12 @@ export default function PaginationDot({
     const widthInterpolation = interpolate(
       scrollX.value,
       [
-        (index - 1) * (cardWidth - SPACING.md * 2),
+        (index - 1) * (cardWidth - CONTAINER_GUTTER * 2),
         items.length - 1 === index
-          ? index * (cardWidth + SPACING.md) -
-            (width - (width - SPACING.md * 2) * cardWidthScale)
-          : index * (cardWidth + SPACING.md),
-        (index + 1) * (cardWidth - SPACING.md * 2),
+          ? index * (cardWidth + CONTAINER_GUTTER) -
+            (width - (width - CONTAINER_GUTTER * 2) * cardWidthScale)
+          : index * (cardWidth + CONTAINER_GUTTER),
+        (index + 1) * (cardWidth - CONTAINER_GUTTER * 2),
       ],
       [6, 10, 6],
       Extrapolation.CLAMP,

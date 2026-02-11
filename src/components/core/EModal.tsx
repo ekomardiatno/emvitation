@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import {
   ColorValue,
   Modal,
-  TouchableOpacity,
+  Pressable,
+  ScrollView,
   useWindowDimensions,
   View,
 } from 'react-native';
 import { useTheme } from './AppProvider';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function EModal({
   children,
@@ -29,11 +30,11 @@ export default function EModal({
     | 'space-around'
     | 'space-evenly';
 }) {
+  const insets = useSafeAreaInsets();
   const {height} = useWindowDimensions();
   const theme = useTheme();
   const translateY = useSharedValue(height);
   const [thisVisible, setThisVisible] = useState(false);
-  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (visible) {
@@ -71,8 +72,7 @@ export default function EModal({
           backgroundColor: backdropColor || theme.overlay,
           paddingTop: insets.top,
         }}>
-        <TouchableOpacity
-          activeOpacity={1}
+        <Pressable
           onPress={handleCancel}
           style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
         />
@@ -81,11 +81,9 @@ export default function EModal({
             {
               width: '100%',
               transform: [{translateY}],
-              backgroundColor: theme['bg-surface'],
-              paddingBottom: insets.bottom,
             },
           ]}>
-          {children}
+          <ScrollView>{children}</ScrollView>
         </Animated.View>
       </View>
     </Modal>

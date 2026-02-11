@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ScreenLayout from '../../components/core/ScreenLayout';
 import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
-import { BackHandler, Image, Pressable, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import * as yup from 'yup';
 import { Control, useForm } from 'react-hook-form';
 import Input from '../../components/core/Input';
@@ -124,16 +124,6 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
     },
     [getValues, isSubmitting],
   );
-
-  useEffect(() => {
-    const subscription = BackHandler.addEventListener(
-      'hardwareBackPress',
-      onBackPress,
-    );
-    return () => {
-      subscription.remove();
-    };
-  }, [onBackPress]);
 
   const onSubmit = handleSubmit(() => {
     setIsSubmitting(true);

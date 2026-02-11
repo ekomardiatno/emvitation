@@ -10,7 +10,7 @@ import Animated, {
   useAnimatedScrollHandler,
 } from 'react-native-reanimated';
 import Typography from '../../../components/core/Typography';
-import { SPACING } from '../../../constants';
+import { CONTAINER_GUTTER, SPACING } from '../../../constants';
 import Pagination from './Pagination';
 import VendorItem from './VendorItem';
 import useAppSelector from '../../../hooks/useAppSelector';
@@ -62,7 +62,7 @@ function VendorSection({
   }, [vendors.length]);
 
   const cardWidth = useMemo(() => {
-    return (width - (SPACING.md * 2)) * cardWidthScale;
+    return (width - (CONTAINER_GUTTER * 2)) * cardWidthScale;
   }, [cardWidthScale, width]);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ function VendorSection({
         <View
           style={{
             marginBottom: SPACING.lg,
-            paddingHorizontal: SPACING.md,
+            paddingHorizontal: CONTAINER_GUTTER,
           }}>
           {title && <Typography category="h4">{title}</Typography>}
           {description && (
@@ -136,10 +136,10 @@ function VendorSection({
           keyExtractor={item => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
-          snapToInterval={cardWidth + SPACING.md}
+          snapToInterval={cardWidth + CONTAINER_GUTTER}
           decelerationRate="fast"
           contentContainerStyle={{
-            paddingHorizontal: SPACING.md,
+            paddingHorizontal: CONTAINER_GUTTER,
             gap: CARD_SPACING,
             width: data.length < 2 ? width : undefined,
             justifyContent: data.length < 2 ? 'center' : undefined,

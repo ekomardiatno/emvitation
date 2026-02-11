@@ -5,7 +5,7 @@ import Typography from './Typography';
 import { useNavigation } from '@react-navigation/native';
 import Icon from '@react-native-vector-icons/material-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SPACING } from '../../constants';
+import { CONTAINER_GUTTER, SPACING } from '../../constants';
 
 export const HEADER_HEIGHT = 70; // Default header height
 
@@ -139,7 +139,7 @@ export default function ScreenLayout({
       )}
       <ScrollView
         style={{
-          paddingHorizontal: SPACING.md,
+          paddingHorizontal: CONTAINER_GUTTER,
           flex: 1,
         }}
         contentContainerStyle={{
@@ -164,6 +164,7 @@ export default function ScreenLayout({
               style={{
                 backgroundColor: theme['bg-surface'],
                 padding: SPACING.md,
+                paddingHorizontal: CONTAINER_GUTTER,
               }}>
               {footer}
             </View>

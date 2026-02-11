@@ -71,7 +71,6 @@ export default function CoupleCard({
             <Typography category="small" color={theme['text-secondary']}>
               {' — '}
               {nickname}
-              {''}
             </Typography>
           )}
         </View>

@@ -142,7 +142,6 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
       }}>
       <View style={{flex: 1, position: 'relative'}}>
         {children}
-
         <Animated.View
           style={{
             top: 0,
@@ -227,7 +226,6 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
                       setEnteredOtp(text.replace(/[^0-9]/g, ''));
                     }
                   }}
-                  autoFocus={true}
                   maxLength={6}
                   textContentType="oneTimeCode"
                   caretHidden

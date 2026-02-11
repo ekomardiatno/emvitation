@@ -429,7 +429,7 @@ export const DARK_THEME: ThemeType = {
   'info-bg': BASE_COLORS.colorBlue900,
   'info-text': BASE_COLORS.colorBlue400,
   // Overlays & elevation (optional)
-  overlay: 'rgba(0, 0, 0, 0.2)',
+  overlay: 'rgba(255, 255, 255, 0.15)',
   googleMapStyle: [
     {
       featureType: 'all',
@@ -608,6 +608,8 @@ export const SPACING: {
   '2xl': 32,
   '3xl': 48,
 };
+
+export const CONTAINER_GUTTER = SPACING.lg
 
 export const FONT_WEIGHT: FontWeightType = {
   light: 300,

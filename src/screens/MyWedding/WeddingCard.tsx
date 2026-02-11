@@ -144,6 +144,7 @@ export function WeddingCard({
             backgroundColor: theme['bg-surface'],
             flexDirection: 'row',
             gap: SPACING.md,
+            flexGrow: 1,
           }}>
           {!hideTemplateInfo && (
             <View
@@ -167,7 +168,7 @@ export function WeddingCard({
               />
             </View>
           )}
-          <View style={{flexGrow: 1}}>
+          <View style={{flex: 1}}>
             {!hideTemplateInfo && (
               <View
                 style={{
@@ -194,7 +195,7 @@ export function WeddingCard({
                 </View>
               </View>
             )}
-            <View style={{flex: 1}}>
+            <View>
               <Typography style={{fontWeight: 500}}>
                 {`${data.groomNickname || data.groomName} & ${
                   data.brideNickname || data.brideName
@@ -216,6 +217,7 @@ export function WeddingCard({
                   {event.address && (
                     <Typography
                       category="xsmall"
+                      color={theme['text-secondary']}
                       style={{marginTop: SPACING.xs}}>
                       {event.address}
                     </Typography>
@@ -282,15 +284,6 @@ export function WeddingCard({
                         alignItems: 'center',
                         gap: SPACING.xs,
                       }}>
-                      <Icon
-                        name="send"
-                        color={
-                          data.status !== 'draft'
-                            ? theme['text-primary']
-                            : theme['primary-text']
-                        }
-                        size={TYPOGRAPHY.textStyle.xsmall.lineHeight}
-                      />
                       <Typography
                         category="xsmall"
                         color={
