@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/native';
 import { AppStackParamList } from '../../types/navigation-type';
 import ScreenLayout from '../../components/core/ScreenLayout';
-import { PROVIDERS, RADIUS, SPACING } from '../../constants';
+import { CONTAINER_GUTTER, PROVIDERS, RADIUS, SPACING } from '../../constants';
 import { Image, useWindowDimensions, View } from 'react-native';
 import { useTheme } from '../../components/core/AppProvider';
 import { PlatformPressable } from '@react-navigation/elements';
@@ -260,9 +260,9 @@ export default function GiftInfoForm({route}: {route?: GiftInfoFormRouteProp}) {
                 }
                 style={{
                   width:
-                    (width - SPACING.md * 4 - SPACING.sm * 2 * 3 - 4 * 3) / 3,
+                    (width - CONTAINER_GUTTER * 4 - SPACING.sm * 2 * 3 - 4 * 3) / 3,
                   height:
-                    (width - SPACING.md * 4 - SPACING.sm * 2 * 3 - 4 * 3) / 3,
+                    (width - CONTAINER_GUTTER * 4 - SPACING.sm * 2 * 3 - 4 * 3) / 3,
                   resizeMode: 'contain',
                 }}
               />
