@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { BackHandler, ScrollView, TouchableOpacity, View } from 'react-native';
+import { BackHandler, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import { useTheme } from './AppProvider';
 import Typography from './Typography';
 import { useNavigation } from '@react-navigation/native';
@@ -84,7 +84,7 @@ export default function ScreenLayout({
       style={{
         flex: 1,
         // backgroundColor: theme['bg-app'],
-        paddingTop: insets.top,
+        paddingTop: insets.top || StatusBar.currentHeight,
         paddingBottom: insets.bottom,
       }}>
       {headerEnabled && (
