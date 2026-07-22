@@ -14,8 +14,8 @@
     "assets": "npx react-native-asset",
     "apple:devices": "xcrun xctrace list devices",
     "clean:cache": "rm -rf $TMPDIR/metro-* $TMPDIR/haste-map-* && rm -rf node_modules/.cache",
-    "android:apk": "npm run clean:cache && cd android && ./gradlew assembleRelease && cd ..",
-    "android:aab": "npm run clean:cache && cd android && ./gradlew bundleRelease && cd .."
+    "android:apk": "npm run clean:cache && cd android && ./gradlew clean assembleRelease && cd ..",
+    "android:aab": "npm run clean:cache && cd android && ./gradlew clean bundleRelease && cd .."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
