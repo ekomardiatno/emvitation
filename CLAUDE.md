@@ -100,4 +100,4 @@ The backend lives in a separate repo: `https://github.com/ekomardiatno/emvite-no
 
 ## CI/CD
 
-GitHub Actions workflow (`.github/workflows/android-release.yml`) triggers on `v*.*.*` tags. Validates tag matches `package.json` version, builds AAB + APK with ProGuard, and creates a GitHub Release with artifacts.
+GitHub Actions workflow (`.github/workflows/android-release.yml`) triggers when a GitHub Release is published. Validates tag matches `package.json` version, builds AAB + APK with ProGuard, and uploads artifacts to the existing release.
