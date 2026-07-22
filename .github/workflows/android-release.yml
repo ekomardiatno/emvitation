@@ -89,7 +89,8 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > android/app/release.keystore
+          printf '%s' "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > android/app/release.keystore
+          keytool -list -keystore android/app/release.keystore -storepass 7DoD8M5tYlg3 -alias emvite-release
 
       - name: Setup JDK 17
         uses: actions/setup-java@v4
