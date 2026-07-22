@@ -98,6 +98,12 @@ The backend lives in a separate repo: `https://github.com/ekomardiatno/emvite-no
   - `/api/public/wedding/invitation/:id`, `/api/public/wedding/guest/:guestId`
   - `/api/google/search-places`
 
+## Versioning
+
+Version is managed in `package.json` only. The Android `build.gradle` reads it automatically:
+- `versionName` = `package.json` version string
+- `versionCode` = `major * 10000 + minor * 100 + patch` (e.g. `1.2.5` → `10205`)
+
 ## CI/CD
 
 GitHub Actions workflow (`.github/workflows/android-release.yml`) triggers when a GitHub Release is published. Validates tag matches `package.json` version, builds AAB + APK with ProGuard, and uploads artifacts to the existing release.
