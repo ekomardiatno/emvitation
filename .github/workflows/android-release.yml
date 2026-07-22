@@ -32,11 +32,6 @@ jobs:
 
           echo "✅ Version match"
 
-      - name: Generate versionCode (timestamp)
-        run: |
-          VERSION_CODE=$(date +%s)
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -123,7 +118,7 @@ jobs:
       - name: Build AAB and APK
         run: |
           cd android
-          ./gradlew bundleRelease assembleRelease -PVERSION_CODE=$VERSION_CODE -x lintVitalAnalyzeRelease -x lintVitalReportRelease
+          ./gradlew bundleRelease assembleRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
 
       - name: Rename build artifacts
         run: |

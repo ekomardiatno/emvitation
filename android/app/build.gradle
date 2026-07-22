@@ -74,13 +74,7 @@ def enableProguardInReleaseBuilds = true
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
 def packageJson = new groovy.json.JsonSlurper().parse(file("../../package.json"))
-
-def versionNameDef = project.hasProperty("VERSION_NAME") ? VERSION_NAME : packageJson.version
-
-// Timestamp fallback (seconds since epoch)
-def timestampVersionCode = (System.currentTimeMillis() / 1000).toInteger()
-
-def versionCodeDef = project.hasProperty("VERSION_CODE") ? VERSION_CODE.toInteger() : timestampVersionCode
+def (major, minor, patch) = packageJson.version.tokenize('.').collect { it.toInteger() }
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -92,8 +86,8 @@ android {
         applicationId "com.emvitation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode versionCodeDef
-        versionName versionNameDef
+        versionCode major * 10000 + minor * 100 + patch
+        versionName packageJson.version
     }
     signingConfigs {
         release {
