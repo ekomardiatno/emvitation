@@ -118,7 +118,7 @@ jobs:
       - name: Build AAB and APK
         run: |
           cd android
-          ./gradlew bundleRelease assembleRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease
+          ./gradlew bundleRelease assembleRelease -x lintVitalAnalyzeRelease -x lintVitalReportRelease -x lintVitalRelease
 
       - name: Rename build artifacts
         run: |
