@@ -56,6 +56,7 @@ npm run assets           # Link native assets (fonts/images)
 - **Redux persistence**: Each slice uses `redux-persist` with AsyncStorage; auth persists tokens, profile persists user data
 - **Theme**: `AppProvider` detects system appearance and provides light/dark colors via `useTheme()` hook; colors use semantic keys like `bg-app`, `text-primary`, `primary-bg`
 - **Screen pattern**: Screens use `ScreenLayout` wrapper, connect to Redux via typed hooks, use `react-hook-form` for forms with `yup` schemas
+- **OTP flow**: `OtpProvider` shows a WhatsApp prompt screen first (user sends a message to `WA_OTP_NUMBER` via deep link), then proceeds to request and verify the OTP code
 - **Logout**: `resetAppState()` dispatches reset actions across all 10 slices
 
 ## Code Conventions
@@ -75,6 +76,7 @@ Copy `.env.example` to `.env` with these variables:
 - `GOOGLE_MAPS_API_KEY` — Google Maps API key
 - `API_NOAUTH_TOKEN` — Token for unauthenticated API calls
 - `SPA_URL` — Web SPA URL for invitation links
+- `WA_OTP_NUMBER` — WhatsApp number for OTP verification prompt (used in `wa.me` deep link)
 
 ## Backend Reference
 
