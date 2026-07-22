@@ -116,30 +116,38 @@ jobs:
           ./gradlew bundleRelease -PVERSION_CODE=$VERSION_CODE
           ./gradlew assembleRelease -PVERSION_CODE=$VERSION_CODE
 
+      - name: Rename build artifacts
+        run: |
+          APP_NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          mv android/app/build/outputs/bundle/release/app-release.aab "android/app/build/outputs/bundle/release/${APP_NAME}-v${VERSION}.aab"
+          mv android/app/build/outputs/apk/release/app-release.apk "android/app/build/outputs/apk/release/${APP_NAME}-v${VERSION}.apk"
+          mv android/app/build/outputs/mapping/release/mapping.txt "android/app/build/outputs/mapping/release/${APP_NAME}-v${VERSION}-mapping.txt"
+
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          path: android/app/build/outputs/bundle/release/*.aab
 
       - name: Upload mapping.txt artifact
         uses: actions/upload-artifact@v4
         with:
           name: mapping-txt
-          path: android/app/build/outputs/mapping/release/mapping.txt
+          path: android/app/build/outputs/mapping/release/*-mapping.txt
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/release/*.apk
 
       - name: Upload assets to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            android/app/build/outputs/bundle/release/app-release.aab
-            android/app/build/outputs/apk/release/app-release.apk
-            android/app/build/outputs/mapping/release/mapping.txt
+            android/app/build/outputs/bundle/release/*.aab
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/mapping/release/*-mapping.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
