@@ -110,14 +110,13 @@ jobs:
 
       - name: Apply CI Gradle overrides
         run: |
+          echo "" >> android/gradle.properties
           cat >> android/gradle.properties << 'EOF'
           org.gradle.parallel=true
           org.gradle.caching=true
           org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=512m
           reactNativeArchitectures=armeabi-v7a,arm64-v8a
           EOF
-          echo "--- gradle.properties passwords ---"
-          grep MYAPP_UPLOAD android/gradle.properties | sed 's/PASSWORD=.*/PASSWORD=***/'
 
       - name: Build AAB and APK
         run: |
