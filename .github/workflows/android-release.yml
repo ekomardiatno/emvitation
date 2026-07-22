@@ -86,6 +86,7 @@ jobs:
           check_var "SPA_URL" "${{ vars.SPA_URL }}"
           check_var "GOOGLE_MAPS_API_KEY" "${{ secrets.GOOGLE_MAPS_API_KEY }}"
           check_var "API_NOAUTH_TOKEN" "${{ secrets.API_NOAUTH_TOKEN }}"
+          check_var "WA_OTP_NUMBER" "${{ vars.WA_OTP_NUMBER }}"
 
           if [ "$missing" = true ]; then
             echo "🚫 Build failed بسبب missing environment variables"
@@ -99,6 +100,7 @@ jobs:
           SPA_URL=${{ vars.SPA_URL }}
           GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
           API_NOAUTH_TOKEN=${{ secrets.API_NOAUTH_TOKEN }}
+          WA_OTP_NUMBER=${{ vars.WA_OTP_NUMBER }}
           EOF
 
           echo ".env created"

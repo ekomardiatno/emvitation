@@ -1,6 +1,7 @@
-import { API_URL, GOOGLE_MAPS_API_KEY, API_NOAUTH_TOKEN, SPA_URL } from '@env';
+import { API_URL, GOOGLE_MAPS_API_KEY, API_NOAUTH_TOKEN, SPA_URL, WA_OTP_NUMBER } from '@env';
 
 export const APP_API_URL = API_URL ?? 'http://localhost:5001/api';
 export const APP_GOOGLE_MAPS_API_KEY = GOOGLE_MAPS_API_KEY ?? '';
 export const APP_API_NOAUTH_TOKEN = API_NOAUTH_TOKEN ?? '';
 export const APP_SPA_URL = SPA_URL ?? '';
+export const APP_WA_OTP_NUMBER = WA_OTP_NUMBER ?? '';

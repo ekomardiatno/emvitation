@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import OtpContext from '../../contexts/OtpContext';
-import { TextInput, useWindowDimensions, View } from 'react-native';
+import { Linking, TextInput, useWindowDimensions, View } from 'react-native';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { useTheme } from '../core/AppProvider';
 import ScreenLayout from '../core/ScreenLayout';
@@ -15,16 +15,20 @@ import calculateTimeLeft, {
   displayCountdownText,
 } from '../../utils/calculateTimeLeft';
 import useToast from '../../hooks/useToast';
+import { APP_WA_OTP_NUMBER } from '../../config';
 
 export default function OtpProvider({children}: {children: React.ReactNode}) {
   const inputRef = useRef<TextInput>(null);
   const [isOtpWindowOpened, setIsOtpWindowOpened] = useState(false);
+  const [isWaPromptVisible, setIsWaPromptVisible] = useState(false);
   const window = useWindowDimensions();
   const translatYOtpWindow = useSharedValue(window.height);
+  const translateYWaPrompt = useSharedValue(window.height);
   const [isRequestingOtp, setIsRequestingOtp] = useState(false);
   const [requestOtpError, setRequestOtpError] = useState<Error | null>(null);
   const theme = useTheme();
   const [isCanceling, setIsCanceling] = useState(false);
+  const [isCancelingWaPrompt, setIsCancelingWaPrompt] = useState(false);
   const [enteredOtp, setEnteredOtp] = useState('');
   const onVerifiedAction = useRef<(otp?: string) => void>(() => {});
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -52,6 +56,14 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
     }
   }, [isOtpWindowOpened, translatYOtpWindow, window.height]);
 
+  useEffect(() => {
+    if (isWaPromptVisible) {
+      translateYWaPrompt.value = withTiming(0);
+    } else {
+      translateYWaPrompt.value = withTiming(window.height);
+    }
+  }, [isWaPromptVisible, translateYWaPrompt, window.height]);
+
   const openWindowOtp = () => {
     setIsOtpWindowOpened(true);
   };
@@ -63,14 +75,34 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
       return;
     }
     setPhoneNumber(phone);
+    setIsWaPromptVisible(true);
+  };
+
+  const cancelWaPrompt = () => {
+    setIsCancelingWaPrompt(false);
+    setIsWaPromptVisible(false);
+  };
+
+  const proceedToOtp = () => {
+    setIsWaPromptVisible(false);
     setIsRequestingOtp(true);
+  };
+
+  const openWhatsApp = () => {
+    const message = encodeURIComponent(
+      `Halo, saya ingin meminta kode OTP untuk verifikasi nomor ${phoneNumberDisplayFormat(phoneNumber)} di aplikasi EMVITE.`,
+    );
+    const url = `https://wa.me/${APP_WA_OTP_NUMBER}?text=${message}`;
+    Linking.openURL(url).catch(() => {});
   };
 
   const cancel = () => {
     setIsCanceling(false);
+    setIsCancelingWaPrompt(false);
     setRequestOtpError(null);
     setIsRequestingOtp(false);
     setIsOtpWindowOpened(false);
+    setIsWaPromptVisible(false);
   };
 
   const toast = useToast();
@@ -91,6 +123,10 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
 
   const onBackPress = () => {
     setIsCanceling(true);
+  };
+
+  const onBackPressWaPrompt = () => {
+    setIsCancelingWaPrompt(true);
   };
 
   const fetchToken = useCallback(
@@ -142,6 +178,64 @@ export default function OtpProvider({children}: {children: React.ReactNode}) {
       }}>
       <View style={{flex: 1, position: 'relative'}}>
         {children}
+
+        {/* WhatsApp Prompt Screen */}
+        <Animated.View
+          style={{
+            top: 0,
+            left: 0,
+            position: 'absolute',
+            width: window.width,
+            height: window.height,
+            transform: [{translateY: translateYWaPrompt}],
+            backgroundColor: theme['bg-app'],
+          }}>
+          <ScreenLayout
+            onBackPress={isWaPromptVisible ? onBackPressWaPrompt : undefined}>
+            <View
+              style={{
+                flexGrow: 1,
+                paddingTop: SPACING.xl,
+                justifyContent: 'center',
+              }}>
+              <Typography category="h2">Verifikasi WhatsApp</Typography>
+              <Typography category="small" style={{marginTop: SPACING.md}}>
+                Untuk memverifikasi nomor{' '}
+                <Typography category="small" fontWeight={600}>
+                  {phoneNumberDisplayFormat(phoneNumber)}
+                </Typography>
+                , silakan kirim pesan ke WhatsApp kami terlebih dahulu dengan
+                menekan tombol di bawah ini, lalu kembali ke aplikasi dan tekan
+                "Lanjutkan" untuk menerima kode OTP.
+              </Typography>
+              <View style={{marginTop: SPACING.xl}}>
+                <Button
+                  onPress={openWhatsApp}
+                  appearance="outline">
+                  Kirim Pesan WhatsApp
+                </Button>
+              </View>
+            </View>
+            <View style={{marginTop: SPACING.xl}}>
+              <Button onPress={proceedToOtp}>
+                Lanjutkan
+              </Button>
+            </View>
+
+            <Confirmation
+              visible={isCancelingWaPrompt}
+              onConfirmed={cancelWaPrompt}
+              onCancel={() => setIsCancelingWaPrompt(false)}
+              appearance="warning"
+              cautionTitle="Batalkan verifikasi?"
+              cautionText="Nomor kamu tidak akan terverifikasi jika proses ini dibatalkan."
+              confirmText="Ya, batalkan"
+              cancelText="Lanjutkan verifikasi"
+            />
+          </ScreenLayout>
+        </Animated.View>
+
+        {/* OTP Input Screen */}
         <Animated.View
           style={{
             top: 0,
