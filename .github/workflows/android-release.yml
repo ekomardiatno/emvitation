@@ -70,13 +70,14 @@ jobs:
 
       - name: Create .env file
         run: |
-          cat <<EOF > .env
-          API_URL=${{ vars.API_URL }}
-          SPA_URL=${{ vars.SPA_URL }}
-          GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
-          API_NOAUTH_TOKEN=${{ secrets.API_NOAUTH_TOKEN }}
-          WA_OTP_NUMBER=${{ vars.WA_OTP_NUMBER }}
-          EOF
+          cat > .env <<'ENVEOF'
+          API_URL='${{ vars.API_URL }}'
+          SPA_URL='${{ vars.SPA_URL }}'
+          GOOGLE_MAPS_API_KEY='${{ secrets.GOOGLE_MAPS_API_KEY }}'
+          API_NOAUTH_TOKEN='${{ secrets.API_NOAUTH_TOKEN }}'
+          WA_OTP_NUMBER='${{ vars.WA_OTP_NUMBER }}'
+          ENVEOF
+          sed -i 's/^[[:space:]]*//' .env
 
           echo ".env created"
           cat .env \

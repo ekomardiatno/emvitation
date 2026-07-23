@@ -1,6 +1,6 @@
 import { PlatformPressable } from '@react-navigation/elements';
 import { Image, useWindowDimensions, View } from 'react-native';
-import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
+import { CONTAINER_GUTTER, RADIUS, SHADOWS, TYPOGRAPHY } from '../../constants';
 import { useTheme } from '../../components/core/AppProvider';
 import { APP_API_URL } from '../../config';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
@@ -16,12 +16,13 @@ export default function TemplateCoverCard({
 }) {
   const theme = useTheme();
   const {width} = useWindowDimensions();
+  const cardWidth = (width - CONTAINER_GUTTER * 2 - 10) / 2;
 
   return (
     <View
       style={{
-        height: ((width - SPACING.md * 2 - 10) / 2 / 3) * 4,
-        width: (width - SPACING.md * 2 - 10) / 2,
+        height: (cardWidth / 3) * 4,
+        width: cardWidth,
         borderRadius: RADIUS.lg,
         borderWidth: selected ? 3 : 1,
         overflow: 'hidden',
