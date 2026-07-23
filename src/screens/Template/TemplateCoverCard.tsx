@@ -1,6 +1,6 @@
 import { PlatformPressable } from '@react-navigation/elements';
 import { Image, useWindowDimensions, View } from 'react-native';
-import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
+import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
 import { useTheme } from '../../components/core/AppProvider';
 import { APP_API_URL } from '../../config';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
@@ -26,6 +26,7 @@ export default function TemplateCoverCard({
         borderWidth: selected ? 3 : 1,
         overflow: 'hidden',
         borderColor: selected ? theme['primary-bg'] : theme['border-default'],
+        ...SHADOWS.sm,
       }}>
       <PlatformPressable
         onPress={onPress}

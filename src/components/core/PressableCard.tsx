@@ -4,7 +4,7 @@ import Typography from './Typography';
 import { useTheme } from './AppProvider';
 import { MaterialIconsType } from '../../types/material-icons';
 import { PlatformPressable } from '@react-navigation/elements';
-import { SPACING } from '../../constants';
+import { RADIUS, SHADOWS, SPACING } from '../../constants';
 import { useMemo } from 'react';
 
 export default function PressableCard({
@@ -62,11 +62,12 @@ export default function PressableCard({
         justifyContent: 'space-between',
         padding: SPACING.md,
         backgroundColor: theme['bg-surface'],
-        borderRadius: 10,
+        borderRadius: RADIUS.md,
         flexGrow: 1,
         overflow: 'hidden',
         borderColor: theme['border-default'],
         borderWidth: 1,
+        ...SHADOWS.sm,
         width,
       }}>
       <View

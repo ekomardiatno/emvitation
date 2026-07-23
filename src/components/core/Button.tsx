@@ -184,8 +184,8 @@ const Button = ({
             borderWidth: 1,
             backgroundColor: btnColor.background,
             borderColor: btnColor.border,
-            paddingVertical: SPACING.sm,
-            paddingHorizontal: SPACING.md,
+            paddingVertical: SPACING.md,
+            paddingHorizontal: SPACING.lg,
           },
           style,
         ]}

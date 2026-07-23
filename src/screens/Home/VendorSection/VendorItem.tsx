@@ -8,7 +8,7 @@ import { Vendor, VendorSectionContext } from '.';
 import Button from '../../../components/core/Button';
 import { Image, useWindowDimensions, View } from 'react-native';
 import { useTheme } from '../../../components/core/AppProvider';
-import { CONTAINER_GUTTER, RADIUS, SPACING } from '../../../constants';
+import { CONTAINER_GUTTER, RADIUS, SHADOWS, SPACING } from '../../../constants';
 import Typography from '../../../components/core/Typography';
 import { useContext, useMemo } from 'react';
 
@@ -60,6 +60,7 @@ export default function VendorItem({
           borderColor: theme['border-default'],
           borderWidth: 1,
           position: 'relative',
+          ...SHADOWS.md,
         },
         animatedStyle,
       ]}>

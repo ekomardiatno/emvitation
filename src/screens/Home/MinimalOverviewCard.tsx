@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
+import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
 import { useTheme } from '../../components/core/AppProvider';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import Typography from '../../components/core/Typography';
@@ -47,6 +47,7 @@ export default function MinimalOverviewCard() {
         borderWidth: 1,
         borderColor: theme['border-default'],
         borderRadius: RADIUS.full,
+        ...SHADOWS.sm,
       }}>
       <Button
         style={{

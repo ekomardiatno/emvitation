@@ -4,7 +4,7 @@ import { ToastType } from '../types/toast-type';
 import Typography from './core/Typography';
 import { useTheme } from './core/AppProvider';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { RADIUS, SPACING, TYPOGRAPHY } from '../constants';
+import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../constants';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from '@react-native-vector-icons/material-icons';
@@ -137,10 +137,10 @@ const Toast = memo(function Toast({
         opacity: opacity,
         marginTop: marginTop,
         transform: [{translateY}],
-        padding: SPACING.sm,
-        paddingVertical: SPACING.sm,
+        padding: SPACING.md,
+        paddingVertical: SPACING.md,
         borderRadius: RADIUS.lg,
-        elevation: SPACING.sm,
+        ...SHADOWS.lg,
         flexDirection: 'row',
         alignItems: 'center',
         gap: SPACING.sm,

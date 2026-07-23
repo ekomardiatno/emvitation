@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { SPACING } from '../../constants';
+import { RADIUS, SHADOWS, SPACING } from '../../constants';
 import { useTheme } from './AppProvider';
 import Typography from './Typography';
 
@@ -16,12 +16,13 @@ export default function Card({
   return (
     <View
       style={{
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         borderWidth: 1,
         borderColor: theme['border-default'],
         backgroundColor: theme['bg-surface'],
         position: 'relative',
         overflow: 'hidden',
+        ...SHADOWS.sm,
       }}>
       {(title || rightControl) && (
         <View
@@ -30,7 +31,7 @@ export default function Card({
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: 8,
-            padding: SPACING.md,
+            padding: SPACING.lg,
           }}>
           <View style={{flexGrow: 1}}>
             {typeof title === 'string' ? (
@@ -45,9 +46,9 @@ export default function Card({
       )}
       <View
         style={{
-          paddingHorizontal: SPACING.md,
-          paddingBottom: SPACING.md,
-          paddingTop: !(title || rightControl) ? SPACING.md : undefined,
+          paddingHorizontal: SPACING.lg,
+          paddingBottom: SPACING.lg,
+          paddingTop: !(title || rightControl) ? SPACING.lg : undefined,
         }}>
         {children}
       </View>

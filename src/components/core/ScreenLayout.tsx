@@ -1,5 +1,12 @@
-import { useCallback, useEffect } from 'react';
-import { BackHandler, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useMemo } from 'react';
+import {
+  BackHandler,
+  Platform,
+  ScrollView,
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useTheme } from './AppProvider';
 import Typography from './Typography';
 import { useNavigation } from '@react-navigation/native';
@@ -51,7 +58,21 @@ export default function ScreenLayout({
   contentVerticalAlign?: 'center' | 'start' | 'end';
 }) {
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
+  const safeAreaInsets = useSafeAreaInsets();
+
+  const insets = useMemo(() => {
+    if (Platform.OS === 'android') {
+      const FALLBACK_STATUS_BAR = 24;
+      return {
+        top:
+          safeAreaInsets.top || StatusBar.currentHeight || FALLBACK_STATUS_BAR,
+        bottom: safeAreaInsets.bottom,
+        left: safeAreaInsets.left,
+        right: safeAreaInsets.right,
+      };
+    }
+    return safeAreaInsets;
+  }, [safeAreaInsets]);
 
   const goBack = useCallback(() => {
     if (navigation.canGoBack()) {
@@ -83,19 +104,18 @@ export default function ScreenLayout({
     <View
       style={{
         flex: 1,
-        // backgroundColor: theme['bg-app'],
-        paddingTop: insets.top || StatusBar.currentHeight,
-        paddingBottom: insets.bottom,
+        paddingTop: !headerEnabled ? insets.top : 0,
       }}>
       {headerEnabled && (
         <View>
           <View
             style={{
-              height: HEADER_HEIGHT,
+              height: HEADER_HEIGHT + insets.top,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
               paddingRight: SPACING.md,
+              paddingTop: insets.top,
             }}>
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
               {navigation.canGoBack() && !backButtonDisabled ? (
@@ -144,16 +164,21 @@ export default function ScreenLayout({
         }}
         contentContainerStyle={{
           flexGrow: 1,
-          paddingBottom: SPACING.md,
-          marginTop: !headerEnabled ? SPACING.md : 0,
-          justifyContent:
-            contentVerticalAlign === 'center'
-              ? 'center'
-              : contentVerticalAlign === 'end'
-              ? 'flex-end'
-              : undefined,
         }}>
-        {children}
+        <View
+          style={{
+            flex: 1,
+            paddingBottom: (!footer ? insets.bottom : 0) + SPACING.md,
+            marginTop: !headerEnabled ? SPACING.md : 0,
+            justifyContent:
+              contentVerticalAlign === 'center'
+                ? 'center'
+                : contentVerticalAlign === 'end'
+                ? 'flex-end'
+                : undefined,
+          }}>
+          {children}
+        </View>
       </ScrollView>
       {footer && (
         <>
@@ -165,6 +190,9 @@ export default function ScreenLayout({
                 backgroundColor: theme['bg-surface'],
                 padding: SPACING.md,
                 paddingHorizontal: CONTAINER_GUTTER,
+                paddingBottom: insets.bottom + SPACING.md,
+                borderTopWidth: 1,
+                borderTopColor: theme['border-muted'],
               }}>
               {footer}
             </View>

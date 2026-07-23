@@ -14,6 +14,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { requestResetPassword } from '../services/auth';
 import { ApiError } from '../services/common';
 import useToast from '../hooks/useToast';
+import { View } from 'react-native';
 
 const recoverySchema = yup.object({
   phoneNumber: yup
@@ -88,27 +89,29 @@ function AccountRecoveryScreen() {
 
   return (
     <ScreenLayout>
-      <Typography category="h2">Pemulihan Akun</Typography>
-      <Typography
-        category="small"
-        marginTop={SPACING.xs}
-        style={{marginBottom: SPACING.lg}}>
-        Masukkan nomor telepon untuk memulihkan akun
-      </Typography>
+      <View style={{paddingVertical: SPACING.lg}}>
+        <Typography category="h2">Pemulihan Akun</Typography>
+        <Typography
+          category="small"
+          marginTop={SPACING.xs}
+          style={{marginBottom: SPACING.lg}}>
+          Masukkan nomor telepon untuk memulihkan akun
+        </Typography>
 
-      <Input
-        control={control}
-        name="phoneNumber"
-        placeholder="081234567890"
-        label="Nomor HP"
-        editable={!(otp.isRequestingOtp || isRequestingResetPassword)}
-        containerStyle={{marginBottom: SPACING.lg}}
-      />
-      <Button
-        isLoading={otp.isRequestingOtp || isRequestingResetPassword}
-        onPress={onSendCode}>
-        Kirim Kode
-      </Button>
+        <Input
+          control={control}
+          name="phoneNumber"
+          placeholder="081234567890"
+          label="Nomor HP"
+          editable={!(otp.isRequestingOtp || isRequestingResetPassword)}
+          containerStyle={{marginBottom: SPACING.lg}}
+        />
+        <Button
+          isLoading={otp.isRequestingOtp || isRequestingResetPassword}
+          onPress={onSendCode}>
+          Kirim Kode
+        </Button>
+      </View>
     </ScreenLayout>
   );
 }

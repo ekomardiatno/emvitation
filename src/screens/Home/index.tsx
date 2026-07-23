@@ -59,8 +59,8 @@ export default function Home() {
     <ScreenLayout headerEnabled={false}>
       <View
         style={{
-          paddingVertical: SPACING.sm,
-          marginBottom: SPACING.md,
+          paddingVertical: SPACING.md,
+          marginBottom: SPACING.lg,
         }}>
         <View
           style={{

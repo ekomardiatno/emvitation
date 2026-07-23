@@ -6,10 +6,12 @@ import {
   AppStackNavigationProp,
   AppStackParamList,
 } from '../../types/navigation-type';
-import { SPACING, TYPOGRAPHY } from '../../constants';
+import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import { RouteProp } from '@react-navigation/native';
 import { useEffect, useMemo } from 'react';
+import useAppDispatch from '../../hooks/useAppDispatch';
+import { loadingGuests } from '../../redux/reducers/guest.reducer';
 import useToast from '../../hooks/useToast';
 import CoupleCard from './CoupleCard';
 import { APP_API_URL } from '../../config';
@@ -34,7 +36,14 @@ export default function WeddingDetail({
   const {weddings} = useAppSelector(state => state.wedding);
   const toast = useToast();
   const {templates} = useAppSelector(state => state.template);
-  const {guests} = useAppSelector(state => state.guest);
+  const {guests, isLoading: isLoadingGuests} = useAppSelector(state => state.guest);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isLoadingGuests) {
+      dispatch(loadingGuests());
+    }
+  }, [isLoadingGuests, dispatch]);
 
   const wedding = useMemo(() => {
     return weddings.find(w => w.id === route?.params.wedding?.id);
@@ -111,7 +120,7 @@ export default function WeddingDetail({
           <PublicationAction wedding={wedding} />
         </View>
       }>
-      <View style={{gap: SPACING.md}}>
+      <View style={{gap: SPACING.lg}}>
         <Card
           title="Template & Detail Pasangan"
           rightControl={
@@ -150,7 +159,7 @@ export default function WeddingDetail({
                 justifyContent: 'center',
                 padding: SPACING.sm,
                 backgroundColor: theme['bg-muted'],
-                borderRadius: SPACING.sm,
+                borderRadius: RADIUS.sm,
                 borderWidth: 1,
                 borderColor: theme['border-default'],
               }}>
@@ -159,7 +168,7 @@ export default function WeddingDetail({
                   width: 96,
                   height: (96 / 3) * 4,
                   overflow: 'hidden',
-                  borderRadius: SPACING.sm,
+                  borderRadius: RADIUS.sm,
                   borderWidth: 1,
                   borderColor: theme['border-default'],
                 }}>

@@ -9,7 +9,6 @@ import Input from '../components/core/Input';
 import { SPACING } from '../constants';
 import Button from '../components/core/Button';
 import useAppNavigation from '../hooks/useAppNavigation';
-import Divider from '../components/Divider';
 import useOtp from '../hooks/useOtp';
 import OtpProvider from '../components/OtpProvider';
 import getHiddenText from '../utils/getHiddenText';
@@ -17,6 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { register } from '../services/auth';
 import useToast from '../hooks/useToast';
 import { ApiError } from '../services/common';
+import Divider from '../components/Divider';
 
 const registerSchema = yup.object({
   name: yup.string().required('Nama harus diisi'),
@@ -114,7 +114,7 @@ function RegistrationScreen() {
             Silakan lengkapi data untuk membuat akun baru
           </Typography>
         </View>
-        <View style={{gap: SPACING.md}}>
+        <View style={{gap: SPACING.lg}}>
           <Input
             label="Nama"
             placeholder="Eko Mardiatno"
@@ -150,7 +150,7 @@ function RegistrationScreen() {
             editable={!isRegistering}
           />
         </View>
-        <View style={{marginTop: SPACING.xl}}>
+        <View style={{marginTop: SPACING['2xl']}}>
           <Button
             onPress={onSubmitting}
             isLoading={otp.isRequestingOtp || isRegistering}>
@@ -159,10 +159,11 @@ function RegistrationScreen() {
         </View>
       </View>
 
-      <View style={{marginTop: SPACING.xl}}>
+      <View>
         <Divider
           icon="circle"
           marginBottom={SPACING.md}
+          marginTop={SPACING.lg}
           marginHorizontal={SPACING.xl}
         />
         <Typography

@@ -6,7 +6,28 @@ import { FontWeightType } from '../types/typography-type';
 export const REDUX_KEY_NAME = 'EMVITE_REDUX';
 
 const BASE_COLORS = {
-  colorNeutral0: '#fff',
+  colorNeutral0: '#ffffff',
+  // Soft Blush palette (primary)
+  colorBlush50: '#fff5f6',
+  colorBlush100: '#ffe0e4',
+  colorBlush200: '#ffc7cf',
+  colorBlush300: '#ffa3b1',
+  colorBlush400: '#f47d93',
+  colorBlush500: '#e8607a',
+  colorBlush600: '#d44a65',
+  colorBlush700: '#b33a52',
+  // Warm Neutrals palette
+  colorWarm50: '#fdfbf9',
+  colorWarm100: '#f9f5f1',
+  colorWarm200: '#f0ebe5',
+  colorWarm300: '#ddd6ce',
+  colorWarm400: '#b5ada4',
+  colorWarm500: '#8a827a',
+  colorWarm600: '#6b645d',
+  colorWarm700: '#504a44',
+  colorWarm800: '#302c28',
+  colorWarm900: '#1a1614',
+  colorWarm950: '#0d0b0a',
   colorSlate50: '#f8fafc',
   colorSlate100: '#f1f5f9',
   colorSlate200: '#e2e8f0',
@@ -255,55 +276,55 @@ export const THEME: ThemeType = {
   schema: 'light',
   // core background & text colors
   light: BASE_COLORS.colorNeutral0,
-  dark: BASE_COLORS.colorSlate900,
-  'bg-app': BASE_COLORS.colorNeutral50,
+  dark: BASE_COLORS.colorWarm900,
+  'bg-app': BASE_COLORS.colorWarm50,
   'bg-surface': BASE_COLORS.colorNeutral0,
-  'bg-muted': BASE_COLORS.colorNeutral100,
-  'text-primary': BASE_COLORS.colorNeutral900,
-  'text-secondary': BASE_COLORS.colorNeutral500,
-  'text-disabled': BASE_COLORS.colorNeutral300,
-  'text-inverse': BASE_COLORS.colorNeutral100,
+  'bg-muted': BASE_COLORS.colorWarm100,
+  'text-primary': BASE_COLORS.colorWarm900,
+  'text-secondary': BASE_COLORS.colorWarm500,
+  'text-disabled': BASE_COLORS.colorWarm300,
+  'text-inverse': BASE_COLORS.colorWarm100,
   // borders & dividers
-  'border-default': BASE_COLORS.colorNeutral200,
-  'border-muted': BASE_COLORS.colorNeutral100,
-  divider: BASE_COLORS.colorNeutral200,
-  'focus-ring': BASE_COLORS.colorRose500,
+  'border-default': BASE_COLORS.colorWarm200,
+  'border-muted': BASE_COLORS.colorWarm100,
+  divider: BASE_COLORS.colorWarm200,
+  'focus-ring': BASE_COLORS.colorBlush500,
   // primary actions
-  'primary-bg': BASE_COLORS.colorRose500,
-  'primary-hover-bg': BASE_COLORS.colorRose600,
-  'primary-text': BASE_COLORS.colorNeutral50,
-  'primary-hover-text': BASE_COLORS.colorNeutral50,
-  'primary-disabled-bg': BASE_COLORS.colorRose300,
-  'primary-disabled-text': BASE_COLORS.colorNeutral50,
+  'primary-bg': BASE_COLORS.colorBlush500,
+  'primary-hover-bg': BASE_COLORS.colorBlush600,
+  'primary-text': BASE_COLORS.colorNeutral0,
+  'primary-hover-text': BASE_COLORS.colorNeutral0,
+  'primary-disabled-bg': BASE_COLORS.colorBlush300,
+  'primary-disabled-text': BASE_COLORS.colorNeutral0,
   // Secondary / Ghost actions
-  'secondary-bg': BASE_COLORS.colorNeutral100,
-  'secondary-hover-bg': BASE_COLORS.colorNeutral200,
-  'secondary-text': BASE_COLORS.colorNeutral900,
-  'secondary-hover-text': BASE_COLORS.colorNeutral900,
-  'secondary-disabled-bg': BASE_COLORS.colorNeutral100,
-  'secondary-disabled-text': BASE_COLORS.colorNeutral400,
-  'ghost-hover-bg': BASE_COLORS.colorNeutral100,
+  'secondary-bg': BASE_COLORS.colorWarm100,
+  'secondary-hover-bg': BASE_COLORS.colorWarm200,
+  'secondary-text': BASE_COLORS.colorWarm900,
+  'secondary-hover-text': BASE_COLORS.colorWarm900,
+  'secondary-disabled-bg': BASE_COLORS.colorWarm100,
+  'secondary-disabled-text': BASE_COLORS.colorWarm400,
+  'ghost-hover-bg': BASE_COLORS.colorWarm100,
   // Links
-  'link-default': BASE_COLORS.colorRose600,
-  'link-hover': BASE_COLORS.colorRose700,
-  'link-visited': BASE_COLORS.colorRose700,
+  'link-default': BASE_COLORS.colorBlush600,
+  'link-hover': BASE_COLORS.colorBlush700,
+  'link-visited': BASE_COLORS.colorBlush700,
   // Form elements
   'input-bg': BASE_COLORS.colorNeutral0,
-  'input-border': BASE_COLORS.colorNeutral300,
-  'input-focus-border': BASE_COLORS.colorRose500,
-  'input-placeholder': BASE_COLORS.colorNeutral400,
-  'input-text': BASE_COLORS.colorNeutral900,
+  'input-border': BASE_COLORS.colorWarm300,
+  'input-focus-border': BASE_COLORS.colorBlush500,
+  'input-placeholder': BASE_COLORS.colorWarm400,
+  'input-text': BASE_COLORS.colorWarm900,
   // Semantic colors (optional)
   'success-bg': BASE_COLORS.colorGreen100,
   'success-text': BASE_COLORS.colorGreen600,
-  'error-bg': BASE_COLORS.colorRose100,
-  'error-text': BASE_COLORS.colorRose600,
+  'error-bg': BASE_COLORS.colorBlush100,
+  'error-text': BASE_COLORS.colorBlush600,
   'warning-bg': BASE_COLORS.colorYellow100,
   'warning-text': BASE_COLORS.colorYellow600,
   'info-bg': BASE_COLORS.colorBlue100,
   'info-text': BASE_COLORS.colorBlue600,
   // Overlays & elevation (optional)
-  overlay: 'rgba(0, 0, 0, 0.15)',
+  overlay: 'rgba(0, 0, 0, 0.12)',
   googleMapStyle: [
     {
       featureType: 'landscape.natural',
@@ -381,55 +402,55 @@ export const DARK_THEME: ThemeType = {
   schema: 'dark',
   // core background & text colors
   light: BASE_COLORS.colorNeutral0,
-  dark: BASE_COLORS.colorSlate900,
-  'bg-app': BASE_COLORS.colorSlate950,
-  'bg-surface': BASE_COLORS.colorSlate900,
-  'bg-muted': BASE_COLORS.colorSlate800,
-  'text-primary': BASE_COLORS.colorSlate100,
-  'text-secondary': BASE_COLORS.colorSlate400,
-  'text-disabled': BASE_COLORS.colorSlate700,
-  'text-inverse': BASE_COLORS.colorSlate900,
+  dark: BASE_COLORS.colorWarm900,
+  'bg-app': BASE_COLORS.colorWarm950,
+  'bg-surface': BASE_COLORS.colorWarm900,
+  'bg-muted': BASE_COLORS.colorWarm800,
+  'text-primary': BASE_COLORS.colorWarm100,
+  'text-secondary': BASE_COLORS.colorWarm400,
+  'text-disabled': BASE_COLORS.colorWarm700,
+  'text-inverse': BASE_COLORS.colorWarm900,
   // borders & dividers
-  'border-default': BASE_COLORS.colorSlate800,
-  'border-muted': BASE_COLORS.colorSlate900,
-  divider: BASE_COLORS.colorSlate800,
-  'focus-ring': BASE_COLORS.colorRose400,
+  'border-default': BASE_COLORS.colorWarm800,
+  'border-muted': BASE_COLORS.colorWarm900,
+  divider: BASE_COLORS.colorWarm800,
+  'focus-ring': BASE_COLORS.colorBlush400,
   // primary actions
-  'primary-bg': BASE_COLORS.colorRose500,
-  'primary-hover-bg': BASE_COLORS.colorRose400,
-  'primary-text': BASE_COLORS.colorSlate100,
-  'primary-hover-text': BASE_COLORS.colorSlate100,
-  'primary-disabled-bg': BASE_COLORS.colorRose700,
-  'primary-disabled-text': BASE_COLORS.colorSlate100,
+  'primary-bg': BASE_COLORS.colorBlush500,
+  'primary-hover-bg': BASE_COLORS.colorBlush400,
+  'primary-text': BASE_COLORS.colorWarm100,
+  'primary-hover-text': BASE_COLORS.colorWarm100,
+  'primary-disabled-bg': BASE_COLORS.colorBlush700,
+  'primary-disabled-text': BASE_COLORS.colorWarm100,
   // Secondary / Ghost actions
-  'secondary-bg': BASE_COLORS.colorSlate800,
-  'secondary-hover-bg': BASE_COLORS.colorSlate700,
-  'secondary-text': BASE_COLORS.colorSlate100,
-  'secondary-hover-text': BASE_COLORS.colorSlate100,
-  'secondary-disabled-bg': BASE_COLORS.colorSlate800,
-  'secondary-disabled-text': BASE_COLORS.colorSlate600,
-  'ghost-hover-bg': BASE_COLORS.colorSlate800,
+  'secondary-bg': BASE_COLORS.colorWarm800,
+  'secondary-hover-bg': BASE_COLORS.colorWarm700,
+  'secondary-text': BASE_COLORS.colorWarm100,
+  'secondary-hover-text': BASE_COLORS.colorWarm100,
+  'secondary-disabled-bg': BASE_COLORS.colorWarm800,
+  'secondary-disabled-text': BASE_COLORS.colorWarm600,
+  'ghost-hover-bg': BASE_COLORS.colorWarm800,
   // Links
-  'link-default': BASE_COLORS.colorRose400,
-  'link-hover': BASE_COLORS.colorRose300,
-  'link-visited': BASE_COLORS.colorRose500,
+  'link-default': BASE_COLORS.colorBlush400,
+  'link-hover': BASE_COLORS.colorBlush300,
+  'link-visited': BASE_COLORS.colorBlush500,
   // Form elements
-  'input-bg': BASE_COLORS.colorSlate900,
-  'input-border': BASE_COLORS.colorSlate700,
-  'input-focus-border': BASE_COLORS.colorRose400,
-  'input-placeholder': BASE_COLORS.colorSlate600,
-  'input-text': BASE_COLORS.colorSlate100,
+  'input-bg': BASE_COLORS.colorWarm900,
+  'input-border': BASE_COLORS.colorWarm700,
+  'input-focus-border': BASE_COLORS.colorBlush400,
+  'input-placeholder': BASE_COLORS.colorWarm600,
+  'input-text': BASE_COLORS.colorWarm100,
   // Semantic colors (optional)
   'success-bg': BASE_COLORS.colorGreen900,
   'success-text': BASE_COLORS.colorGreen400,
-  'error-bg': BASE_COLORS.colorRose900,
-  'error-text': BASE_COLORS.colorRose400,
+  'error-bg': BASE_COLORS.colorBlush700,
+  'error-text': BASE_COLORS.colorBlush400,
   'warning-bg': BASE_COLORS.colorYellow900,
   'warning-text': BASE_COLORS.colorYellow400,
   'info-bg': BASE_COLORS.colorBlue900,
   'info-text': BASE_COLORS.colorBlue400,
   // Overlays & elevation (optional)
-  overlay: 'rgba(255, 255, 255, 0.15)',
+  overlay: 'rgba(255, 255, 255, 0.12)',
   googleMapStyle: [
     {
       featureType: 'all',
@@ -571,19 +592,19 @@ export const DARK_THEME: ThemeType = {
 
 export const RADIUS: {
   none: 0;
-  xs: 2;
-  sm: 4;
-  md: 8;
-  lg: 12;
-  xl: 16;
+  xs: 4;
+  sm: 8;
+  md: 12;
+  lg: 16;
+  xl: 20;
   full: 999;
 } = {
   none: 0,
-  xs: 2,
-  sm: 4,
-  md: 8,
-  lg: 12,
-  xl: 16,
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
   full: 999,
 };
 
@@ -610,6 +631,30 @@ export const SPACING: {
 };
 
 export const CONTAINER_GUTTER = SPACING.lg
+
+export const SHADOWS = {
+  sm: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 1,
+  },
+  md: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  lg: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.10,
+    shadowRadius: 14,
+    elevation: 6,
+  },
+};
 
 export const FONT_WEIGHT: FontWeightType = {
   light: 300,
@@ -662,12 +707,12 @@ export const TYPOGRAPHY = {
     small: {
       fontSize: 11,
       lineHeight: 18,
-      fontWeight: FONT_WEIGHT.light,
+      fontWeight: FONT_WEIGHT.regular,
     },
     xsmall: {
       fontSize: 10,
       lineHeight: 16,
-      fontWeight: FONT_WEIGHT.light,
+      fontWeight: FONT_WEIGHT.regular,
     },
   },
 };

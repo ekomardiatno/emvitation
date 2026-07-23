@@ -100,9 +100,9 @@ const Input = ({
           secureTextEntry={secureTextEntry ? !showInsecuredValue : false}
           keyboardType={keyboardType}
           style={{
-            paddingHorizontal: SPACING.sm,
-            paddingRight: secureTextEntry ? 0 : SPACING.sm,
-            paddingVertical: SPACING.sm,
+            paddingHorizontal: SPACING.md,
+            paddingRight: secureTextEntry ? 0 : SPACING.md,
+            paddingVertical: SPACING.md,
             fontFamily: getFontFamily({fontWeight: 400}),
             color: !editable ? theme['text-disabled'] : theme['input-text'],
             flex: 1,

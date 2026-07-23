@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Typography from '../components/core/Typography';
-import { RADIUS, SPACING } from '../constants';
+import { RADIUS, SHADOWS, SPACING } from '../constants';
 import Button from '../components/core/Button';
 import { Appearance, ScrollView, StatusBar, View } from 'react-native';
 import { useTheme } from '../components/core/AppProvider';
@@ -33,8 +33,9 @@ export default function Wallet() {
           style={{
             backgroundColor: theme['primary-bg'],
             borderRadius: RADIUS.lg,
-            padding: 20,
-            paddingVertical: 30,
+            padding: SPACING.xl,
+            paddingVertical: SPACING['2xl'],
+            ...SHADOWS.lg,
           }}>
           <Typography color={theme['primary-text']} style={{marginBottom: 5}}>
             Saldo
@@ -50,10 +51,10 @@ export default function Wallet() {
               paddingHorizontal: 10,
               flexGrow: 1,
               justifyContent: 'center',
-              borderRadius: 8,
+              borderRadius: RADIUS.md,
               flexDirection: 'row',
               alignItems: 'center',
-              gap: 8,
+              gap: SPACING.sm,
               backgroundColor: theme['bg-surface'],
               borderColor: theme['border-default'],
             }}>
@@ -71,7 +72,7 @@ export default function Wallet() {
               paddingVertical: 10,
               paddingHorizontal: 10,
               flexGrow: 1,
-              borderRadius: 8,
+              borderRadius: RADIUS.md,
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
@@ -114,12 +115,12 @@ export default function Wallet() {
           }}>
           <View
             style={{
-              paddingVertical: 15,
+              paddingVertical: SPACING.lg,
               backgroundColor: theme['bg-surface'],
               borderColor: theme['border-default'],
               borderWidth: 1,
-              paddingHorizontal: 15,
-              borderRadius: 8,
+              paddingHorizontal: SPACING.lg,
+              borderRadius: RADIUS.md,
             }}>
             <View
               style={{

@@ -36,8 +36,11 @@ const AppProvider = ({children}: {children: React.ReactNode}) => {
       StatusBar.setBarStyle(
         schema === 'dark' ? 'light-content' : 'dark-content',
       );
+      StatusBar.setBackgroundColor('transparent');
+      const theme = schema === 'dark' ? DARK_THEME : THEME;
       if (Platform.OS === 'android') {
-        changeNavigationBarColor('transparent', schema === 'light');
+        const navBarColor = theme['bg-surface'];
+        changeNavigationBarColor(navBarColor, schema !== 'dark', false);
       }
       StatusBar.setTranslucent(true);
       setTheme(schema === 'dark' ? DARK_THEME : THEME);

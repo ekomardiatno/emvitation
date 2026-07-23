@@ -165,8 +165,8 @@ const SelectPicker = ({
         <TextInput
           placeholderTextColor={theme['input-placeholder']}
           style={{
-            paddingHorizontal: SPACING.sm,
-            paddingVertical: SPACING.sm,
+            paddingHorizontal: SPACING.md,
+            paddingVertical: SPACING.md,
             color: !editable ? theme['text-disabled'] : theme['input-text'],
             fontFamily: getFontFamily({}),
           }}
@@ -214,8 +214,8 @@ const SelectPicker = ({
           {...panResponder.panHandlers}
           style={{
             backgroundColor: theme['bg-surface'],
-            borderTopLeftRadius: 15,
-            borderTopRightRadius: 15,
+            borderTopLeftRadius: RADIUS.xl,
+            borderTopRightRadius: RADIUS.xl,
             overflow: 'hidden',
             transform: [{translateY}],
           }}>
@@ -247,7 +247,7 @@ const SelectPicker = ({
           <View
             style={{
               backgroundColor: theme['bg-surface'],
-              borderRadius: 15,
+              borderRadius: RADIUS.xl,
               overflow: 'hidden',
             }}>
             <View style={{height: 0.5 * height}}>

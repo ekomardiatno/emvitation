@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import ScreenLayout from '../../components/core/ScreenLayout';
-import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
+import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
 import { Image, Pressable, View } from 'react-native';
 import * as yup from 'yup';
 import { Control, useForm } from 'react-hook-form';
@@ -258,7 +258,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                       overflow: 'hidden',
                       borderWidth: SPACING.xs,
                       borderColor: theme['border-default'],
-                      elevation: femalePhoto ? 5 : 0,
+                      ...(femalePhoto ? SHADOWS.md : {}),
                     }}>
                     <Icon
                       name="image"
@@ -377,7 +377,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                       overflow: 'hidden',
                       borderWidth: SPACING.xs,
                       borderColor: theme['border-default'],
-                      elevation: malePhoto ? 5 : 0,
+                      ...(malePhoto ? SHADOWS.md : {}),
                     }}>
                     <Icon
                       name="image"

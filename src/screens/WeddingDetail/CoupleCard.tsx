@@ -1,6 +1,6 @@
 import { Image, View } from 'react-native';
 import { useTheme } from '../../components/core/AppProvider';
-import { RADIUS, SPACING } from '../../constants';
+import { RADIUS, SHADOWS, SPACING } from '../../constants';
 import Typography from '../../components/core/Typography';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
@@ -25,13 +25,15 @@ export default function CoupleCard({
   return (
     <View
       style={{
-        padding: SPACING.sm,
-        borderRadius: SPACING.sm,
+        padding: SPACING.lg,
+        borderRadius: RADIUS.md,
+        backgroundColor: theme['bg-surface'],
         flexDirection: 'row',
         gap: SPACING.md,
         borderWidth: 1,
         alignItems: 'center',
         borderColor: theme.divider,
+        ...SHADOWS.sm,
       }}>
       <View
         style={{

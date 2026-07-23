@@ -2,7 +2,7 @@ import { TouchableOpacity, View } from 'react-native';
 import Typography from '../../components/core/Typography';
 import Icon from '@react-native-vector-icons/material-icons';
 import { useTheme } from '../../components/core/AppProvider';
-import { RADIUS, SPACING } from '../../constants';
+import { RADIUS, SHADOWS, SPACING } from '../../constants';
 import Button from '../../components/core/Button';
 import Confirmation from '../../components/core/Confirmation';
 
@@ -33,9 +33,10 @@ export default function EventCard({
       style={{
         backgroundColor: theme['bg-surface'],
         padding: SPACING.md,
-        borderRadius: 8,
+        borderRadius: RADIUS.md,
         borderWidth: 1,
         borderColor: theme['border-default'],
+        ...SHADOWS.sm,
       }}>
       <Typography category="large" style={{fontWeight: 500}}>
         {title}

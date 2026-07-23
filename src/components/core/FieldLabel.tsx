@@ -17,7 +17,7 @@ export default function FieldLabel({
     <Typography
       category="small"
       fontWeight={500}
-      style={[{marginBottom: SPACING.xs}, style]}
+      style={[{marginBottom: SPACING.sm}, style]}
       numberOfLines={1}>
       {label}
       {required && (

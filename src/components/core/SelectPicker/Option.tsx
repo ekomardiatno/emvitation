@@ -1,6 +1,7 @@
 import { TouchableHighlight, View } from 'react-native';
 import { useTheme } from '../AppProvider';
 import Typography from '../Typography';
+import { RADIUS, SPACING } from '../../../constants';
 
 const Option = ({
   value,
@@ -21,7 +22,7 @@ const Option = ({
   return (
     <TouchableHighlight
       underlayColor={selected ? theme['secondary-bg'] : theme['bg-surface']}
-      style={{borderRadius: 15}}
+      style={{borderRadius: RADIUS.xl}}
       onPress={() => {
         if (onChange) {
           onChange(value);
@@ -29,13 +30,13 @@ const Option = ({
       }}>
       <View
         style={{
-          paddingHorizontal: 20,
+          paddingHorizontal: SPACING.xl,
           flexDirection: 'row',
           backgroundColor: selected ? theme['primary-bg'] : theme['bg-surface'],
-          borderRadius: 15,
-          gap: 20,
+          borderRadius: RADIUS.xl,
+          gap: SPACING.xl,
         }}>
-        {icon && <View style={{paddingVertical: 10}}>{icon}</View>}
+        {icon && <View style={{paddingVertical: SPACING.md}}>{icon}</View>}
         <View
           style={{
             flex: 1,
@@ -43,7 +44,7 @@ const Option = ({
             borderColor: selected
               ? theme['primary-bg']
               : theme['border-default'],
-            paddingVertical: 10,
+            paddingVertical: SPACING.md,
             justifyContent: 'center',
           }}>
           <Typography

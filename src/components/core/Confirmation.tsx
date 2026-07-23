@@ -201,7 +201,7 @@ export default function Confirmation({
           <Typography category="small" style={{textAlign: 'center'}}>
             {cautionText || 'Apakah Anda yakin ingin melanjutkan tindakan ini?'}
           </Typography>
-          <View style={{paddingTop: SPACING.lg, gap: 5}}>
+          <View style={{paddingTop: SPACING.lg, gap: SPACING.sm}}>
             <Button
               appearance={confirmationDialogAppearance ?? appearance ?? 'basic'}
               onPress={handleConfirm}

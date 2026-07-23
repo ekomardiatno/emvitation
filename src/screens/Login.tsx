@@ -107,7 +107,7 @@ export default function Login() {
             iconName="phone"
           />
           <Input
-            containerStyle={{marginTop: SPACING.md}}
+            containerStyle={{marginTop: SPACING.lg}}
             name="password"
             label="Kata Sandi"
             placeholder={getHiddenText(8)}
@@ -116,7 +116,7 @@ export default function Login() {
             secureTextEntry
             iconName="lock"
           />
-          <View style={{marginTop: SPACING.lg}}>
+          <View style={{marginTop: SPACING.xl}}>
             <Button
               onPress={onLogin}
               disabled={isLoggingIn}

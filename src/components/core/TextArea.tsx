@@ -54,8 +54,8 @@ const TextArea = ({
           style={{
             height: 93,
             textAlignVertical: 'top',
-            paddingHorizontal: SPACING.sm,
-            paddingVertical: SPACING.sm,
+            paddingHorizontal: SPACING.md,
+            paddingVertical: SPACING.md,
             fontFamily: getFontFamily({}),
             color: !editable ? theme['text-disabled'] : theme['input-text'],
             lineHeight: 16,

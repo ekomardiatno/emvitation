@@ -9,7 +9,7 @@ export default function FieldErrorText({
 }) {
   const theme = useTheme();
   return (
-    <Typography category="xsmall" marginTop={SPACING.xxs} fontWeight={400} color={theme['error-text']}>
+    <Typography category="xsmall" marginTop={SPACING.xs} fontWeight={400} color={theme['error-text']}>
       {children}
     </Typography>
   );

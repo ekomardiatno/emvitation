@@ -200,9 +200,9 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
           </Confirmation>
         </View>
       }>
-      <View style={{gap: SPACING.md}}>
+      <View style={{gap: SPACING.lg}}>
         <View>
-          <View style={{gap: SPACING.md}}>
+          <View style={{gap: SPACING.lg}}>
             <Input
               name="event_name"
               required

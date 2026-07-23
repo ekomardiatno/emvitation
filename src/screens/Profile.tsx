@@ -2,7 +2,7 @@ import Typography from '../components/core/Typography';
 import ScreenLayout from '../components/core/ScreenLayout';
 import { Linking, View } from 'react-native';
 import { useApp, useTheme } from '../components/core/AppProvider';
-import { RADIUS, SPACING } from '../constants';
+import { RADIUS, SHADOWS, SPACING } from '../constants';
 import censorPhoneNumber from '../utils/cursorPhoneNumber';
 import SettingsSection, { SettingsItem } from '../components/SettingsSection';
 import Confirmation from '../components/core/Confirmation';
@@ -41,12 +41,13 @@ export default function Profile() {
         }}>
         <View
           style={{
-            width: 60,
-            height: 60,
+            width: 72,
+            height: 72,
             borderRadius: RADIUS.full,
             backgroundColor: theme['info-bg'],
             alignItems: 'center',
             justifyContent: 'center',
+            ...SHADOWS.md,
           }}>
           <Typography
             category="h1"

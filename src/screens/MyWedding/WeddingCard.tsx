@@ -5,7 +5,7 @@ import Icon from '@react-native-vector-icons/material-icons';
 import { AppStackNavigationProp } from '../../types/navigation-type';
 import Button from '../../components/core/Button';
 import Confirmation from '../../components/core/Confirmation';
-import { RADIUS, SPACING, TYPOGRAPHY } from '../../constants';
+import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { WeddingDataType } from '../../types/wedding-type';
@@ -134,13 +134,14 @@ export function WeddingCard({
         onPress={() => {
           navigation.navigate('WeddingDetail', {wedding: data});
         }}
-        style={{borderRadius: 8, overflow: 'hidden'}}>
+        style={{borderRadius: RADIUS.md, overflow: 'hidden'}}>
         <View
           style={{
             padding: SPACING.md,
             borderWidth: 1,
             borderColor: theme['border-default'],
-            borderRadius: 8,
+            borderRadius: RADIUS.md,
+            ...SHADOWS.sm,
             backgroundColor: theme['bg-surface'],
             flexDirection: 'row',
             gap: SPACING.md,

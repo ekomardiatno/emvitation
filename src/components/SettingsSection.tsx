@@ -77,7 +77,7 @@ const SettingsItemTextComponent = ({
             borderTopColor: theme['border-default'],
             borderTopWidth: 1,
             position: 'absolute',
-            bottom: SPACING.md * -1 - 1,
+            bottom: SPACING.lg * -1 - 1,
             left: 0,
             right: 0,
           }}
@@ -121,8 +121,8 @@ export function SettingsItem({
   const containerStyle: StyleProp<ViewStyle> = {
     flexDirection: 'row',
     gap: SPACING.sm,
-    padding: SPACING.sm,
-    paddingVertical: SPACING.md,
+    padding: SPACING.md,
+    paddingVertical: SPACING.lg,
   };
 
   return (
