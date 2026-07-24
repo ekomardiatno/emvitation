@@ -15,7 +15,7 @@ import {
   AppStackParamList,
 } from '../../types/navigation-type';
 import Icon from '@react-native-vector-icons/material-icons';
-import { launchImageLibrary } from 'react-native-image-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import { RouteProp } from '@react-navigation/native';
 import {
@@ -232,20 +232,18 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
               <View style={{alignItems: 'center', marginBottom: SPACING.lg}}>
                 <Pressable
                   onPress={() => {
-                    launchImageLibrary({
+                    ImageCropPicker.openPicker({
+                      width: 500,
+                      height: 500,
+                      cropping: true,
                       mediaType: 'photo',
-                      maxWidth: 500,
-                      maxHeight: 500,
-                      quality: 0.8,
-                    }).then(result => {
-                      const asset = result.assets?.[0];
-                      if (!asset?.uri) return;
+                    }).then(image => {
                       setValue('female_photo', {
-                        uri: asset.uri,
-                        type: asset.type ?? 'image/jpeg',
-                        filename: asset.fileName ?? `bride_${Date.now()}.jpg`,
+                        uri: image.path,
+                        type: image.mime,
+                        filename: image.filename ?? `bride_${Date.now()}.jpg`,
                       });
-                      setFemalePhoto(asset.uri);
+                      setFemalePhoto(image.path);
                     }).catch(() => {});
                   }}
                   disabled={isSubmitting}>
@@ -354,20 +352,18 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
               <View style={{alignItems: 'center', marginBottom: SPACING.lg}}>
                 <Pressable
                   onPress={() => {
-                    launchImageLibrary({
+                    ImageCropPicker.openPicker({
+                      width: 500,
+                      height: 500,
+                      cropping: true,
                       mediaType: 'photo',
-                      maxWidth: 500,
-                      maxHeight: 500,
-                      quality: 0.8,
-                    }).then(result => {
-                      const asset = result.assets?.[0];
-                      if (!asset?.uri) return;
+                    }).then(image => {
                       setValue('male_photo', {
-                        uri: asset.uri,
-                        type: asset.type ?? 'image/jpeg',
-                        filename: asset.fileName ?? `groom_${Date.now()}.jpg`,
+                        uri: image.path,
+                        type: image.mime,
+                        filename: image.filename ?? `groom_${Date.now()}.jpg`,
                       });
-                      setMalePhoto(asset.uri);
+                      setMalePhoto(image.path);
                     }).catch(() => {});
                   }}
                   disabled={isSubmitting}>
