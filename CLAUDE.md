@@ -107,3 +107,8 @@ Version is managed in `package.json` only. The Android `build.gradle` reads it a
 ## CI/CD
 
 GitHub Actions workflow (`.github/workflows/android-release.yml`) triggers when a GitHub Release is published. Validates tag matches `package.json` version, builds AAB + APK with ProGuard, and uploads artifacts to the existing release.
+
+## Related Repos
+
+- **Backend**: `https://github.com/ekomardiatno/emvite-node.git` — Express.js API server consumed by this app
+- **SPA**: `https://github.com/ekomardiatno/ekomardiatno.github.io.git` — React SPA for rendering wedding invitation templates (guest-facing)
