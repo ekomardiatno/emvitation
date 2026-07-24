@@ -236,10 +236,12 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                     launchImageLibrary({mediaType: 'photo'}).then(result => {
                       const asset = result.assets?.[0];
                       if (!asset?.uri) return;
+                      const w = Math.min(asset.width ?? 500, 500);
+                      const h = Math.min(asset.height ?? 500, 500);
                       return ImageCropPicker.openCropper({
                         path: asset.uri,
-                        width: 500,
-                        height: 500,
+                        width: w,
+                        height: h,
                       }).then(cropped => {
                         setValue('female_photo', {
                           uri: cropped.path,
@@ -359,10 +361,12 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                     launchImageLibrary({mediaType: 'photo'}).then(result => {
                       const asset = result.assets?.[0];
                       if (!asset?.uri) return;
+                      const w = Math.min(asset.width ?? 500, 500);
+                      const h = Math.min(asset.height ?? 500, 500);
                       return ImageCropPicker.openCropper({
                         path: asset.uri,
-                        width: 500,
-                        height: 500,
+                        width: w,
+                        height: h,
                       }).then(cropped => {
                         setValue('male_photo', {
                           uri: cropped.path,
