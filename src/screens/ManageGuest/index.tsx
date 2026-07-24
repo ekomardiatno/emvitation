@@ -27,7 +27,6 @@ import useToast from '../../hooks/useToast';
 import { EmptyState } from '../../components/EmptyState';
 import Typography from '../../components/core/Typography';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import KeyboardHeightView from '../../components/core/KeyboardHeightView';
 import LoadingState from '../../components/LoadingState';
 import { ErrorState } from '../../components/ErrorState';
 
@@ -233,8 +232,6 @@ export default function ManageGuest({route}: {route?: ManageGuestRouteProp}) {
                   Batal
                 </Button>
               </View>
-
-              <KeyboardHeightView />
             </View>
           </EModal>
         </>

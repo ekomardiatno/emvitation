@@ -14,6 +14,7 @@ import EventForm from '../screens/EventForm';
 import GiftInfoForm from '../screens/GiftInfoForm';
 import WishList from '../screens/WishList';
 import RsvpList from '../screens/RsvpList';
+import LocationPicker from '../screens/LocationPicker';
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +82,11 @@ export default function AppStack() {
       <Stack.Screen
         name="RsvpList"
         component={RsvpList}
+        options={stackScreenOptions}
+      />
+      <Stack.Screen
+        name="LocationPicker"
+        component={LocationPicker}
         options={stackScreenOptions}
       />
     </Stack.Navigator>

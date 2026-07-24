@@ -44,6 +44,11 @@ export type AppStackParamList = {
   };
   RsvpList: undefined;
   WishList: undefined;
+  LocationPicker?: {
+    initialLat?: number;
+    initialLng?: number;
+    returnScreen?: string;
+  };
 };
 
 export type AppStackNavigationProp =

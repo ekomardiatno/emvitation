@@ -1,17 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useController, useForm } from 'react-hook-form';
-import { View } from 'react-native';
+import { useController, useForm, useWatch } from 'react-hook-form';
+import { Pressable, View } from 'react-native';
 import * as yup from 'yup';
 import Confirmation from '../../components/core/Confirmation';
 import DatePicker from '../../components/core/DatePicker';
 import Input from '../../components/core/Input';
 import ScreenLayout from '../../components/core/ScreenLayout';
-import SelectPlace from '../../components/core/SelectPlace';
 import {
   AppStackNavigationProp,
   AppStackParamList,
 } from '../../types/navigation-type';
-import { SPACING } from '../../constants';
+import { RADIUS, SHADOWS, SPACING } from '../../constants';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import FieldLabel from '../../components/core/FieldLabel';
 import FieldErrorText from '../../components/core/FieldErrorText';
@@ -30,6 +29,103 @@ import { patchEvent, pushEvent } from '../../redux/reducers/event.reducer';
 import errorHandler from '../../helpers/errorHandler';
 import moment from 'moment';
 import useAppSelector from '../../hooks/useAppSelector';
+import Icon from '@react-native-vector-icons/material-icons';
+import { useTheme } from '../../components/core/AppProvider';
+import Typography from '../../components/core/Typography';
+import MapView, { Marker } from 'react-native-maps';
+
+function LocationPreview({
+  control,
+  isSubmitting,
+  theme,
+  navigation,
+}: {
+  control: any;
+  isSubmitting: boolean;
+  theme: any;
+  navigation: any;
+}) {
+  const latLng = useWatch({control, name: 'location_lat_lng'});
+  const coords = latLng
+    ? latLng.split(',').map((s: string) => Number(s.trim()))
+    : null;
+  const hasCoords =
+    coords && coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1]);
+
+  return (
+    <View>
+      <FieldLabel label="Lokasi Acara" />
+      <Pressable
+        disabled={isSubmitting}
+        onPress={() => {
+          navigation.navigate('LocationPicker', {
+            initialLat: hasCoords ? coords[0] : undefined,
+            initialLng: hasCoords ? coords[1] : undefined,
+            returnScreen: 'EventForm',
+          });
+        }}
+        style={{
+          borderWidth: 1,
+          borderColor: theme['border-default'],
+          borderRadius: RADIUS.sm,
+          overflow: 'hidden',
+          height: 160,
+        }}>
+        {hasCoords ? (
+          <MapView
+            scrollEnabled={false}
+            zoomEnabled={false}
+            rotateEnabled={false}
+            pitchEnabled={false}
+            style={{flex: 1}}
+            region={{
+              latitude: coords[0],
+              longitude: coords[1],
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}>
+            <Marker
+              coordinate={{
+                latitude: coords[0],
+                longitude: coords[1],
+              }}
+            />
+          </MapView>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: theme['bg-muted'],
+              gap: SPACING.sm,
+            }}>
+            <Icon
+              name="place"
+              size={32}
+              color={theme['text-disabled']}
+            />
+            <Typography
+              category="small"
+              color={theme['text-disabled']}>
+              Ketuk untuk pilih lokasi
+            </Typography>
+          </View>
+        )}
+        {/* Overlay to capture taps on top of MapView */}
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+        />
+      </Pressable>
+    </View>
+  );
+}
 
 const createEventSchema = yup.object({
   event_name: yup.string().required('Nama acara harus diisi'),
@@ -54,7 +150,7 @@ type EventFormRouteProp = RouteProp<AppStackParamList, 'EventForm'>;
 
 export default function EventForm({route}: {route?: EventFormRouteProp}) {
   const navigation = useAppNavigation<AppStackNavigationProp>();
-  const {control, handleSubmit, getValues, setValue} = useForm({
+  const {control, handleSubmit, getValues, setValue, watch} = useForm({
     resolver: yupResolver(createEventSchema),
   });
   const {
@@ -75,6 +171,7 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
     name: 'end_time',
     defaultValue: '17:00:00',
   });
+  const theme = useTheme();
   const toast = useToast();
   const invitationId = route?.params?.invitationId;
   const event = route?.params?.event;
@@ -94,6 +191,23 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
       setValue('location_venue', event.venue || '');
     }
   }, [event, setValue]);
+
+  // Receive picked location from LocationPicker screen
+  useEffect(() => {
+    const params = route?.params as any;
+    if (params?.pickedLat != null && params?.pickedLng != null) {
+      setValue(
+        'location_lat_lng',
+        `${params.pickedLat}, ${params.pickedLng}`,
+      );
+      if (params.pickedVenue) {
+        setValue('location_venue', params.pickedVenue);
+      }
+      if (params.pickedAddress) {
+        setValue('location_address', params.pickedAddress);
+      }
+    }
+  }, [route?.params, setValue]);
 
   const fetchSubmitting = useCallback(
     async (signal?: AbortSignal) => {
@@ -278,15 +392,11 @@ export default function EventForm({route}: {route?: EventFormRouteProp}) {
               label="Alamat Acara"
               editable={!isSubmitting}
             />
-            <SelectPlace
-              label="Lokasi Acara"
-              name="location_lat_lng"
+            <LocationPreview
               control={control}
-              editable={!isSubmitting}
-              onSelectPlace={place => {
-                setValue('location_venue', place.displayName.text);
-                setValue('location_address', place.formattedAddress);
-              }}
+              isSubmitting={isSubmitting}
+              theme={theme}
+              navigation={navigation}
             />
           </View>
         </View>

@@ -4,15 +4,12 @@ import { TYPOGRAPHY } from '../constants';
 import useAppSelector from '../hooks/useAppSelector';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import BootSplash from 'react-native-bootsplash';
-import AnimatedSplash from '../screens/AnimatedSplash';
 
 export default function RootNavigator() {
   const theme = useTheme();
   const {isAuthenticated, isLoading} = useAppSelector(state => state.auth);
-
-  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (!isLoading) {
@@ -20,9 +17,10 @@ export default function RootNavigator() {
     }
   }, [isLoading]);
 
-  if (isLoading || showSplash) {
-    return <AnimatedSplash onFinish={() => setShowSplash(false)} />;
+  if (isLoading) {
+    return null;
   }
+
   return (
     <NavigationContainer
       theme={{
