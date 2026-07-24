@@ -15,7 +15,8 @@ import {
   AppStackParamList,
 } from '../../types/navigation-type';
 import Icon from '@react-native-vector-icons/material-icons';
-import ImageCropPicker, { ImageOrVideo } from 'react-native-image-crop-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import { RouteProp } from '@react-navigation/native';
 import {
@@ -64,8 +65,8 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
   const theme = useTheme();
   const navigation = useAppNavigation<AppStackNavigationProp>();
   const [isAlertOpened, setIsAlertOpened] = useState<boolean>(false);
-  const [femalePhoto, setFemalePhoto] = useState<ImageOrVideo | null>(null);
-  const [malePhoto, setMalePhoto] = useState<ImageOrVideo | null>(null);
+  const [femalePhoto, setFemalePhoto] = useState<string | null>(null);
+  const [malePhoto, setMalePhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const toast = useToast();
   const wedding = route?.params?.wedding;
@@ -232,18 +233,22 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
               <View style={{alignItems: 'center', marginBottom: SPACING.lg}}>
                 <Pressable
                   onPress={() => {
-                    ImageCropPicker.openPicker({
-                      width: 500,
-                      height: 500,
-                      cropping: true,
-                    }).then(image => {
-                      setValue('female_photo', {
-                        uri: image.path,
-                        type: image.mime,
-                        filename: image.filename,
+                    launchImageLibrary({mediaType: 'photo'}).then(result => {
+                      const asset = result.assets?.[0];
+                      if (!asset?.uri) return;
+                      return ImageCropPicker.openCropper({
+                        path: asset.uri,
+                        width: 500,
+                        height: 500,
+                      }).then(cropped => {
+                        setValue('female_photo', {
+                          uri: cropped.path,
+                          type: cropped.mime,
+                          filename: cropped.filename ?? `bride_${Date.now()}.jpg`,
+                        });
+                        setFemalePhoto(cropped.path);
                       });
-                      setFemalePhoto(image);
-                    });
+                    }).catch(() => {});
                   }}
                   disabled={isSubmitting}>
                   <View
@@ -278,7 +283,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         }}
                         source={{
                           uri:
-                            femalePhoto?.path ||
+                            femalePhoto ||
                             APP_API_URL +
                               '/file?filePath=' +
                               wedding?.bridePhotoPath,
@@ -351,18 +356,22 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
               <View style={{alignItems: 'center', marginBottom: SPACING.lg}}>
                 <Pressable
                   onPress={() => {
-                    ImageCropPicker.openPicker({
-                      width: 500,
-                      height: 500,
-                      cropping: true,
-                    }).then(image => {
-                      setValue('male_photo', {
-                        uri: image.path,
-                        type: image.mime,
-                        filename: image.filename,
+                    launchImageLibrary({mediaType: 'photo'}).then(result => {
+                      const asset = result.assets?.[0];
+                      if (!asset?.uri) return;
+                      return ImageCropPicker.openCropper({
+                        path: asset.uri,
+                        width: 500,
+                        height: 500,
+                      }).then(cropped => {
+                        setValue('male_photo', {
+                          uri: cropped.path,
+                          type: cropped.mime,
+                          filename: cropped.filename ?? `groom_${Date.now()}.jpg`,
+                        });
+                        setMalePhoto(cropped.path);
                       });
-                      setMalePhoto(image);
-                    });
+                    }).catch(() => {});
                   }}
                   disabled={isSubmitting}>
                   <View
@@ -397,7 +406,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         }}
                         source={{
                           uri:
-                            malePhoto?.path ||
+                            malePhoto ||
                             APP_API_URL +
                               '/file?filePath=' +
                               wedding?.groomPhotoPath,
