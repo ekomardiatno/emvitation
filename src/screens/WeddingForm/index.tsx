@@ -244,7 +244,11 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         filename: image.filename ?? `bride_${Date.now()}.jpg`,
                       });
                       setFemalePhoto(image.path);
-                    }).catch(() => {});
+                    }).catch(e => {
+                      if (e?.code !== 'E_PICKER_CANCELLED') {
+                        toast.show('error', e?.message || 'Gagal memilih foto');
+                      }
+                    });
                   }}
                   disabled={isSubmitting}>
                   <View
@@ -364,7 +368,11 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         filename: image.filename ?? `groom_${Date.now()}.jpg`,
                       });
                       setMalePhoto(image.path);
-                    }).catch(() => {});
+                    }).catch(e => {
+                      if (e?.code !== 'E_PICKER_CANCELLED') {
+                        toast.show('error', e?.message || 'Gagal memilih foto');
+                      }
+                    });
                   }}
                   disabled={isSubmitting}>
                   <View
