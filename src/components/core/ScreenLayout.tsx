@@ -101,21 +101,20 @@ export default function ScreenLayout({
   const theme = useTheme();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingTop: !headerEnabled ? insets.top : 0,
-      }}>
+    <View style={{flex: 1}}>
+      <View style={{ height: insets.top, backgroundColor: theme['bg-surface'] }} />
       {headerEnabled && (
         <View>
           <View
             style={{
-              height: HEADER_HEIGHT + insets.top,
+              height: HEADER_HEIGHT,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
               paddingRight: SPACING.md,
-              paddingTop: insets.top,
+              backgroundColor: theme['bg-surface'],
+              borderBottomColor: theme['border-default'],
+              borderBottomWidth: 1,
             }}>
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
               {navigation.canGoBack() && !backButtonDisabled ? (
@@ -158,27 +157,20 @@ export default function ScreenLayout({
         </View>
       )}
       <ScrollView
-        style={{
-          paddingHorizontal: CONTAINER_GUTTER,
-          flex: 1,
-        }}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flexGrow: 1,
+          paddingBottom: (!footer ? insets.bottom : 0) + SPACING.md,
+          paddingTop: SPACING.md,
+          paddingHorizontal: CONTAINER_GUTTER,
+          justifyContent:
+            contentVerticalAlign === 'center'
+              ? 'center'
+              : contentVerticalAlign === 'end'
+              ? 'flex-end'
+              : undefined,
         }}>
-        <View
-          style={{
-            flex: 1,
-            paddingBottom: (!footer ? insets.bottom : 0) + SPACING.md,
-            marginTop: !headerEnabled ? SPACING.md : 0,
-            justifyContent:
-              contentVerticalAlign === 'center'
-                ? 'center'
-                : contentVerticalAlign === 'end'
-                ? 'flex-end'
-                : undefined,
-          }}>
-          {children}
-        </View>
+        {children}
       </ScrollView>
       {footer && (
         <>
@@ -192,7 +184,7 @@ export default function ScreenLayout({
                 paddingHorizontal: CONTAINER_GUTTER,
                 paddingBottom: insets.bottom + SPACING.md,
                 borderTopWidth: 1,
-                borderTopColor: theme['border-muted'],
+                borderTopColor: theme['border-default'],
               }}>
               {footer}
             </View>

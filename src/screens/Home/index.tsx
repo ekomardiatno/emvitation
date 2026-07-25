@@ -59,7 +59,6 @@ export default function Home() {
     <ScreenLayout headerEnabled={false}>
       <View
         style={{
-          paddingVertical: SPACING.md,
           marginBottom: SPACING.lg,
         }}>
         <View
@@ -102,9 +101,9 @@ export default function Home() {
               }}>
               <View
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 38,
+                  width: 52,
+                  height: 52,
+                  borderRadius: 52,
                   backgroundColor: isLoading
                     ? theme['secondary-bg']
                     : error

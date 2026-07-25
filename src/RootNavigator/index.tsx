@@ -13,7 +13,7 @@ export default function RootNavigator() {
 
   useEffect(() => {
     if (!isLoading) {
-      BootSplash.hide({fade: true});
+      BootSplash.hide({fade: true, duration: 1000});
     }
   }, [isLoading]);
 

@@ -15,7 +15,7 @@ export default function RegistrationSuccess() {
 
   return (
     <ScreenLayout contentVerticalAlign="center" headerEnabled={false}>
-      <View style={{flexGrow: 1, justifyContent: 'center'}}>
+      <View>
         <IconState
           appearance="success"
           style={{marginBottom: SPACING.md, alignSelf: 'center'}}

@@ -159,11 +159,10 @@ function RegistrationScreen() {
         </View>
       </View>
 
-      <View>
+      <View style={{marginTop: SPACING.xl, marginBottom: SPACING.md}}>
         <Divider
           icon="circle"
           marginBottom={SPACING.md}
-          marginTop={SPACING.lg}
           marginHorizontal={SPACING.xl}
         />
         <Typography

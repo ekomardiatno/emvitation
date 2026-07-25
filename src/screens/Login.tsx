@@ -89,7 +89,7 @@ export default function Login() {
   });
 
   return (
-    <ScreenLayout headerEnabled={false}>
+    <ScreenLayout headerEnabled={false} contentVerticalAlign="center">
       <View style={{flexGrow: 1, justifyContent: 'center'}}>
         <Typography category="h2">Masuk ke akun</Typography>
         <Typography category="small" marginTop={SPACING.xs}>
@@ -139,7 +139,7 @@ export default function Login() {
         </View>
       </View>
 
-      <View style={{marginTop: SPACING.xl}}>
+      <View style={{marginTop: SPACING.xl, marginBottom: SPACING.md}}>
         <Divider
           icon="circle"
           marginBottom={SPACING.md}
