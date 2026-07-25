@@ -24,7 +24,7 @@ npm run assets           # Link native assets (fonts/images)
 
 ## Tech Stack
 
-- React Native 0.79, React 19, TypeScript 5
+- React Native 0.86, React 19.2, TypeScript 5
 - Navigation: React Navigation v7 (native-stack + bottom-tabs)
 - State: Redux Toolkit + redux-persist (AsyncStorage)
 - Forms: react-hook-form + yup validation
@@ -42,11 +42,12 @@ npm run assets           # Link native assets (fonts/images)
 - `services/` — API layer; each domain has its own file, all use the shared Axios instance from `common.ts`
 - `redux/reducers/` — Redux Toolkit slices (auth, profile, wedding, event, guest, vendor, giftInfo, rsvp, wish, template)
 - `redux/store/` — Store config with persisted reducers and `resetAppState()` for logout
-- `hooks/` — Custom hooks: `useAppDispatch`, `useAppSelector`, `useAppNavigation`, `useTheme`, `useToast`, `useOtp`, `useWindowHeightOnKeyboard`
+- `hooks/` — Custom hooks: `useAppDispatch`, `useAppSelector`, `useAppNavigation`, `useTheme`, `useToast`, `useOtp`
+- `utils/` — Utility functions (`cleanAddress`, `capitalizeFirstText`, `getHiddenText`)
 - `constants/` — Theme colors (Tailwind-like palette), spacing, radius, and typography definitions
 - `types/` — TypeScript interfaces for all domains and navigation params
 - `config/` — Environment config (reads from `@env`)
-- `RootNavigator/` — Navigation setup: `AuthStack` (Login, Registration, AccountRecovery, ResetPassword) and `AppStack` (Home, MyWedding, WeddingDetail, WeddingForm, ManageGuest, EventForm, GiftInfoForm, Template, RsvpList, WishList, Profile, ChangePassword)
+- `RootNavigator/` — Navigation setup: `AuthStack` (Login, Registration, AccountRecovery, ResetPassword) and `AppStack` (Home, MyWedding, WeddingDetail, WeddingForm, ManageGuest, EventForm, LocationPicker, GiftInfoForm, Template, RsvpList, WishList, Profile, ChangePassword)
 
 ### Key Patterns
 
@@ -55,7 +56,9 @@ npm run assets           # Link native assets (fonts/images)
 - **Token management**: In-memory `tokenService` synced with Redux on app startup via `syncTokensFromStore()`
 - **Redux persistence**: Each slice uses `redux-persist` with AsyncStorage; auth persists tokens, profile persists user data
 - **Theme**: `AppProvider` detects system appearance and provides light/dark colors via `useTheme()` hook; colors use semantic keys like `bg-app`, `text-primary`, `primary-bg`
-- **Screen pattern**: Screens use `ScreenLayout` wrapper, connect to Redux via typed hooks, use `react-hook-form` for forms with `yup` schemas
+- **Screen pattern**: Screens use `ScreenLayout` wrapper (handles header, scroll, keyboard avoidance, safe areas), connect to Redux via typed hooks, use `react-hook-form` for forms with `yup` schemas. `ScreenLayout` renders children directly inside ScrollView's `contentContainerStyle` (no inner wrapper View) so content scrolls properly when keyboard opens
+- **Splash screen**: `react-native-bootsplash` with native `BootTheme` on MainActivity; supports light/dark via `values/colors.xml` and `values-night/colors.xml`; hidden with fade after auth state loads
+- **Location picker**: Full-screen `LocationPicker` screen with MapView, overlay search bar, reverse geocoding, and bottom card; returns data to calling screen via `CommonActions.reset` with merged params
 - **OTP flow**: `OtpProvider` shows a WhatsApp prompt screen first (user sends a message to `WA_OTP_NUMBER` via deep link), then proceeds to request and verify the OTP code
 - **Logout**: `resetAppState()` dispatches reset actions across all 10 slices
 
@@ -107,6 +110,13 @@ Version is managed in `package.json` only. The Android `build.gradle` reads it a
 ## CI/CD
 
 GitHub Actions workflow (`.github/workflows/android-release.yml`) triggers when a GitHub Release is published. Validates tag matches `package.json` version, builds AAB + APK with ProGuard, and uploads artifacts to the existing release.
+
+### Deploying
+
+1. Bump version: `npm version patch --no-git-tag-version`
+2. Commit and push the version bump
+3. Create a GitHub release: `gh release create v<version> --title "v<version>" --notes "..."`
+4. The CI workflow builds and attaches APK/AAB artifacts to the release
 
 ## Related Repos
 
