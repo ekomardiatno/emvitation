@@ -205,8 +205,8 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                 <Pressable
                   onPress={() => {
                     ImageCropPicker.openPicker({
-                      width: 500,
-                      height: 500,
+                      width: 800,
+                      height: 800,
                       cropping: true,
                       mediaType: 'photo',
                     }).then(image => {
@@ -356,8 +356,8 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                 <Pressable
                   onPress={() => {
                     ImageCropPicker.openPicker({
-                      width: 500,
-                      height: 500,
+                      width: 800,
+                      height: 800,
                       cropping: true,
                       mediaType: 'photo',
                     }).then(image => {

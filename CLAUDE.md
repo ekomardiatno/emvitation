@@ -79,6 +79,7 @@ Copy `.env.example` to `.env` with these variables:
 - `GOOGLE_MAPS_API_KEY` — Google Maps API key
 - `SPA_URL` — Web SPA URL for invitation links
 - `GOOGLE_WEB_CLIENT_ID` — Google OAuth Web Client ID (from Google Cloud Console; same value as backend `GOOGLE_CLIENT_ID`)
+- `CLEARTEXT_HOSTS` — Comma-separated list of domains/IPs to allow cleartext HTTP in release builds (e.g. `192.168.1.214,10.0.2.2,localhost`). Empty = HTTPS only. Generated into `network_security_config.xml` by Gradle at build time. Debug builds allow all cleartext regardless.
 
 ## Backend Reference
 
