@@ -10,17 +10,10 @@ export type TemplateParamsProp = {
 
 export type AuthStackParamList = {
   Login: undefined;
-  Registration: undefined;
-  RegistrationSuccess: undefined;
-  AccountRecovery: undefined;
-  ResetPassword: {
-    resetPasswordToken: string;
-  };
 };
 
 export type AppStackParamList = {
   Home: undefined;
-  ChangePassword: undefined;
   WeddingForm?: {
     selectedTemplate?: string;
     wedding?: WeddingDataType;

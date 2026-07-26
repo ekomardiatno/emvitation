@@ -27,6 +27,7 @@ npm run assets           # Link native assets (fonts/images)
 - React Native 0.86, React 19.2, TypeScript 5
 - Navigation: React Navigation v7 (native-stack + bottom-tabs)
 - State: Redux Toolkit + redux-persist (AsyncStorage)
+- Auth: `@react-native-google-signin/google-signin` (Google Sign-In)
 - Forms: react-hook-form + yup validation
 - HTTP: Axios with interceptors (auto token refresh, 401 queue)
 - Maps: react-native-maps + Google Places API
@@ -37,21 +38,21 @@ npm run assets           # Link native assets (fonts/images)
 ### Source Layout (`src/`)
 
 - `components/core/` — Reusable UI primitives (Button, Input, Typography, Modal, Card, DatePicker, SelectPicker, etc.) and the `AppProvider` theme context
-- `components/{Otp,Profile,Toast}Provider/` — Context-based providers wrapping specific feature logic
+- `components/{Profile,Toast}Provider/` — Context-based providers wrapping specific feature logic
 - `screens/` — Screen components; complex screens use a folder with `index.tsx`
 - `services/` — API layer; each domain has its own file, all use the shared Axios instance from `common.ts`
 - `redux/reducers/` — Redux Toolkit slices (auth, profile, wedding, event, guest, vendor, giftInfo, rsvp, wish, template)
 - `redux/store/` — Store config with persisted reducers and `resetAppState()` for logout
-- `hooks/` — Custom hooks: `useAppDispatch`, `useAppSelector`, `useAppNavigation`, `useTheme`, `useToast`, `useOtp`
+- `hooks/` — Custom hooks: `useAppDispatch`, `useAppSelector`, `useAppNavigation`, `useTheme`, `useToast`
 - `utils/` — Utility functions (`cleanAddress`, `capitalizeFirstText`, `getHiddenText`)
 - `constants/` — Theme colors (Tailwind-like palette), spacing, radius, and typography definitions
 - `types/` — TypeScript interfaces for all domains and navigation params
 - `config/` — Environment config (reads from `@env`)
-- `RootNavigator/` — Navigation setup: `AuthStack` (Login, Registration, AccountRecovery, ResetPassword) and `AppStack` (Home, MyWedding, WeddingDetail, WeddingForm, ManageGuest, EventForm, LocationPicker, GiftInfoForm, Template, RsvpList, WishList, Profile, ChangePassword)
+- `RootNavigator/` — Navigation setup: `AuthStack` (Login) and `AppStack` (Home, MyWedding, WeddingDetail, WeddingForm, ManageGuest, EventForm, LocationPicker, GiftInfoForm, Template, RsvpList, WishList, Profile)
 
 ### Key Patterns
 
-- **Auth flow**: `RootNavigator` renders `AuthStack` or `AppStack` based on `isAuthenticated` from Redux auth state
+- **Auth flow**: Google Sign-In via `@react-native-google-signin/google-signin`; `GoogleSignin.configure()` called at module level in `App.tsx` with `webClientId`; Login screen calls `GoogleSignin.signIn()` → sends `idToken` to `POST /api/user/google-sign-in` → backend verifies with `google-auth-library`, finds/creates user by `googleId`/`email`, returns JWT pair → `loginSuccess` dispatch. `RootNavigator` renders `AuthStack` or `AppStack` based on `isAuthenticated` from Redux auth state
 - **API layer** (`services/common.ts`): Axios interceptors handle Bearer token injection, automatic 401 token refresh with request queuing, and full logout on refresh failure
 - **Token management**: In-memory `tokenService` synced with Redux on app startup via `syncTokensFromStore()`
 - **Redux persistence**: Each slice uses `redux-persist` with AsyncStorage; auth persists tokens, profile persists user data
@@ -59,7 +60,6 @@ npm run assets           # Link native assets (fonts/images)
 - **Screen pattern**: Screens use `ScreenLayout` wrapper (handles header, scroll, keyboard avoidance, safe areas), connect to Redux via typed hooks, use `react-hook-form` for forms with `yup` schemas. `ScreenLayout` renders children directly inside ScrollView's `contentContainerStyle` (no inner wrapper View) so content scrolls properly when keyboard opens
 - **Splash screen**: `react-native-bootsplash` with native `BootTheme` on MainActivity; supports light/dark via `values/colors.xml` and `values-night/colors.xml`; hidden with fade after auth state loads
 - **Location picker**: Full-screen `LocationPicker` screen with MapView, overlay search bar, reverse geocoding, and bottom card; returns data to calling screen via `CommonActions.reset` with merged params
-- **OTP flow**: `OtpProvider` shows a WhatsApp prompt screen first (user sends a message to `WA_OTP_NUMBER` via deep link), then proceeds to request and verify the OTP code
 - **Logout**: `resetAppState()` dispatches reset actions across all 10 slices
 
 ## Code Conventions
@@ -77,9 +77,8 @@ npm run assets           # Link native assets (fonts/images)
 Copy `.env.example` to `.env` with these variables:
 - `API_URL` — Backend API base URL
 - `GOOGLE_MAPS_API_KEY` — Google Maps API key
-- `API_NOAUTH_TOKEN` — Token for unauthenticated API calls
 - `SPA_URL` — Web SPA URL for invitation links
-- `WA_OTP_NUMBER` — WhatsApp number for OTP verification prompt (used in `wa.me` deep link)
+- `GOOGLE_WEB_CLIENT_ID` — Google OAuth Web Client ID (from Google Cloud Console; same value as backend `GOOGLE_CLIENT_ID`)
 
 ## Backend Reference
 
@@ -87,19 +86,20 @@ The backend lives in a separate repo: `https://github.com/ekomardiatno/emvite-no
 
 - **Stack**: Express.js v5, TypeScript, PostgreSQL + Sequelize ORM
 - **Base URL**: Configured via `API_URL` env var (default `http://localhost:5001/api`)
-- **Auth**: JWT Bearer tokens; access token + refresh token pair
+- **Auth**: Google Sign-In; backend verifies Google ID tokens via `google-auth-library`, issues JWT access + refresh token pair. Users are identified by `email`/`googleId` (no passwords)
 - **API response wrapper**: `{ success: boolean, data: any, message?: string }`; the mobile Axios interceptor unwraps `data` and `message` from this
 - **Validation**: Zod schemas; errors returned as `{ field, message }[]`
 - **File serving**: `GET /api/file?filePath=<path>` streams uploaded images
 - **Key endpoints used by this app**:
-  - `POST /api/user` (register), `POST /api/user/login`, `GET /api/user/find-my-profile`
-  - `POST /api/token/refresh`, `GET /api/token/send-no-auth-token`
-  - `POST /api/otp-request` (requires no-auth token)
+  - `POST /api/user/google-sign-in`, `GET /api/user/find-my-profile`
+  - `POST /api/token/refresh`
   - `POST /api/wedding/create`, `GET /api/wedding/my-list`, `POST /api/wedding/update/:id`
   - CRUD for `/api/guest`, `/api/event`, `/api/gift-info`, `/api/vendor`, `/api/wish`, `/api/rsvp`
   - `/api/template` (list/create/update)
   - `/api/public/wedding/invitation/:id`, `/api/public/wedding/guest/:guestId`
   - `/api/google/search-places`
+- **Backend env**: Requires `GOOGLE_CLIENT_ID` (same Web Client ID used by frontend)
+- **Local JWT for testing**: `node -e "console.log(require('jsonwebtoken').sign({name:'Test',email:'your@gmail.com',loginAt:new Date()},'jwtsecret',{expiresIn:'1d'}))"`
 
 ## Versioning
 

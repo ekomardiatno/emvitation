@@ -35,7 +35,7 @@ export default function ProfileProvider({
           dispatch(
             setProfile({
               name: res.data.name,
-              phone: res.data.phone,
+              email: res.data.email,
             }),
           );
         } else {

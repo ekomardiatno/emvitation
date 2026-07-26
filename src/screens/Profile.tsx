@@ -3,10 +3,8 @@ import ScreenLayout from '../components/core/ScreenLayout';
 import { Linking, View } from 'react-native';
 import { useApp, useTheme } from '../components/core/AppProvider';
 import { RADIUS, SHADOWS, SPACING } from '../constants';
-import censorPhoneNumber from '../utils/cursorPhoneNumber';
 import SettingsSection, { SettingsItem } from '../components/SettingsSection';
 import Confirmation from '../components/core/Confirmation';
-import useAppNavigation from '../hooks/useAppNavigation';
 import useAppSelector from '../hooks/useAppSelector';
 import getInitials from '../utils/getInitials';
 import useToast from '../hooks/useToast';
@@ -14,7 +12,6 @@ import useToast from '../hooks/useToast';
 export default function Profile() {
   const theme = useTheme();
   const {appLogout} = useApp();
-  const navigation = useAppNavigation();
   const {data} = useAppSelector(state => state.profile);
   const toast = useToast();
 
@@ -60,7 +57,7 @@ export default function Profile() {
           {data.name || ''}
         </Typography>
         <Typography category="small" color={theme['text-secondary']}>
-          {censorPhoneNumber(data.phone || '')}
+          {data.email || ''}
         </Typography>
       </View>
       <SettingsSection>
@@ -69,14 +66,6 @@ export default function Profile() {
           description="Ajukan pertanyaan atau laporkan masalah langsung kepada Admin"
           iconName="help"
           onPress={openWhatsApp}
-        />
-        <SettingsItem
-          title="Ubah kata sandi"
-          description="Ganti kata sandi secara berkala untuk meningkatkan keamanan akun Anda"
-          iconName="lock"
-          onPress={() => {
-            navigation.navigate('ChangePassword');
-          }}
         />
       </SettingsSection>
       <View style={{marginTop: SPACING.lg, gap: 20}}>

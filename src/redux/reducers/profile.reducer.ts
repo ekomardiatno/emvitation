@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialState: ProfileType = {
   data: {
     name: null,
-    phone: null,
+    email: null,
   },
   isLoading: true,
   error: null,
@@ -18,15 +18,15 @@ const profileSlice = createSlice({
   reducers: {
     setProfile: (
       state,
-      action: PayloadAction<{name: string; phone: string}>,
+      action: PayloadAction<{name: string; email: string}>,
     ) => {
       state.data.name = action.payload.name;
-      state.data.phone = action.payload.phone;
+      state.data.email = action.payload.email;
       state.isLoading = false;
     },
     resetProfile: state => {
       state.data.name = null;
-      state.data.phone = null;
+      state.data.email = null;
       state.isLoading = true;
       state.error = null;
     },

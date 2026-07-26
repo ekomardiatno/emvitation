@@ -3,7 +3,6 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 import Home from '../screens/Home';
-import ChangePassword from '../screens/ChangePassword';
 import Profile from '../screens/Profile';
 import WeddingForm from '../screens/WeddingForm';
 import Template from '../screens/Template';
@@ -29,11 +28,6 @@ export default function AppStack() {
         animation: 'ios_from_right',
       }}>
       <Stack.Screen name="Home" component={Home} options={stackScreenOptions} />
-      <Stack.Screen
-        name="ChangePassword"
-        component={ChangePassword}
-        options={stackScreenOptions}
-      />
       <Stack.Screen
         name="Profile"
         component={Profile}

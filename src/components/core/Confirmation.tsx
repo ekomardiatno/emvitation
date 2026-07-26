@@ -178,19 +178,20 @@ export default function Confirmation({
         <View
           style={{
             backgroundColor: theme['bg-surface'],
-            padding: SPACING.md * 2,
-            paddingBottom: SPACING.md,
+            paddingTop: SPACING['2xl'],
+            paddingHorizontal: SPACING.xl,
+            paddingBottom: SPACING.lg,
             borderRadius: RADIUS.xl,
             alignSelf: 'center',
             width:
-              width < height ? width - SPACING.md * 2 : height - SPACING.md * 2,
+              width < height ? width - SPACING.lg * 2 : height - SPACING.lg * 2,
             marginBottom:
               Platform.OS === 'ios' ? SPACING.md * 3 : StatusBar.currentHeight,
           }}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <IconState
               appearance={confirmationDialogAppearance ?? appearance ?? 'basic'}
-              style={{marginBottom: SPACING.md}}
+              style={{marginBottom: SPACING.lg}}
             />
           </View>
           <Typography
@@ -198,10 +199,14 @@ export default function Confirmation({
             style={{fontWeight: '700', textAlign: 'center'}}>
             {cautionTitle || 'Konfirmasi Tindakan'}
           </Typography>
-          <Typography category="small" style={{textAlign: 'center'}}>
+          <Typography
+            category="small"
+            marginTop={SPACING.xs}
+            style={{textAlign: 'center'}}
+            color={theme['text-secondary']}>
             {cautionText || 'Apakah Anda yakin ingin melanjutkan tindakan ini?'}
           </Typography>
-          <View style={{paddingTop: SPACING.lg, gap: SPACING.sm}}>
+          <View style={{paddingTop: SPACING.xl, gap: SPACING.sm}}>
             <Button
               appearance={confirmationDialogAppearance ?? appearance ?? 'basic'}
               onPress={handleConfirm}
@@ -209,7 +214,7 @@ export default function Confirmation({
               {confirmText || 'Ya, lanjutkan'}
             </Button>
             <Button
-              appearance="transparent"
+              appearance="secondary"
               onPress={handleClose}
               isLoading={isLoading}>
               {cancelText || 'Tidak, batal'}

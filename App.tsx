@@ -11,6 +11,12 @@ import { finishAuthCheck } from './src/redux/reducers/auth.reducer';
 import ProfileProvider from './src/components/ProfileProvider';
 import moment from 'moment';
 import 'moment/locale/id';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { APP_GOOGLE_WEB_CLIENT_ID } from './src/config';
+
+GoogleSignin.configure({
+  webClientId: APP_GOOGLE_WEB_CLIENT_ID,
+});
 
 function App() {
   useEffect(() => {

@@ -23,6 +23,7 @@
 		418F487AE56D4DDE9AE736FA /* Sarabun-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C8957485484FE097544425 /* Sarabun-LightItalic.ttf */; };
 		42B83ED638AA4F62BB7DA102 /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CECD786775954B91BBD972A4 /* Rubik-MediumItalic.ttf */; };
 		4337BFA7F86A4B66BF83190A /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 885A7AB89AE2453E82AB95D4 /* Inter-Thin.ttf */; };
+		46857DD281EF4A89882C6D84 /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C4B607768774233902CA3C7 /* Lobster-Regular.ttf */; };
 		46FA68A83EA34BA3ABEFAD7B /* HomemadeApple-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23BB3A8F7188495581852999 /* HomemadeApple-Regular.ttf */; };
 		48DA3A2C0ED147C49CF32F7A /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B66DBA8CB44544FFACC324C5 /* IBMPlexMono-Regular.ttf */; };
 		5F82416F46DA4689923CC317 /* Sarabun-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF777F0D0E9444FA94511812 /* Sarabun-MediumItalic.ttf */; };
@@ -76,7 +77,6 @@
 		FDBE4A99D31F45B7868DAD0B /* IBMPlexMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BF8DB51AC364C1EAAC72651 /* IBMPlexMono-BoldItalic.ttf */; };
 		FE6E6F5888AD4D8795F8A420 /* Sarabun-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0382BD969F2439B83D8721E /* Sarabun-ExtraBold.ttf */; };
 		FEAD0C31819E4B0693674565 /* IBMPlexMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07C718008D7641C797BECA82 /* IBMPlexMono-Medium.ttf */; };
-		46857DD281EF4A89882C6D84 /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C4B607768774233902CA3C7 /* Lobster-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +116,7 @@
 		5EAA516F010B443097ABEE71 /* Sarabun-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Sarabun-BoldItalic.ttf"; path = "../src/assets/fonts/Sarabun-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5F815256267D457F8131EC99 /* IBMPlexMono-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Thin.ttf"; path = "../src/assets/fonts/IBMPlexMono-Thin.ttf"; sourceTree = "<group>"; };
 		67FC51D869D4EECD2FE7EC58 /* libPods-EMVITE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EMVITE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C4B607768774233902CA3C7 /* Lobster-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lobster-Regular.ttf"; path = "../src/assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; };
 		73300AE8A400422191CBB61F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "IBMPlexMono-Bold.ttf"; path = "../src/assets/fonts/IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = EMVITE/AppDelegate.swift; sourceTree = "<group>"; };
 		7A117B37D5AE421D95AB0D22 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
@@ -154,7 +155,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F159ADF088934446B495D82B /* Rubik-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Rubik-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		FE317FCB2AD64B399B08AF17 /* Rubik-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-BlackItalic.ttf"; path = "../src/assets/fonts/Rubik-BlackItalic.ttf"; sourceTree = "<group>"; };
-		6C4B607768774233902CA3C7 /* Lobster-Regular.ttf */ = {isa = PBXFileReference; name = "Lobster-Regular.ttf"; path = "../src/assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,7 +338,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EMVITE" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EMvitation" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -638,6 +638,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -645,14 +649,17 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -710,6 +717,10 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -717,13 +728,16 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					" ",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -741,7 +755,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EMVITE" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EMvitation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

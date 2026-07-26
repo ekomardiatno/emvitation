@@ -1,36 +1,32 @@
-/* eslint-disable react/self-closing-comp */
-import { CONTAINER_GUTTER, SPACING, TYPOGRAPHY } from '../../constants';
+import {CONTAINER_GUTTER, RADIUS, SHADOWS, SPACING} from '../../constants';
 import {
   ActivityIndicator,
   Image,
+  StyleSheet,
   TouchableOpacity,
-  useWindowDimensions,
   View,
 } from 'react-native';
-import PressableCard from '../../components/core/PressableCard';
-import { AppStackNavigationProp } from '../../types/navigation-type';
-import { useTheme } from '../../components/core/AppProvider';
+import {AppStackNavigationProp} from '../../types/navigation-type';
+import {useTheme} from '../../components/core/AppProvider';
 import Typography from '../../components/core/Typography';
 import ScreenLayout from '../../components/core/ScreenLayout';
 import useAppNavigation from '../../hooks/useAppNavigation';
 import useAppSelector from '../../hooks/useAppSelector';
 import getInitials from '../../utils/getInitials';
-import Card from '../../components/core/Card';
-import { EmptyState } from '../../components/EmptyState';
-import { useEffect, useMemo } from 'react';
+import {EmptyState} from '../../components/EmptyState';
+import {useEffect, useMemo} from 'react';
 import useAppDispatch from '../../hooks/useAppDispatch';
-import { loadingWeddings } from '../../redux/reducers/wedding.reducer';
+import {loadingWeddings} from '../../redux/reducers/wedding.reducer';
 import Button from '../../components/core/Button';
-import { WeddingCard } from '../MyWedding/WeddingCard';
+import {WeddingCard} from '../MyWedding/WeddingCard';
 import VendorSection from './VendorSection';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import { gettingProfile } from '../../redux/reducers/profile.reducer';
+import {gettingProfile} from '../../redux/reducers/profile.reducer';
 import LoadingState from '../../components/LoadingState';
 import MinimalOverviewCard from './MinimalOverviewCard';
 
 export default function Home() {
   const navigation = useAppNavigation<AppStackNavigationProp>();
-  const {width} = useWindowDimensions();
   const theme = useTheme();
   const {isLoading, data, error} = useAppSelector(state => state.profile);
   const {isLoading: isWeddingLoading, weddings} = useAppSelector(
@@ -55,139 +51,193 @@ export default function Home() {
     return wedding.at(0);
   }, [weddings]);
 
+  const firstName = useMemo(() => {
+    if (!data.name) {
+      return '';
+    }
+    return data.name.split(' ')[0];
+  }, [data.name]);
+
   return (
     <ScreenLayout headerEnabled={false}>
-      <View
-        style={{
-          marginBottom: SPACING.lg,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: SPACING.md,
+      {/* Header row */}
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <Image
+            source={
+              theme.schema === 'dark'
+                ? require('../../assets/images/logo-white-50px.webp')
+                : require('../../assets/images/logo-50px.webp')
+            }
+            resizeMode="contain"
+            style={styles.headerLogo}
+          />
+          <Typography category="h4" fontWeight={700} style={{letterSpacing: 2}}>
+            EMVITE
+          </Typography>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            if (error) {
+              dispatch(gettingProfile());
+            } else {
+              navigation.navigate('Profile');
+            }
           }}>
           <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: SPACING.md,
-            }}>
-            <Image
-              source={
-                theme.schema === 'dark'
-                  ? require('../../assets/images/logo-white-50px.webp')
-                  : require('../../assets/images/logo-50px.webp')
-              }
-              resizeMode="contain"
-              style={{width: 30, height: 30}}
-            />
-            <Typography
-              category="h2"
-              fontWeight={500}
-              color={theme['text-primary']}>
-              EMVITE
-            </Typography>
+            style={[
+              styles.avatar,
+              {
+                backgroundColor: isLoading
+                  ? theme['secondary-bg']
+                  : error
+                  ? theme['error-bg']
+                  : theme['primary-bg'],
+              },
+            ]}>
+            {isLoading ? (
+              <ActivityIndicator color={theme['secondary-text']} size={16} />
+            ) : error ? (
+              <MaterialIcons
+                name="error"
+                size={18}
+                color={theme['error-text']}
+              />
+            ) : (
+              <Typography
+                category="small"
+                fontWeight={700}
+                color={theme['primary-text']}
+                style={{textTransform: 'uppercase'}}>
+                {getInitials(data.name || '')}
+              </Typography>
+            )}
           </View>
-          <View style={{position: 'relative', paddingLeft: 22}}>
-            <TouchableOpacity
-              onPress={() => {
-                if (error) {
-                  dispatch(gettingProfile());
-                } else {
-                  navigation.navigate('Profile');
-                }
-              }}>
-              <View
-                style={{
-                  width: 52,
-                  height: 52,
-                  borderRadius: 52,
-                  backgroundColor: isLoading
-                    ? theme['secondary-bg']
-                    : error
-                    ? theme['error-bg']
-                    : theme['info-bg'],
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {isLoading ? (
-                  <ActivityIndicator
-                    color={theme['secondary-text']}
-                    size={20}
-                  />
-                ) : error ? (
-                  <MaterialIcons
-                    size={TYPOGRAPHY.textStyle.regular.lineHeight}
-                    name="error"
-                    color={theme['error-text']}
-                  />
-                ) : (
-                  <Typography
-                    category="regular"
-                    fontWeight={700}
-                    color={theme['info-text']}
-                    style={{textTransform: 'uppercase'}}>
-                    {getInitials(data.name || '')}
-                  </Typography>
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </TouchableOpacity>
       </View>
-      <View style={{ paddingBottom: SPACING.lg }}>
-        <View style={{gap: SPACING.md, flexDirection: 'row'}}>
-          <PressableCard
-            title="Buat Undangan"
-            shortDescription="Buat undangan baru"
-            iconName="add"
-            width={(width - CONTAINER_GUTTER * 2 - CONTAINER_GUTTER) / 2}
-            onPress={() => navigation.navigate('WeddingForm')}
-            variant="info"
-          />
-          <PressableCard
-            title="Undangan Saya"
-            iconName="description"
-            shortDescription="Lihat dan kelola undangan"
-            width={(width - CONTAINER_GUTTER * 2 - CONTAINER_GUTTER) / 2}
-            onPress={() => navigation.navigate('MyWedding')}
-            variant="success"
-          />
+
+      {/* Greeting */}
+      <View style={styles.greeting}>
+        <Typography category="h2" fontWeight={700}>
+          {firstName ? `Hai, ${firstName}` : 'Selamat datang'}
+        </Typography>
+        <Typography
+          category="small"
+          marginTop={SPACING.xs}
+          color={theme['text-secondary']}>
+          Kelola undangan pernikahanmu di sini
+        </Typography>
+      </View>
+
+      <View style={{paddingBottom: SPACING.lg}}>
+        {/* Quick Actions — horizontal list items */}
+        <View style={{gap: SPACING.sm}}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('WeddingForm')}>
+            <View
+              style={[
+                styles.actionRow,
+                {
+                  backgroundColor: theme['bg-surface'],
+                  borderColor: theme['border-muted'],
+                },
+              ]}>
+              <View
+                style={[
+                  styles.actionIcon,
+                  {backgroundColor: theme['primary-bg']},
+                ]}>
+                <MaterialIcons name="add" size={22} color={theme['primary-text']} />
+              </View>
+              <View style={styles.actionText}>
+                <Typography category="regular" fontWeight={600}>
+                  Buat Undangan
+                </Typography>
+                <Typography category="xsmall" color={theme['text-secondary']}>
+                  Buat undangan pernikahan baru
+                </Typography>
+              </View>
+              <MaterialIcons
+                name="chevron-right"
+                size={22}
+                color={theme['text-disabled']}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('MyWedding')}>
+            <View
+              style={[
+                styles.actionRow,
+                {
+                  backgroundColor: theme['bg-surface'],
+                  borderColor: theme['border-muted'],
+                },
+              ]}>
+              <View
+                style={[
+                  styles.actionIcon,
+                  {backgroundColor: theme['info-bg']},
+                ]}>
+                <MaterialIcons
+                  name="description"
+                  size={20}
+                  color={theme['info-text']}
+                />
+              </View>
+              <View style={styles.actionText}>
+                <Typography category="regular" fontWeight={600}>
+                  Undangan Saya
+                </Typography>
+                <Typography category="xsmall" color={theme['text-secondary']}>
+                  Lihat dan kelola undangan
+                </Typography>
+              </View>
+              <MaterialIcons
+                name="chevron-right"
+                size={22}
+                color={theme['text-disabled']}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={{marginTop: SPACING.md}}>
+
+        {/* Stats Overview */}
+        <View style={{marginTop: SPACING.xl}}>
           <MinimalOverviewCard />
         </View>
-        <View style={{marginTop: SPACING.lg}}>
-          <Card
-            title={latestUnpublishedWedding ? 'Undangan terakhir' : undefined}
-            rightControl={
-              latestUnpublishedWedding ? (
-                <View style={{marginRight: SPACING.xs * -1}}>
-                  <Button
-                    style={{
-                      paddingVertical: 0,
-                      paddingHorizontal: SPACING.xs,
-                    }}
-                    category="xsmall"
-                    textStyle={{color: theme['primary-bg']}}
-                    appearance="transparent"
-                    onPress={() => {
-                      navigation.navigate('MyWedding');
-                    }}>
-                    Lihat semua
-                  </Button>
-                </View>
-              ) : undefined
-            }>
+
+        {/* Latest Draft */}
+        <View style={{marginTop: SPACING.xl}}>
+          <View style={styles.sectionHeader}>
+            <Typography category="regular" fontWeight={700}>
+              Undangan Terakhir
+            </Typography>
+            {latestUnpublishedWedding && (
+              <Button
+                style={styles.seeAllButton}
+                category="xsmall"
+                textStyle={{color: theme['primary-bg']}}
+                appearance="transparent"
+                onPress={() => navigation.navigate('MyWedding')}>
+                Lihat semua
+              </Button>
+            )}
+          </View>
+          <View style={{marginTop: SPACING.sm}}>
             {isWeddingLoading ? (
               <View
-                style={{
-                  height: 208,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                style={[
+                  styles.loadingCard,
+                  {
+                    backgroundColor: theme['bg-surface'],
+                    borderColor: theme['border-muted'],
+                  },
+                ]}>
                 <LoadingState />
               </View>
             ) : latestUnpublishedWedding ? (
@@ -195,14 +245,10 @@ export default function Home() {
                 data={latestUnpublishedWedding}
                 controls={
                   <View
-                    style={{
-                      marginTop: SPACING.lg,
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                      borderTopColor: theme.divider,
-                      borderTopWidth: 1,
-                      paddingTop: SPACING.md,
-                    }}>
+                    style={[
+                      styles.cardControls,
+                      {borderTopColor: theme.divider},
+                    ]}>
                     <Button
                       category="xsmall"
                       textStyle={{fontWeight: '500'}}
@@ -218,25 +264,37 @@ export default function Home() {
                 }
               />
             ) : (
-              <EmptyState
-                title={
-                  weddings.length > 1 ? 'Draf Kosong' : 'Belum Ada Undangan'
-                }
-                message={
-                  weddings.length > 1
-                    ? 'Mulai buat undangan baru sekarang'
-                    : 'Mulai buat undangan pertamamu sekarang'
-                }
-                onRetry={() => {
-                  navigation.navigate('WeddingForm');
-                }}
-                retryLabel="Buat Undangan"
-              />
+              <View
+                style={[
+                  styles.emptyCard,
+                  {
+                    backgroundColor: theme['bg-surface'],
+                    borderColor: theme['border-muted'],
+                  },
+                ]}>
+                <EmptyState
+                  title={
+                    weddings.length > 1 ? 'Draf Kosong' : 'Belum Ada Undangan'
+                  }
+                  message={
+                    weddings.length > 1
+                      ? 'Mulai buat undangan baru sekarang'
+                      : 'Mulai buat undangan pertamamu sekarang'
+                  }
+                  onRetry={() => navigation.navigate('WeddingForm')}
+                  retryLabel="Buat Undangan"
+                />
+              </View>
             )}
-          </Card>
+          </View>
         </View>
+
+        {/* Vendor Section */}
         <View
-          style={{marginTop: SPACING.lg, marginHorizontal: CONTAINER_GUTTER * -1}}>
+          style={{
+            marginTop: SPACING.xl,
+            marginHorizontal: CONTAINER_GUTTER * -1,
+          }}>
           <VendorSection
             title="Vendor Pilihan"
             description="Vendor terpercaya untuk melengkapi hari spesial Kamu"
@@ -246,3 +304,80 @@ export default function Home() {
     </ScreenLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+  },
+  headerLogo: {
+    width: 28,
+    height: 28,
+  },
+  avatar: {
+    width: 38,
+    height: 38,
+    borderRadius: RADIUS.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  greeting: {
+    marginTop: SPACING.xl,
+    marginBottom: SPACING.xl,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.lg,
+    borderWidth: StyleSheet.hairlineWidth,
+    ...SHADOWS.sm,
+  },
+  actionIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: RADIUS.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionText: {
+    flex: 1,
+    gap: 1,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  seeAllButton: {
+    paddingVertical: 0,
+    paddingHorizontal: SPACING.xs,
+    marginRight: SPACING.xs * -1,
+  },
+  loadingCard: {
+    height: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: RADIUS.md,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  emptyCard: {
+    borderRadius: RADIUS.md,
+    borderWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
+  },
+  cardControls: {
+    marginTop: SPACING.lg,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    borderTopWidth: 1,
+    paddingTop: SPACING.md,
+  },
+});

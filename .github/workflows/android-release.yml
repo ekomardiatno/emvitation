@@ -60,8 +60,7 @@ jobs:
           check_var "API_URL" "${{ vars.API_URL }}"
           check_var "SPA_URL" "${{ vars.SPA_URL }}"
           check_var "GOOGLE_MAPS_API_KEY" "${{ secrets.GOOGLE_MAPS_API_KEY }}"
-          check_var "API_NOAUTH_TOKEN" "${{ secrets.API_NOAUTH_TOKEN }}"
-          check_var "WA_OTP_NUMBER" "${{ vars.WA_OTP_NUMBER }}"
+          check_var "GOOGLE_WEB_CLIENT_ID" "${{ secrets.GOOGLE_WEB_CLIENT_ID }}"
 
           if [ "$missing" = true ]; then
             echo "🚫 Build failed بسبب missing environment variables"
@@ -74,15 +73,14 @@ jobs:
           API_URL='${{ vars.API_URL }}'
           SPA_URL='${{ vars.SPA_URL }}'
           GOOGLE_MAPS_API_KEY='${{ secrets.GOOGLE_MAPS_API_KEY }}'
-          API_NOAUTH_TOKEN='${{ secrets.API_NOAUTH_TOKEN }}'
-          WA_OTP_NUMBER='${{ vars.WA_OTP_NUMBER }}'
+          GOOGLE_WEB_CLIENT_ID='${{ secrets.GOOGLE_WEB_CLIENT_ID }}'
           ENVEOF
           sed -i 's/^[[:space:]]*//' .env
 
           echo ".env created"
           cat .env \
             | sed 's/GOOGLE_MAPS_API_KEY=.*/GOOGLE_MAPS_API_KEY=***hidden***/' \
-            | sed 's/API_NOAUTH_TOKEN=.*/API_NOAUTH_TOKEN=***hidden***/'
+            | sed 's/GOOGLE_WEB_CLIENT_ID=.*/GOOGLE_WEB_CLIENT_ID=***hidden***/'
 
       - name: Verify env usage
         run: |
