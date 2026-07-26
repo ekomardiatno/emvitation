@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ScreenLayout from '../../components/core/ScreenLayout';
 import { RADIUS, SHADOWS, SPACING, TYPOGRAPHY } from '../../constants';
-import { Image, Pressable, View } from 'react-native';
+import { Image, Pressable, TouchableOpacity, View } from 'react-native';
 import * as yup from 'yup';
 import { Control, useForm } from 'react-hook-form';
 import Input from '../../components/core/Input';
@@ -58,7 +58,7 @@ export const weddingFormSchema = yup.object({
 type WeddingFormRouteProp = RouteProp<AppStackParamList, 'WeddingForm'>;
 
 export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
-  const {control, handleSubmit, getValues, setValue} = useForm({
+  const {control, handleSubmit, getValues, setValue, watch} = useForm({
     resolver: yupResolver(weddingFormSchema),
   });
   const theme = useTheme();
@@ -70,6 +70,12 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
   const toast = useToast();
   const wedding = route?.params?.wedding;
   const dispatch = useAppDispatch();
+  const femaleName = watch('female_name');
+  const femaleNickname = watch('female_nickname');
+  const maleName = watch('male_name');
+  const maleNickname = watch('male_nickname');
+  const femaleNameParts = (femaleName || '').split(/\s+/).filter(Boolean);
+  const maleNameParts = (maleName || '').split(/\s+/).filter(Boolean);
 
   useEffect(() => {
     if (wedding) {
@@ -308,6 +314,33 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                 placeholder="Nama Panggilan"
                 editable={!isSubmitting}
               />
+              {femaleNameParts.length > 0 && (
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.xs, marginTop: -SPACING.xs}}>
+                  {femaleNameParts.map((word, i) => {
+                    const isActive = femaleNickname === word;
+                    return (
+                      <TouchableOpacity
+                        key={`${word}-${i}`}
+                        onPress={() => setValue('female_nickname', word)}
+                        disabled={isSubmitting}
+                        style={{
+                          paddingHorizontal: SPACING.sm,
+                          paddingVertical: SPACING.xs,
+                          borderRadius: RADIUS.full,
+                          backgroundColor: isActive ? theme['primary-bg'] : theme['bg-muted'],
+                        }}>
+                        <Typography
+                          style={{
+                            fontSize: TYPOGRAPHY.textStyle.caption.fontSize,
+                            color: isActive ? theme['primary-text'] : theme['text-secondary'],
+                          }}>
+                          {word}
+                        </Typography>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
               <Input
                 control={control}
                 name="female_father_name"
@@ -432,6 +465,33 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                 placeholder="Nama Panggilan"
                 editable={!isSubmitting}
               />
+              {maleNameParts.length > 0 && (
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.xs, marginTop: -SPACING.xs}}>
+                  {maleNameParts.map((word, i) => {
+                    const isActive = maleNickname === word;
+                    return (
+                      <TouchableOpacity
+                        key={`${word}-${i}`}
+                        onPress={() => setValue('male_nickname', word)}
+                        disabled={isSubmitting}
+                        style={{
+                          paddingHorizontal: SPACING.sm,
+                          paddingVertical: SPACING.xs,
+                          borderRadius: RADIUS.full,
+                          backgroundColor: isActive ? theme['primary-bg'] : theme['bg-muted'],
+                        }}>
+                        <Typography
+                          style={{
+                            fontSize: TYPOGRAPHY.textStyle.caption.fontSize,
+                            color: isActive ? theme['primary-text'] : theme['text-secondary'],
+                          }}>
+                          {word}
+                        </Typography>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
               <Input
                 control={control}
                 name="male_father_name"
