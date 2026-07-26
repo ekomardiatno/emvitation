@@ -76,3 +76,6 @@ yarn-error.log
 !.yarn/versions
 # react-native-config codegen
 ios/tmp.xcconfig
+
+# Auto-generated network security config
+android/app/src/main/res/xml/network_security_config.xml

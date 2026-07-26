@@ -76,6 +76,46 @@ def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 def packageJson = new groovy.json.JsonSlurper().parse(file("../../package.json"))
 def (major, minor, patch) = packageJson.version.tokenize('.').collect { it.toInteger() }
 
+// Generate network_security_config.xml from CLEARTEXT_HOSTS env variable
+// CLEARTEXT_HOSTS is a comma-separated list of domains (e.g. "192.168.1.214,10.0.2.2,localhost")
+task generateNetworkSecurityConfig {
+    def xmlDir = file("${projectDir}/src/main/res/xml")
+    def xmlFile = file("${xmlDir}/network_security_config.xml")
+    def hosts = project.env.getOrDefault("CLEARTEXT_HOSTS", "")
+
+    outputs.file(xmlFile)
+
+    doLast {
+        xmlDir.mkdirs()
+        def domainEntries = ""
+        if (hosts && hosts.trim()) {
+            def domainList = hosts.split(",").collect { it.trim() }.findAll { it }
+            domainEntries = domainList.collect {
+                "        <domain includeSubdomains=\"true\">${it}</domain>"
+            }.join("\n")
+        }
+        if (domainEntries) {
+            xmlFile.text = """\
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+${domainEntries}
+    </domain-config>
+</network-security-config>
+"""
+        } else {
+            xmlFile.text = """\
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>
+"""
+        }
+    }
+}
+
+preBuild.dependsOn generateNetworkSecurityConfig
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
