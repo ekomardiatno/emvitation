@@ -63,7 +63,6 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
   });
   const theme = useTheme();
   const navigation = useAppNavigation<AppStackNavigationProp>();
-  const [isAlertOpened, setIsAlertOpened] = useState<boolean>(false);
   const [femalePhoto, setFemalePhoto] = useState<string | null>(null);
   const [malePhoto, setMalePhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -98,38 +97,6 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
       setValue('wedding_template_id', route.params.selectedTemplate);
     }
   }, [route?.params?.selectedTemplate, setValue]);
-
-  const onBackPress = useCallback(
-    (fnc?: () => void) => {
-      if (isSubmitting) {
-        return true;
-      }
-      const currentValues = getValues();
-      let hasDifferent = false;
-      const empty: any[] = [undefined, null, ''];
-      for (let key of Object.keys(currentValues) as (keyof yup.InferType<
-        typeof weddingFormSchema
-      >)[]) {
-        if (!empty.includes(currentValues[key])) {
-          hasDifferent = true;
-          break;
-        } else {
-          if (empty.includes(1)) {
-            empty.pop();
-          }
-          continue;
-        }
-      }
-      if (hasDifferent) {
-        setIsAlertOpened(true);
-        return true;
-      }
-      if (fnc) {
-        fnc();
-      }
-    },
-    [getValues, isSubmitting],
-  );
 
   const onSubmit = handleSubmit(() => {
     setIsSubmitting(true);
@@ -196,7 +163,6 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
   return (
     <ScreenLayout
       title={`${wedding ? 'Edit' : 'Buat'} Undangan`}
-      onBackPress={onBackPress}
       footer={
         <Confirmation
           mode="button"
@@ -331,7 +297,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         }}>
                         <Typography
                           style={{
-                            fontSize: TYPOGRAPHY.textStyle.caption.fontSize,
+                            fontSize: TYPOGRAPHY.textStyle.small.fontSize,
                             color: isActive ? theme['primary-text'] : theme['text-secondary'],
                           }}>
                           {word}
@@ -482,7 +448,7 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
                         }}>
                         <Typography
                           style={{
-                            fontSize: TYPOGRAPHY.textStyle.caption.fontSize,
+                            fontSize: TYPOGRAPHY.textStyle.small.fontSize,
                             color: isActive ? theme['primary-text'] : theme['text-secondary'],
                           }}>
                           {word}
@@ -516,21 +482,6 @@ export default function WeddingForm({route}: {route?: WeddingFormRouteProp}) {
             </View>
           </Card>
         </View>
-        <Confirmation
-          visible={isAlertOpened}
-          onConfirmed={() => {
-            setIsAlertOpened(false);
-            navigation.goBack();
-          }}
-          onCancel={() => {
-            setIsAlertOpened(false);
-          }}
-          cautionTitle={`Batal ${wedding ? 'mengedit' : 'membuat'} undangan?`}
-          cautionText="Semua data yang sudah diisi akan hilang"
-          confirmText="Ya, batalkan"
-          cancelText={`Lanjut ${wedding ? 'mengedit' : 'membuat'} undangan`}
-          appearance="warning"
-        />
       </>
     </ScreenLayout>
   );
