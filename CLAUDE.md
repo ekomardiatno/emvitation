@@ -97,7 +97,7 @@ The backend lives in a separate repo: `https://github.com/ekomardiatno/emvite-no
   - `POST /api/wedding/create`, `GET /api/wedding/my-list`, `POST /api/wedding/update/:id`
   - CRUD for `/api/guest`, `/api/event`, `/api/gift-info`, `/api/vendor`, `/api/wish`, `/api/rsvp`
   - `/api/template` (list/create/update)
-  - `/api/public/wedding/invitation/:id`, `/api/public/wedding/guest/:guestId`
+  - `/api/public/wedding/invitation/:id`, `/api/public/wedding/guest/:guestId`, `GET /api/public/templates`
   - `/api/google/search-places`
 - **Backend env**: Requires `GOOGLE_CLIENT_ID` (same Web Client ID used by frontend)
 - **Local JWT for testing**: `node -e "console.log(require('jsonwebtoken').sign({name:'Test',email:'your@gmail.com',loginAt:new Date()},'jwtsecret',{expiresIn:'1d'}))"`
